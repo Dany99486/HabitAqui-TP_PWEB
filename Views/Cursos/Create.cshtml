@@ -1,0 +1,39 @@
+﻿@model Ficha1_P1_V1.Models.Curso
+
+@{
+    ViewData["Title"] = "Criar";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Criar Registo de Curso</h1>
+
+<h4>Curso</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Designacao" class="control-label"></label>
+                <input asp-for="Designacao" class="form-control" />
+                <span asp-validation-for="Designacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grau" class="control-label"></label>
+                <input asp-for="Grau" class="form-control" />
+                <span asp-validation-for="Grau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Gravar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar à Listagem</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
