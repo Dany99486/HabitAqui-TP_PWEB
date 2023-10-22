@@ -17,12 +17,16 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner_01.jpg",
-      "PackagePath": "staticwebassets\\img\\banner_01.jpg"
+      "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner01.jpg",
+      "PackagePath": "staticwebassets\\img\\banner01.jpg"
     },
     {
-      "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner_02.jpg",
-      "PackagePath": "staticwebassets\\img\\banner_02.jpg"
+      "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner02.jpg",
+      "PackagePath": "staticwebassets\\img\\banner02.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner06.jpg",
+      "PackagePath": "staticwebassets\\img\\banner06.jpg"
     },
     {
       "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner_03.jpg",
@@ -35,10 +39,6 @@
     {
       "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner_05.jpg",
       "PackagePath": "staticwebassets\\img\\banner_05.jpg"
-    },
-    {
-      "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\banner_06.jpg",
-      "PackagePath": "staticwebassets\\img\\banner_06.jpg"
     },
     {
       "Id": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\js\\site.js",
