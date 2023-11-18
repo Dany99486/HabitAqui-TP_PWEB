@@ -20,44 +20,24 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Alunos/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bm9zXENyZWF0ZS5jc2h0bWw=
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Alunos/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bm9zXERlbGV0ZS5jc2h0bWw=
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Alunos/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bm9zXERldGFpbHMuY3NodG1s
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Alunos/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bm9zXEVkaXQuY3NodG1s
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Alunos/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bm9zXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Cursos/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29zXENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Cursos/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29zXERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Cursos/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29zXERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Cursos/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29zXEVkaXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Cursos/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vyc29zXEluZGV4LmNzaHRtbA==
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Home/About.cshtml]

@@ -1,0 +1,76 @@
+﻿@model Ficha1_P1_V1.Models.Habitacao
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Habitacao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+	        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	        <div class="form-group">
+				<label asp-for="Id" class="control-label"></label>
+				<select asp-for="Id" class="form-control" asp-items="ViewBag.ListaDeCategorias"></select>
+				<span asp-validation-for="Id" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="Localizacao" class="control-label"></label>
+				<input asp-for="Localizacao" class="form-control" />
+				<span asp-validation-for="Localizacao" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="Tipo" class="control-label"></label>
+		        <input asp-for="Tipo" class="form-control" />
+		        <span asp-validation-for="Tipo" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="DataInicio" class="control-label"></label>
+		        <input asp-for="DataInicio" class="form-control" />
+		        <span asp-validation-for="DataInicio" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="DataFim" class="control-label"></label>
+		        <input asp-for="DataFim" class="form-control" />
+		        <span asp-validation-for="DataFim" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="PeriodoMinimo" class="control-label"></label>
+				<input asp-for="PeriodoMinimo" class="form-control" />
+				<span asp-validation-for="PeriodoMinimo" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="Preco" class="control-label"></label>
+				<input asp-for="Preco" class="form-control" />
+				<span asp-validation-for="Preco" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="Locador" class="control-label"></label>
+				<input asp-for="Locador" class="form-control" />
+				<span asp-validation-for="Locador" class="text-danger"></span>
+	        </div>
+	        <div class="form-group">
+		        <label asp-for="LocadorAvaliacao" class="control-label"></label>
+				<input asp-for="LocadorAvaliacao" class="form-control" />
+				<span asp-validation-for="LocadorAvaliacao" class="text-danger"></span>
+	        </div>
+	        
+	        <div class="form-group">
+		        <input type="submit" value="Create" class="btn btn-primary" />
+	        </div>
+            
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

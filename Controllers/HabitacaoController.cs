@@ -10,87 +10,87 @@ using Ficha1_P1_V1.Models;
 
 namespace Ficha1_P1_V1.Controllers
 {
-    public class AlunosController : Controller
+    public class HabitacaoController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AlunosController(ApplicationDbContext context)
+        public HabitacaoController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Alunos
+        // GET: Habitacao
         public async Task<IActionResult> Index()
         {
-              return _context.Alunos != null ? 
-                          View(await _context.Alunos.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Alunos'  is null.");
+              return _context.Habitacao != null ? 
+                          View(await _context.Habitacao.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Habitacao'  is null.");
         }
 
-        // GET: Alunos/Details/5
+        // GET: Habitacao/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Alunos == null)
+            if (id == null || _context.Habitacao == null)
             {
                 return NotFound();
             }
 
-            var aluno = await _context.Alunos
+            var habitacao = await _context.Habitacao
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (aluno == null)
+            if (habitacao == null)
             {
                 return NotFound();
             }
 
-            return View(aluno);
+            return View(habitacao);
         }
 
-        // GET: Alunos/Create
+        // GET: Habitacao/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Alunos/Create
+        // POST: Habitacao/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Mail")] Aluno aluno)
+        public async Task<IActionResult> Create([Bind("Id")] Habitacao habitacao)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(aluno);
+                _context.Add(habitacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(aluno);
+            return View(habitacao);
         }
 
-        // GET: Alunos/Edit/5
+        // GET: Habitacao/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Alunos == null)
+            if (id == null || _context.Habitacao == null)
             {
                 return NotFound();
             }
 
-            var aluno = await _context.Alunos.FindAsync(id);
-            if (aluno == null)
+            var habitacao = await _context.Habitacao.FindAsync(id);
+            if (habitacao == null)
             {
                 return NotFound();
             }
-            return View(aluno);
+            return View(habitacao);
         }
 
-        // POST: Alunos/Edit/5
+        // POST: Habitacao/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Mail")] Aluno aluno)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] Habitacao habitacao)
         {
-            if (id != aluno.Id)
+            if (id != habitacao.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace Ficha1_P1_V1.Controllers
             {
                 try
                 {
-                    _context.Update(aluno);
+                    _context.Update(habitacao);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlunoExists(aluno.Id))
+                    if (!HabitacaoExists(habitacao.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace Ficha1_P1_V1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(aluno);
+            return View(habitacao);
         }
 
-        // GET: Alunos/Delete/5
+        // GET: Habitacao/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Alunos == null)
+            if (id == null || _context.Habitacao == null)
             {
                 return NotFound();
             }
 
-            var aluno = await _context.Alunos
+            var habitacao = await _context.Habitacao
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (aluno == null)
+            if (habitacao == null)
             {
                 return NotFound();
             }
 
-            return View(aluno);
+            return View(habitacao);
         }
 
-        // POST: Alunos/Delete/5
+        // POST: Habitacao/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Alunos == null)
+            if (_context.Habitacao == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Alunos'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Habitacao'  is null.");
             }
-            var aluno = await _context.Alunos.FindAsync(id);
-            if (aluno != null)
+            var habitacao = await _context.Habitacao.FindAsync(id);
+            if (habitacao != null)
             {
-                _context.Alunos.Remove(aluno);
+                _context.Habitacao.Remove(habitacao);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlunoExists(int id)
+        private bool HabitacaoExists(int id)
         {
-          return (_context.Alunos?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Habitacao?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
