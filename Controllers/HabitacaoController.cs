@@ -22,9 +22,7 @@ namespace Ficha1_P1_V1.Controllers
         // GET: Habitacao
         public async Task<IActionResult> Index()
         {
-              return _context.Habitacao != null ? 
-                          View(await _context.Habitacao.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Habitacao'  is null.");
+	        return View(await _context.Habitacao.ToListAsync());
         }
 
         // GET: Habitacao/Details/5
@@ -56,7 +54,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,DataInicio,DataFim,PeriodoMinimo,Preco,Locador,LocadorAvaliacao")] Habitacao habitacao)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +86,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,DataInicio,DataFim,PeriodoMinimo,Preco,Locador,LocadorAvaliacao")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
             {

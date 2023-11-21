@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Ficha1_P1_V1.Models.Habitacao>
+
+@{
     Layout = "_Layout";
 }
 @{
@@ -67,74 +69,27 @@ Slide 3" class=""></button>
 	        temos a solução certa para ti.
         </p>
     </div>
-    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-                <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Condução defensiva</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">
-                        € 2000<small class="text-muted
-fw-light"></small>
-                    </h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>Aulas prioritárias</li>
-                        <li>1 instrutor dedicado</li>
-                        <li>Automóveis e Motas</li>
-                        <li>Instrutor virtual</li>
-                        <li>Centro de apoio online exclusivo</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">
-                        Saber
-                        mais
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-                <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Automóvel + Moto</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">
-                        € 1500<small class="text-muted
-fw-light"></small>
-                    </h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>1 instrutor dedicado</li>
-                        <li>Veículos novos</li>
-                        <li>Centro de apoio online exclusivo</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-primary">
-                        saber
-                        mais
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm border-primary">
-                <div class="card-header py-3 text-white bg-primary border-primary">
-                    <h4 class="my-0 fw-normal">Automóvel</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">
-                        € 1000<small class="text-muted
-fw-light"></small>
-                    </h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>Aulas partilhadas</li>
-                        <li>Veículos partilhados</li>
-                        <li>Testes online</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-primary">
-                        saber
-                        mais
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+		@foreach (Habitacao c in Model)
+		{
+			<div class="col">
+				<div class="card mb-4 rounded-3 shadow-sm">
+					<div class="card-header py-3">
+						<h4 class="my-0 fw-normal">@c.Localizacao</h4>
+					</div>
+					<div class="card-body">
+						<h1 class="card-title pricing-card-title">
+							@c.Preco<small class="text-muted fw-light">€</small>
+						</h1>
+                        
+						@c.Tipo
+					    
+						<a asp-controller="Habitacao" asp-action="Details" asp-route-id="@c.Id"
+						   class="w-100 btn btn-lg btn-outline-primary">Saber Mais</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
 </div>
