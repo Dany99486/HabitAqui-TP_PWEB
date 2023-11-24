@@ -54,7 +54,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,DataInicio,DataFim,PeriodoMinimo,Preco,Locador,LocadorAvaliacao")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,Descricao")] Habitacao habitacao)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,DataInicio,DataFim,PeriodoMinimo,Preco,Locador,LocadorAvaliacao")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,Descricao")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
             {
