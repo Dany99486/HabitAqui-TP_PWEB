@@ -28,6 +28,48 @@ namespace Ficha1_P1_V1.Controllers
 	        var arrendamentos = _context.Arrendamento.Include(a => a.habitacao).OrderByDescending(c=>c.DataInicio);//Include(a => a.locador);
             return View(await arrendamentos.ToListAsync());
         }
+        [HttpPost]
+        public IActionResult Index(string TextoAPesquisar, TipoHabitacao? Tipo,DateTime? dataInicio,DateTime? dataFim,int? periodoMinimo)
+        {
+			ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.OrderBy(c => c.Localizacao).ToList(), "Id", "Localizacao");
+
+			var query = _context.Arrendamento.AsQueryable();
+
+			// Aplicar filtro para TextoAPesquisar se estiver preenchido
+			if (!string.IsNullOrWhiteSpace(TextoAPesquisar))
+			{
+				query = query.Where(c => c.habitacao.Localizacao.Contains(TextoAPesquisar));
+			}
+
+			// Aplicar filtro para Tipo se estiver preenchido
+			if (Tipo.HasValue)
+			{
+				query = query.Where(c => c.habitacao.Tipo == Tipo);
+				//query = query.Where(c => c.DataFim > DateTime.Now);
+			}
+
+			if (dataInicio.HasValue)
+			{
+				query = query.Where(c => c.DataInicio >= dataInicio);
+			}
+
+			if (dataFim.HasValue)
+			{
+				query = query.Where(c => c.DataFim <= dataFim);
+			}
+
+			if (periodoMinimo.HasValue)
+			{
+				query = query.Where(c => c.PeriodoMinimo >= periodoMinimo);
+			}
+
+			
+
+			var resultado = query.ToList();
+
+			return View(resultado);
+
+		}
 
         // GET: Arrendamentos/Details/5
         public async Task<IActionResult> Details(int? id)
