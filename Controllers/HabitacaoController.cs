@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ficha1_P1_V1.Data;
 using Ficha1_P1_V1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -26,6 +27,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Habitacao/Details/5
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Habitacao == null)
@@ -44,6 +46,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Habitacao/Create
+        [Authorize(Roles = "Funcionario,Gestor")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +57,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,Descricao")] Habitacao habitacao)
         {
             if (ModelState.IsValid)
@@ -86,6 +90,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,Descricao")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
@@ -117,6 +122,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Habitacao/Delete/5
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Habitacao == null)
@@ -137,6 +143,7 @@ namespace Ficha1_P1_V1.Controllers
         // POST: Habitacao/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Habitacao == null)

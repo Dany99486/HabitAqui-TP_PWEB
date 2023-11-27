@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Ficha1_P1_V1.Data;
 using Ficha1_P1_V1.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -72,6 +73,8 @@ namespace Ficha1_P1_V1.Controllers
 		}
 
         // GET: Arrendamentos/Details/5
+
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Arrendamento == null)
@@ -92,6 +95,8 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Arrendamentos/Create
+
+        [Authorize(Roles = "Funcionario,Gestor")]
         public IActionResult Create()
         {
             ViewData["habitacaoId"] = new SelectList(_context.Habitacao, "Id", "Descricao");
@@ -104,6 +109,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Create([Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
         {
             ModelState.Remove(nameof(arrendamento.habitacao));
@@ -125,6 +131,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Arrendamentos/Edit/5
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Arrendamento == null)
@@ -147,6 +154,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
         {
             arrendamento.DataInicio = DateTime.Now;
@@ -181,6 +189,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Arrendamentos/Delete/5
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Arrendamento == null)
@@ -203,6 +212,7 @@ namespace Ficha1_P1_V1.Controllers
         // POST: Arrendamentos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Arrendamento == null)
