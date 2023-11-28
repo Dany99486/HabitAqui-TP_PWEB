@@ -9,131 +9,133 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Ficha1_P1_V1
 build_property.RootNamespace = Ficha1_P1_V1
-build_property.ProjectDir = D:\ISEC\3_ano\PWEB\TrabalhoPratico\HabitAqui-TP_PWEB\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.ProjectDir = C:\Users\Danie\Documents\GitHub\HabitAqui-TP_PWEB\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\ISEC\3_ano\PWEB\TrabalhoPratico\HabitAqui-TP_PWEB
+build_property.MSBuildProjectDirectory = C:\Users\Danie\Documents\GitHub\HabitAqui-TP_PWEB
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Manage/Index.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Manage/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Create.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Arrendamentos/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Delete.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Arrendamentos/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Details.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Arrendamentos/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Edit.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Arrendamentos/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Index.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Arrendamentos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Habitacao/Create.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Arrendamentos/Pesquisa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xQZXNxdWlzYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Habitacao/Delete.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Habitacao/Details.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Habitacao/Edit.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Habitacao/Index.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Habitacao/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Home/About.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Home/Contactos.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Home/Contactos.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0b3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Home/Index.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Home/Privacy.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Shared/Error.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Shared/_Layout2.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Shared/_Layout2.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/_ViewImports.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/_ViewStart.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Shared/_Layout.cshtml]
+[C:/Users/Danie/Documents/GitHub/HabitAqui-TP_PWEB/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-nx06bvfg15

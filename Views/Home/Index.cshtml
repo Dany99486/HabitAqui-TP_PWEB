@@ -69,27 +69,68 @@ Slide 3" class=""></button>
 	        temos a solução certa para ti.
         </p>
     </div>
-	<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-
-		@foreach (Habitacao c in Model)
-		{
-			<div class="col">
-				<div class="card mb-4 rounded-3 shadow-sm">
-					<div class="card-header py-3">
-						<h4 class="my-0 fw-normal">@c.Localizacao</h4>
-					</div>
-					<div class="card-body">
-						<h1 class="card-title pricing-card-title">
-							
-						</h1>
-                        
-						@c.Tipo
-					    
-						<a asp-controller="Habitacao" asp-action="Details" asp-route-id="@c.Id"
-						   class="w-100 btn btn-lg btn-outline-primary">Saber Mais</a>
+	@using (Html.BeginForm("Pesquisa", "Arrendamentos", FormMethod.Post))
+	{
+		<div class="col-30">
+			<form method="post">
+				<div class="col-md-7">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="TextoAPesquisar" class="control-label">Localização:</label>
+								<input type="text" id="TextoAPesquisar" name="TextoAPesquisar" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="Tipo" class="control-label">Tipo:</label>
+								<select name="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
+									<option value="">Selecione o tipo</option>
+								</select>
+								<span class="text-danger"></span>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		}
-	</div>
+				<div class="col-md-7">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="dataInicio">Data de Início:</label>
+								<input type="date" name="dataInicio" class="form-control" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="dataFim">Data de Fim:</label>
+								<input type="date" name="dataFim" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group ">
+							<!-- Adicione a classe "mb-0" para remover a margem inferior -->
+							<label for="periodoMinimo">Período Mínimo (em dias):</label>
+							<input type="number" name="periodoMinimo" class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group mt-4">
+							<!-- Adicione a classe "mb-0" para remover a margem inferior -->
+							<input type="submit" value="Pesquisar" class="btn btn-primary" />
+						</div>
+					</div>
+				</div>
+
+
+
+			</form>
+
+
+
+		</div>
+	}
 </div>

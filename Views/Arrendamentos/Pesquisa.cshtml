@@ -1,0 +1,52 @@
+﻿@model Ficha1_P1_V1.ViewModels.PesquisaViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<h1>Os nossos cursos</h1>
+
+<p>@Model.NumResultados Resultado da pesquisa por "@Model.TextoAPesquisar":</p>
+
+@if (Model.NumResultados > 0)
+{
+    <p>Existe(m) @Model.NumResultados curso(s) disponíveis</p>
+
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+        @foreach (Arrendamento c in Model.ListaDeArrendamentos)
+        {
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+
+                        
+                            <h4 class="my-0 fw-normal">
+                                @Html.DisplayFor(model=>c.PeriodoMinimo) dias
+                            </h4>
+                        
+
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">
+                            € @c.Preco<small class="text-muted fw-light"></small>
+                        </h1>
+                        
+
+                        <a asp-controller="Arrendamentos" asp-action="Details" asp-route-id="@c.Id"
+                           class="w-100 btn btn-lg btn-outline-primary">Saber mais</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+else
+{
+    <p class="alert alert-warning">
+        Não foi possível
+        encontrar ofertas com os dados introduzidos.
+        <br />
+        Por favor, reveja a sua pesquisa!
+    </p>
+}

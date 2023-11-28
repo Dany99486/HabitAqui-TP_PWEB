@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {}
+    "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {}
   },
   "projects": {
-    "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {
+    "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
+        "projectUniqueName": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
         "projectName": "Ficha1_P1_V1",
-        "projectPath": "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
-        "packagesPath": "C:\\Users\\Flavio\\.nuget\\packages\\",
-        "outputPath": "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\obj\\",
+        "projectPath": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
+        "packagesPath": "C:\\Users\\Danie\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Danie\\Documents\\GitHub\\HabitAqui-TP_PWEB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Flavio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Danie\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
