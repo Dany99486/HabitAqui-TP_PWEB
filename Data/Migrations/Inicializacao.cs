@@ -38,7 +38,7 @@ namespace Ficha1_P1_V1.Data
                 var user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Is3C..00");
+                    await userManager.CreateAsync(defaultUser, "Is3C..00"); //Password
                     await userManager.AddToRoleAsync(defaultUser,
                     Roles.Admin.ToString());
                 }
