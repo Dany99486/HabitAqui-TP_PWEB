@@ -1,4 +1,5 @@
-﻿@model Ficha1_P1_V1.ViewModels.PesquisaViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model Ficha1_P1_V1.ViewModels.PesquisaViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout2.cshtml";
@@ -21,15 +22,18 @@
 
                         
                             <h4 class="my-0 fw-normal">
-                                @Html.DisplayFor(model=>c.PeriodoMinimo) dias
+	                            @Html.DisplayFor(model=>c.locador.PrimeiroNome )----
                             </h4>
                         
 
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">
-                            € @c.Preco<small class="text-muted fw-light"></small>
-                        </h1>
+	                    <h1 class="card-title pricing-card-title">
+		                    € @c.Preco<small class="text-muted fw-light"></small>
+	                    </h1>
+	                    <h4 class="my-0 fw-normal">
+		                    @Html.DisplayFor(model=>c.PeriodoMinimo) dias
+	                    </h4>
                         
 
                         <a asp-controller="Arrendamentos" asp-action="Details" asp-route-id="@c.Id"

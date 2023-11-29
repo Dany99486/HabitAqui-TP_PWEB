@@ -71,61 +71,69 @@ Slide 3" class=""></button>
     </div>
 	@using (Html.BeginForm("Pesquisa", "Arrendamentos", FormMethod.Post))
 	{
-		<div class="col-30">
-			<form method="post">
-				<div class="col-md-7">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="TextoAPesquisar" class="control-label">Localização:</label>
-								<input type="text" id="TextoAPesquisar" name="TextoAPesquisar" class="form-control">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="Tipo" class="control-label">Tipo:</label>
-								<select name="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
-									<option value="">Selecione o tipo</option>
-								</select>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-7">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="dataInicio">Data de Início:</label>
-								<input type="date" name="dataInicio" class="form-control" />
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label for="dataFim">Data de Fim:</label>
-								<input type="date" name="dataFim" class="form-control" />
-							</div>
-						</div>
-					</div>
-				</div>
+		<div class="col-30 mx-auto">
+			<div class="mx-auto">
 
-				<div class="row">
-					<div class="col-md-3">
-						<div class="form-group ">
-							<!-- Adicione a classe "mb-0" para remover a margem inferior -->
-							<label for="periodoMinimo">Período Mínimo (em dias):</label>
-							<input type="number" name="periodoMinimo" class="form-control" />
+			
+				<form method="post">
+					<div class="col-md-7 mx-auto">
+						<div class="row ">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="TextoAPesquisar" class="control-label">Localização:</label>
+									<input type="text" id="TextoAPesquisar" name="TextoAPesquisar" class="form-control">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="Tipo" class="control-label">Tipo:</label>
+									<select name="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
+										<option value="">Selecione o tipo</option>
+									</select>
+									<span class="text-danger"></span>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="form-group mt-4">
-							<!-- Adicione a classe "mb-0" para remover a margem inferior -->
-							<input type="submit" value="Pesquisar" class="btn btn-primary" />
+					<div class="col-md-7 mx-auto">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="dataInicio">Data de Início:</label>
+									<input type="date" name="dataInicio" class="form-control"/>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="dataFim">Data de Fim:</label>
+									<input type="date" name="dataFim" class="form-control"/>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
 
-			</form>
+					<div class="col-md-7  mx-auto mb-5">
+						<div class="row ">
+							<div class="col-md-6">
+								<div class="form-group ">
+									<!-- Adicione a classe "mb-0" para remover a margem inferior -->
+									<label for="periodoMinimo">Período Mínimo (em dias):</label>
+									<input type="number" name="periodoMinimo" class="form-control" />
+								</div>
+							</div>
+						
+							<div class="col-md-6">
+								<div class="form-group mt-4">
+									<!-- Adicione a classe "mb-0" para remover a margem inferior -->
+									<input type="submit" value="Pesquisar" class="btn btn-primary col-12"/>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+
+				</form>
+			</div>
 
 		</div>
 

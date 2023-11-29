@@ -58,7 +58,7 @@ namespace Ficha1_P1_V1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,Descricao")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,Quartos,Descricao")] Habitacao habitacao)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace Ficha1_P1_V1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,Descricao")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,Quartos,Descricao")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
             {

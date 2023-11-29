@@ -12,8 +12,59 @@
 		<a asp-action="Create">Create New</a>
 	</p>
 }
-<div>
+<hr/>
+<h4>Filtros:</h4>
+<div >
+	<div class="col-30">
+		<form method="post">
+			<div class="col-md-7">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group ">
+                            <label for="Quartos">Categoria (Quartos):</label>
+                            <input type="number" name="Quartos" class="form-control" />
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="Tipo" class="control-label">Tipo:</label>
+							<select name="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
+								<option value="">Selecione o tipo</option>
+							</select>
+							<span class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="orderBy" class="control-label">Ordenar por:</label>
+							<select name="OrderBy" class="form-control">
+								<option value="">Selecione opção</option>
+								<option value="PrecoCrescente">Preco crescente</option>
+								<option value="PrecoDecrescente">Preco decrescente</option>
+								<option value="AvaliacaoCrescente">Avaliação crescente</option>
+								<option value="AvaliacaoDecrescente">Avaliação decrescente</option>
+							</select>
+							<span class="text-danger"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group mt-4">
+						<input type="submit" value="Pesquisar" class="btn btn-primary" />
+					</div>
+				</div>
+			</div>
+			
+			
+			
+		</form>
 	
+		
+        
+	</div>
 </div>
 <hr/>
 <table class="table">

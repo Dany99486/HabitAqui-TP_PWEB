@@ -10,6 +10,7 @@ using Ficha1_P1_V1.Models;
 using Ficha1_P1_V1.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -30,8 +31,47 @@ namespace Ficha1_P1_V1.Controllers
 	        var arrendamentos = _context.Arrendamento.Include(a => a.habitacao).OrderByDescending(c=>c.DataInicio);//Include(a => a.locador);
             return View(await arrendamentos.ToListAsync());
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+
+        [HttpPost]
+        public IActionResult Index(TipoHabitacao? Tipo, int? Quartos,string? OrderBy)
+        {
+	        ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.OrderBy(c => c.Localizacao).ToList(), "Id", "Localizacao");
+	        var query = _context.Arrendamento.AsQueryable();
+	        // Aplicar filtro para TextoAPesquisar se estiver preenchido
+	        // Aplicar filtro para Tipo se estiver preenchido
+	        if (Tipo.HasValue)
+	        {
+		        query = query.Where(c => c.habitacao.Tipo == Tipo);
+		        //query = query.Where(c => c.DataFim > DateTime.Now);
+	        }
+
+	        if (OrderBy== "PrecoCrescente")
+	        {
+		        query = query.OrderBy(c => c.Preco);
+	        }
+            else if (OrderBy == "PrecoDecrescente")
+	        {
+		        query = query.OrderByDescending(c => c.Preco);
+	        }
+	        else if (OrderBy == "AvaliacaoCrescente")
+	        {
+		        //query = query.OrderBy(c => c.habitacao.Localizacao);
+	        }
+	        else if (OrderBy == "AvaliacaoDecrescente")
+	        {
+		        //query = query.OrderByDescending(c => c.habitacao.Localizacao);
+	        }
+	        if (Quartos.HasValue)
+	        {
+		        query = query.Where(c => c.habitacao.Quartos >= Quartos);
+	        }
+
+
+			var resultado = query.ToList();
+	        return View(resultado);
+        }
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Pesquisa(string TextoAPesquisar, TipoHabitacao? Tipo,DateTime? dataInicio,DateTime? dataFim,int? periodoMinimo)
         {
             PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
@@ -61,38 +101,6 @@ namespace Ficha1_P1_V1.Controllers
 
 			return View(pesquisaViewModel);
         }
-
-        public async Task<IActionResult> Ordenar(string OrderByPreco, string OrderByAvaliacao)
-        {
-            PesquisaViewModel arrendamento = new PesquisaViewModel();
-            ViewData["Title"] = "Ordena Habitações";
-
-			if (!string.IsNullOrEmpty(OrderByPreco))
-			{
-				if (OrderByPreco == "Asc")
-                {
-					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderBy(p => p.Preco).ToListAsync();
-				}
-				else
-                {
-					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderByDescending(p => p.Preco).ToListAsync();
-				}
-			}
-
-			if (!string.IsNullOrEmpty(OrderByAvaliacao))
-			{
-				if (OrderByAvaliacao == "Asc")
-                {
-					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderBy(p => p.habitacao.Localizacao).ToListAsync();
-				}
-				else
-                {
-					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderByDescending(p => p.habitacao.Localizacao).ToListAsync();
-				}
-			}
-
-            return View(arrendamento);
-		}
 
 		// GET: Arrendamentos/Details/5
 
@@ -143,6 +151,7 @@ namespace Ficha1_P1_V1.Controllers
             {
                 arrendamento.locadorId = _userManager.GetUserId(User);
                 arrendamento.DataInicio = DateTime.Now;
+
                 _context.Add(arrendamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -179,7 +188,6 @@ namespace Ficha1_P1_V1.Controllers
         //[Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
         {
-            arrendamento.DataInicio = DateTime.Now;
             if (id != arrendamento.Id)
             {
                 return NotFound();
