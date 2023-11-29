@@ -125,12 +125,53 @@ Slide 3" class=""></button>
 					</div>
 				</div>
 
-
-
 			</form>
 
-
-
 		</div>
+
 	}
 </div>
+
+<!--
+public IActionResult Index(string TextoAPesquisar, TipoHabitacao? Tipo,DateTime? dataInicio,DateTime? dataFim,int? periodoMinimo)
+{
+	ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.OrderBy(c => c.Localizacao).ToList(), "Id", "Localizacao");
+
+	var query = _context.Arrendamento.AsQueryable();
+
+	// Aplicar filtro para TextoAPesquisar se estiver preenchido
+	if (!string.IsNullOrWhiteSpace(TextoAPesquisar))
+	{
+		query = query.Where(c => c.habitacao.Localizacao.Contains(TextoAPesquisar));
+	}
+
+	// Aplicar filtro para Tipo se estiver preenchido
+	if (Tipo.HasValue)
+	{
+		query = query.Where(c => c.habitacao.Tipo == Tipo);
+		//query = query.Where(c => c.DataFim > DateTime.Now);
+	}
+
+	if (dataInicio.HasValue)
+	{
+		query = query.Where(c => c.DataInicio >= dataInicio);
+	}
+
+	if (dataFim.HasValue)
+	{
+		query = query.Where(c => c.DataFim <= dataFim);
+	}
+
+	if (periodoMinimo.HasValue)
+	{
+		query = query.Where(c => c.PeriodoMinimo >= periodoMinimo);
+	}
+
+
+
+	var resultado = query.ToList();
+
+	return View(resultado);
+
+}
+-->

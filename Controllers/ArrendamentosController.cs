@@ -37,7 +37,6 @@ namespace Ficha1_P1_V1.Controllers
             PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
 			ViewData["Title"] ="Pesquisar Habitações";
 
-
 			if (string.IsNullOrWhiteSpace(TextoAPesquisar)
 				    ||!Tipo.HasValue
 				    ||!dataInicio.HasValue
@@ -62,6 +61,38 @@ namespace Ficha1_P1_V1.Controllers
 
 			return View(pesquisaViewModel);
         }
+
+        public async Task<IActionResult> Ordenar(string OrderByPreco, string OrderByAvaliacao)
+        {
+            PesquisaViewModel arrendamento = new PesquisaViewModel();
+            ViewData["Title"] = "Ordena Habitações";
+
+			if (!string.IsNullOrEmpty(OrderByPreco))
+			{
+				if (OrderByPreco == "Asc")
+                {
+					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderBy(p => p.Preco).ToListAsync();
+				}
+				else
+                {
+					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderByDescending(p => p.Preco).ToListAsync();
+				}
+			}
+
+			if (!string.IsNullOrEmpty(OrderByAvaliacao))
+			{
+				if (OrderByAvaliacao == "Asc")
+                {
+					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderBy(p => p.habitacao.Localizacao).ToListAsync();
+				}
+				else
+                {
+					arrendamento.ListaDeArrendamentos = await _context.Arrendamento.OrderByDescending(p => p.habitacao.Localizacao).ToListAsync();
+				}
+			}
+
+            return View(arrendamento);
+		}
 
 		// GET: Arrendamentos/Details/5
 
