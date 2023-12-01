@@ -33,7 +33,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(TipoHabitacao? Tipo, int? Quartos,string? OrderBy)
+        public IActionResult Index(TipoHabitacao? Tipo, int? Quartos, string? OrderBy)
         {
 	        ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.OrderBy(c => c.Localizacao).ToList(), "Id", "Localizacao");
 	        var query = _context.Arrendamento.AsQueryable();

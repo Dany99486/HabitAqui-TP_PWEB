@@ -9,7 +9,7 @@
 @if (User.Identity.IsAuthenticated)
 {
 	<p>
-		<a asp-action="Create">Create New</a>
+		<a asp-action="Create">Arrendar</a>
 	</p>
 }
 <hr/>
@@ -22,7 +22,7 @@
 					<div class="col-md-4">
 						<div class="form-group ">
                             <label for="Quartos">Categoria (Quartos):</label>
-                            <input type="number" name="Quartos" class="form-control" />
+                            <input min="1" type="number" name="Quartos" class="form-control" />
 						</div>
 					</div>
 
