@@ -55,11 +55,11 @@ namespace Ficha1_P1_V1.Controllers
 	        }
 	        else if (OrderBy == "AvaliacaoCrescente")
 	        {
-		        //query = query.OrderBy(c => c.habitacao.Localizacao);
+		        query = query.OrderBy(c => c.Avaliacao);
 	        }
 	        else if (OrderBy == "AvaliacaoDecrescente")
 	        {
-		        //query = query.OrderByDescending(c => c.habitacao.Localizacao);
+		        query = query.OrderByDescending(c => c.Avaliacao);
 	        }
 	        if (Quartos.HasValue)
 	        {
@@ -151,6 +151,7 @@ namespace Ficha1_P1_V1.Controllers
             {
                 arrendamento.locadorId = _userManager.GetUserId(User);
                 arrendamento.DataInicio = DateTime.Now;
+                arrendamento.Avaliacao = -1; //Ainda não foi avaliado
 
                 _context.Add(arrendamento);
                 await _context.SaveChangesAsync();

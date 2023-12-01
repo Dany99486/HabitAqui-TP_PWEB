@@ -26,6 +26,7 @@ namespace Ficha1_P1_V1.Models
 		[Display(Name = "Locador")]
 		public ApplicationUser locador { get; set; }
 
-
+		[Display(Name = "Avaliação", Prompt = "Indique a Avaliação!")]
+		public int Avaliacao { get; set; }
 	}
 }
