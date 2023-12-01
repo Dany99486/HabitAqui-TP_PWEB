@@ -1,0 +1,24 @@
+﻿@model Ficha1_P1_V1.Models.Arrendamento
+@{
+    ViewData["Title"] = "InserirAvaliacao";
+}
+
+<h1>Inserir Avaliacao de @Model.habitacao.Tipo</h1>
+
+<form asp-action="CriaAvaliacao" asp-route-id="@Model.Id" method="post">
+    @Html.HiddenFor(model => model.habitacaoId)
+
+    <label for="avaliacao">Avaliação:</label>
+    <select asp-for="Avaliacao" id="avaliacao">
+        <option value="1">1 - Muito Ruim</option>
+        <option value="2">2 - Ruim</option>
+        <option value="3">3 - Regular</option>
+        <option value="4">4 - Bom</option>
+        <option value="5">5 - Excelente</option>
+    </select>
+
+    <!--<label for="comentario">Comentário:</label>
+    <textarea name="comentario" id="comentario" rows="4" cols="50"></textarea>-->
+
+    <button type="submit">Enviar Avaliação</button>
+</form>

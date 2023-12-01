@@ -11,6 +11,7 @@ using Ficha1_P1_V1.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Security.Claims;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -31,6 +32,116 @@ namespace Ficha1_P1_V1.Controllers
 	        var arrendamentos = _context.Arrendamento.Include(a => a.habitacao).OrderByDescending(c=>c.DataInicio);//Include(a => a.locador);
             return View(await arrendamentos.ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> PesquisaAvaliacao(int habitacaoId)
+        {
+            /*var viewModel = new Arrendamento
+            {
+                habitacaoId = habitacaoId
+            };
+
+            return View(viewModel);*/
+
+            /*
+            if (User == null)
+            {
+                return NotFound();
+            }
+            if (User.Identity.IsAuthenticated)
+            {
+                // Obtém o ID do Utilizador a partir do contexto do utilizador
+                string utilizadorId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (utilizadorId != null)
+                {
+                }
+            }
+
+            return RedirectToAction("Login", "Conta");*/
+
+            //var u = await _userManager.GetUserAsync(User);
+
+            //if (u != null)
+            //{
+                //int uId = Convert.ToInt32(u.Id);
+
+                var habitacaoArrendada = _context.Arrendamento
+                    .SingleOrDefault(h => h.Id == habitacaoId);
+
+                if (habitacaoArrendada == null)
+                {
+                    // Lidar com o caso em que a habitação não está arrendada
+                    return NotFound();
+                }
+
+                var viewModel = new Arrendamento
+                {
+                    habitacaoId = habitacaoArrendada.Id
+                    // Adicionar outras propriedades necessárias
+                };
+
+                return View(viewModel);
+            //}
+
+            // Se não estiver autenticado, vai para a página de login
+            //return RedirectToAction("Login", "Conta");
+        }
+
+        public async Task<IActionResult> CriaAvaliacao(int? id)
+        {
+
+            if (id == null || _context.Arrendamento == null)
+            {
+                return NotFound();
+            }
+
+            var arrendamento = await _context.Arrendamento.FindAsync(id);
+            if (arrendamento == null)
+            {
+                return NotFound();
+            }
+            ViewData["ListaDeArrendamentos"] = new SelectList(_context.Arrendamento.OrderBy(c => c.Avaliacao).ToList(), "Id", "Avaliacao", arrendamento.Avaliacao);
+
+            return View(arrendamento);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CriaAvaliacao(int id, [Bind("avaliacao")] Arrendamento arrendamento)
+        {
+            if (id != arrendamento.Id)
+            {
+                return NotFound();
+            }
+
+            ModelState.Remove(nameof(arrendamento.Avaliacao));
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(arrendamento);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArrendamentoExists(arrendamento.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            //ViewData["Avaliacao"] = new SelectList(_context.Arrendamento.OrderBy(c => c.Avaliacao).ToList(), "Id", "Avaliacao", arrendamento.Avaliacao);
+
+            return View();
+        }
+
 
         [HttpPost]
         public IActionResult Index(TipoHabitacao? Tipo, int? Quartos, string? OrderBy)
@@ -70,8 +181,9 @@ namespace Ficha1_P1_V1.Controllers
 			var resultado = query.ToList();
 	        return View(resultado);
         }
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Pesquisa(string TextoAPesquisar, TipoHabitacao? Tipo,DateTime? dataInicio,DateTime? dataFim,int? periodoMinimo)
         {
             PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
@@ -151,7 +263,7 @@ namespace Ficha1_P1_V1.Controllers
             {
                 arrendamento.locadorId = _userManager.GetUserId(User);
                 arrendamento.DataInicio = DateTime.Now;
-                arrendamento.Avaliacao = -1; //Ainda não foi avaliado
+                arrendamento.Avaliacao = null; //Ainda não foi avaliado
 
                 _context.Add(arrendamento);
                 await _context.SaveChangesAsync();

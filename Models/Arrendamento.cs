@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ficha1_P1_V1.Models
 {
@@ -27,6 +29,9 @@ namespace Ficha1_P1_V1.Models
 		public ApplicationUser locador { get; set; }
 
 		[Display(Name = "Avaliação", Prompt = "Indique a Avaliação!")]
-		public int Avaliacao { get; set; }
-	}
+		public List<Avaliacao>? Avaliacao { get; set; }
+
+        public int UtilizadorId { get; set; } // Id do Utilizador que arrendou esta habitação
+        public Utilizador Utilizador { get; set; }
+    }
 }
