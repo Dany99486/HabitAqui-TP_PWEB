@@ -23,7 +23,7 @@
 		    @Html.DisplayNameFor(model => model.Tipo)
 	    </th>
 	    <th>
-		    @Html.DisplayNameFor(model => model.Quartos)
+		    @Html.DisplayNameFor(model => model.Categoria.Nome)
 	    </th>
 
 
@@ -43,7 +43,7 @@
 			@Html.DisplayFor(modelItem => item.Tipo)
 		</td>
 		<td>
-			@Html.DisplayFor(modelItem => item.Quartos)
+			@Html.DisplayFor(modelItem => item.Categoria.Nome)
 		</td>
 
 

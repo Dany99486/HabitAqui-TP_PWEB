@@ -29,14 +29,16 @@ namespace Ficha1_P1_V1.Controllers
         // GET: Arrendamentos
         public async Task<IActionResult> Index()
         {
-	        var arrendamentos = _context.Arrendamento.Include(a => a.habitacao).OrderByDescending(c=>c.DataInicio);//Include(a => a.locador);
+	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+			var arrendamentos = _context.Arrendamento.Include(a => a.habitacao).OrderByDescending(c=>c.DataInicio);//Include(a => a.locador);
             return View(await arrendamentos.ToListAsync());
         }
 
         [HttpPost]
-        public IActionResult Index(TipoHabitacao? Tipo, int? Quartos, string? OrderBy)
+        public IActionResult Index(TipoHabitacao? Tipo, string? Categoria, string? OrderBy)
         {
-	        ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.OrderBy(c => c.Localizacao).ToList(), "Id", "Localizacao");
+	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
 	        var query = _context.Arrendamento.AsQueryable();
 	        // Aplicar filtro para TextoAPesquisar se estiver preenchido
 	        // Aplicar filtro para Tipo se estiver preenchido
@@ -62,13 +64,17 @@ namespace Ficha1_P1_V1.Controllers
 	        {
 		        query = query.OrderByDescending(c => c.Avaliacao);
 	        }
-	        if (Quartos.HasValue)
+	        if (!string.IsNullOrEmpty(Categoria) && Categoria != "Selecione a categoria")
 	        {
-		        query = query.Where(c => c.habitacao.Quartos >= Quartos);
+		        int categoriaId;
+		        if (int.TryParse(Categoria, out categoriaId))
+		        {
+			        query = query.Where(c => c.habitacao.Categoria.Id == categoriaId);
+		        }
 	        }
 
 
-			var resultado = query.ToList();
+	        var resultado = query.Include(a => a.habitacao).ToList();
 	        return View(resultado);
         }
 

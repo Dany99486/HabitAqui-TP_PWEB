@@ -24,8 +24,11 @@
 	    <dd class="col-sm-10">
 		    @Html.DisplayFor(model => model.Tipo)
 	    </dd>
+	    <dt class="col-sm-2">
+		    @Html.DisplayNameFor(model => model.Categoria.Nome)
+	    </dt>
 	    <dd class="col-sm-10">
-		    @Html.DisplayFor(model => model.Quartos)
+		    @Html.DisplayFor(model => model.Categoria.Nome)
 	    </dd>
 	    <dt class = "col-sm-2">
 		    @Html.DisplayNameFor(model => model.Descricao)

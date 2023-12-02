@@ -23,7 +23,10 @@ namespace Ficha1_P1_V1.Controllers
         // GET: Habitacao
         public async Task<IActionResult> Index()
         {
-	        return View(await _context.Habitacao.ToListAsync());
+	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList().ToList(), "Id", "Nome");
+
+
+			return View(await _context.Habitacao.ToListAsync());
         }
 
         // GET: Habitacao/Details/5
@@ -35,8 +38,8 @@ namespace Ficha1_P1_V1.Controllers
                 return NotFound();
             }
 
-            var habitacao = await _context.Habitacao
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var habitacao = await _context.Habitacao.Include("Categoria")
+				.FirstOrDefaultAsync(m => m.Id == id);
             if (habitacao == null)
             {
                 return NotFound();
@@ -49,7 +52,10 @@ namespace Ficha1_P1_V1.Controllers
         //[Authorize(Roles = "Funcionario,Gestor")]
         public IActionResult Create()
         {
-            return View();
+	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+
+			return View();
         }
 
         // POST: Habitacao/Create
@@ -58,15 +64,19 @@ namespace Ficha1_P1_V1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,Quartos,Descricao")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,CategoriaId,Descricao")] Habitacao habitacao)
         {
-            if (ModelState.IsValid)
+	        ModelState.Remove(nameof(Habitacao.Categoria));
+
+			if (ModelState.IsValid)
             {
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(habitacao);
+			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+			return View(habitacao);
         }
 
         // GET: Habitacao/Edit/5
@@ -82,7 +92,9 @@ namespace Ficha1_P1_V1.Controllers
             {
                 return NotFound();
             }
-            return View(habitacao);
+            ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+			return View(habitacao);
         }
 
         // POST: Habitacao/Edit/5
@@ -91,14 +103,15 @@ namespace Ficha1_P1_V1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,Quartos,Descricao")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
             {
                 return NotFound();
             }
+            ModelState.Remove(nameof(Habitacao.Categoria));
 
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
                 try
                 {
@@ -118,7 +131,9 @@ namespace Ficha1_P1_V1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(habitacao);
+			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+			return View(habitacao);
         }
 
         // GET: Habitacao/Delete/5

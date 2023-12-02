@@ -6,7 +6,7 @@ namespace Ficha1_P1_V1.Data
 {
     public enum Roles
     {
-        UtilizadorAnonimo,
+	    Inativo,
         Cliente,
         Funcionario,
         Gestor,
@@ -21,7 +21,7 @@ namespace Ficha1_P1_V1.Data
             await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Funcionario.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Gestor.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Roles.UtilizadorAnonimo.ToString()));
+            await roleManager.CreateAsync(new IdentityRole(Roles.Inativo.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Cliente.ToString()));
             //Adicionar Default User - Admin
             var defaultUser = new ApplicationUser

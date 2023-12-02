@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Ficha1_P1_V1.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Gerir Categorias";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Gerir Categorias</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-striped table-hover table-bordered mt-4">
+    <thead>
+        <tr>
+	        <th>Nome</th>
+	        <th>Disponível</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Nome
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Disponivel)
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Editar Categoria</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

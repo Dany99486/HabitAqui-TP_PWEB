@@ -15,5 +15,7 @@ namespace Ficha1_P1_V1.Data
         public DbSet<Habitacao> Habitacao { get; set; }
         public DbSet<Arrendamento> Arrendamento { get; set; }
         public DbSet<Avaliacao>? Avaliacao { get; set; }
-    }
+        public DbSet<Categoria>? Categoria { get; set; }
+
+	}
 }
