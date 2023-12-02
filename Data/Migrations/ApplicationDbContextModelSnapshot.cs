@@ -169,6 +169,26 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.ToTable("Avaliacao");
                 });
 
+            modelBuilder.Entity("Ficha1_P1_V1.Models.Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Disponivel")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categoria");
+                });
+
             modelBuilder.Entity("Ficha1_P1_V1.Models.Habitacao", b =>
                 {
                     b.Property<int>("Id")
@@ -176,6 +196,9 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CategoriaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -185,13 +208,12 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quartos")
-                        .HasColumnType("int");
-
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("Habitacao");
                 });
@@ -363,6 +385,15 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.Navigation("Arrendamento");
                 });
 
+            modelBuilder.Entity("Ficha1_P1_V1.Models.Habitacao", b =>
+                {
+                    b.HasOne("Ficha1_P1_V1.Models.Categoria", "Categoria")
+                        .WithMany("Habitacao")
+                        .HasForeignKey("CategoriaId");
+
+                    b.Navigation("Categoria");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -422,6 +453,11 @@ namespace Ficha1_P1_V1.Data.Migrations
             modelBuilder.Entity("Ficha1_P1_V1.Models.Arrendamento", b =>
                 {
                     b.Navigation("Avaliacao");
+                });
+
+            modelBuilder.Entity("Ficha1_P1_V1.Models.Categoria", b =>
+                {
+                    b.Navigation("Habitacao");
                 });
 #pragma warning restore 612, 618
         }
