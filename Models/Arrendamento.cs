@@ -30,8 +30,5 @@ namespace Ficha1_P1_V1.Models
 
 		[Display(Name = "Avaliação", Prompt = "Indique a Avaliação!")]
 		public List<Avaliacao>? Avaliacao { get; set; }
-
-        public int UtilizadorId { get; set; } // Id do Utilizador que arrendou esta habitação
-        public Utilizador Utilizador { get; set; }
     }
 }

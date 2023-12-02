@@ -1,17 +1,24 @@
-﻿@model Ficha1_P1_V1.Models.Arrendamento
+﻿@model IEnumerable<Ficha1_P1_V1.Models.Arrendamento>
 @{
     ViewData["Title"] = "DetalhesAvaliacao";
 }
 
 <h1>Detalhes da Avaliação</h1>
 
-@foreach(var avaliacao in Model.Avaliacao)
+<!--
+if()
+{
+    <div class="alert alert-danger" role="alert">
+        Não existem avaliações para esta habitação.
+    </div>
+})-->
+@foreach(var avaliacao in Model)
 {
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Avaliação de @Model.habitacao.Tipo</h5>
-            <p class="card-text">Avaliação: @avaliacao.Classificacao</p>
-            <a asp-controller="Arrendamentos" asp-action="PesquisaAvaliacao" asp-route-id="@Model.habitacaoId"
+            <h5 class="card-title">Avaliação de @avaliacao.habitacao.Tipo</h5>
+            <p class="card-text">Avaliação: @avaliacao.Avaliacao</p>
+            <a asp-controller="Arrendamentos" asp-action="DetalhesAvaliacao" asp-route-id="@avaliacao.habitacaoId"
                class="w-100 btn btn-lg btn-outline-primary">Saber mais</a>
         </div>
     </div>

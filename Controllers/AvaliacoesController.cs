@@ -22,8 +22,11 @@ namespace Ficha1_P1_V1.Controllers
         // GET: Avaliacaos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Avaliacao.Include(a => a.Arrendamento);
-            return View(await applicationDbContext.ToListAsync());
+            /*var applicationDbContext = _context.Avaliacao.Include(a => a.Arrendamento);
+            return View(await applicationDbContext.ToListAsync());*/
+            return _context.Avaliacao != null ?
+             View(await _context.Avaliacao.ToListAsync()) :
+             Problem("Entity set 'ApplicationDbContext.Habitacao'  is null.");
         }
 
         // GET: Avaliacaos/Details/5

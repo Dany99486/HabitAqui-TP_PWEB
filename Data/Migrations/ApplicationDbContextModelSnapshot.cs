@@ -135,10 +135,6 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("locatarioId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("habitacaoId");
@@ -146,6 +142,31 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.HasIndex("locadorId");
 
                     b.ToTable("Arrendamento");
+                });
+
+            modelBuilder.Entity("Ficha1_P1_V1.Models.Avaliacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ArrendamentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Classificacao")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArrendamentoId");
+
+                    b.ToTable("Avaliacao");
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Habitacao", b =>
@@ -331,6 +352,17 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.Navigation("locador");
                 });
 
+            modelBuilder.Entity("Ficha1_P1_V1.Models.Avaliacao", b =>
+                {
+                    b.HasOne("Ficha1_P1_V1.Models.Arrendamento", "Arrendamento")
+                        .WithMany("Avaliacao")
+                        .HasForeignKey("ArrendamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Arrendamento");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -385,6 +417,11 @@ namespace Ficha1_P1_V1.Data.Migrations
             modelBuilder.Entity("Ficha1_P1_V1.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Arrendamentos");
+                });
+
+            modelBuilder.Entity("Ficha1_P1_V1.Models.Arrendamento", b =>
+                {
+                    b.Navigation("Avaliacao");
                 });
 #pragma warning restore 612, 618
         }
