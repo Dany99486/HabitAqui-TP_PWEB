@@ -18,25 +18,26 @@
                 <label asp-for="Classificacao" class="control-label"></label>
                 <input asp-for="Classificacao" class="form-control" />
                 <span asp-validation-for="Classificacao" class="text-danger"></span>
-            </div>
+            </div><br />
             <div class="form-group">
                 <label asp-for="Comentario" class="control-label"></label>
                 <input asp-for="Comentario" class="form-control" />
                 <span asp-validation-for="Comentario" class="text-danger"></span>
-            </div>
+            </div><br />
             <div class="form-group">
                 <label asp-for="ArrendamentoId" class="control-label"></label>
                 <select asp-for="ArrendamentoId" class="form-control" asp-items="ViewBag.ArrendamentoId"></select>
                 <span asp-validation-for="ArrendamentoId" class="text-danger"></span>
-            </div>
+            </div><br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    <a asp-action="Index" class="btn btn-primary">Voltar</a>
 </div>
+<br />
 

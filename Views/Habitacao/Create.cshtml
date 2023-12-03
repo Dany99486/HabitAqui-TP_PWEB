@@ -17,14 +17,14 @@
 		        <label asp-for="Localizacao" class="control-label"></label>
 				<input asp-for="Localizacao" class="form-control" />
 				<span asp-validation-for="Localizacao" class="text-danger"></span>
-	        </div>
+			</div><br />
 	        <div class="form-group">
 		        <label asp-for="Tipo" class="control-label"></label>
 		        <select asp-for="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
 			        <option value="">Selecione o tipo</option>
 		        </select>
 		        <span asp-validation-for="Tipo" class="text-danger"></span>
-	        </div>
+			</div><br />
 	        <div class="form-group">
 		        <label asp-for="CategoriaId" class="control-label fw-bold"></label>
 		        <select asp-for="CategoriaId"
@@ -32,12 +32,12 @@
 		                class="form-control">
 		        </select>
 		        <span asp-validation-for="CategoriaId" class="text-danger"></span>
-	        </div>
+			</div><br />
 	        <div class="form-group">
 		        <label asp-for="Descricao" class="control-label"></label>
 		        <input asp-for="Descricao" class="form-control" />
 		        <span asp-validation-for="Descricao" class="text-danger"></span>
-	        </div>
+			</div><br />
 	        
 	        
 	        <div class="form-group">
@@ -47,10 +47,12 @@
         </form>
     </div>
 </div>
+<br />
 
 <div>
-	<a asp-action="Index" class="btn btn-primary">Back to List</a>
+	<a asp-action="Index" class="btn btn-primary">Voltar</a>
 </div>
+<br />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

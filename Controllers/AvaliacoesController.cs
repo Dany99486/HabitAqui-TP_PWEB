@@ -49,7 +49,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Avaliacaos/Create
-        public IActionResult Create()
+        public IActionResult? Create()
         {
             ViewData["ArrendamentoId"] = new SelectList(_context.Arrendamento, "Id", "Id");
             return View();
@@ -64,6 +64,10 @@ namespace Ficha1_P1_V1.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_context.Arrendamento.Find(avaliacao.ArrendamentoId) == null)
+                {
+                    return NotFound();
+                }
                 _context.Add(avaliacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
