@@ -1,5 +1,4 @@
-﻿
-using Ficha1_P1_V1.Models;
+﻿using Ficha1_P1_V1.Models;
 using Ficha1_P1_V1.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +26,7 @@ namespace Ficha1_P1_V1.Controllers
 
             foreach (ApplicationUser user in users)
             {
-                var utilizadorVM = new UserRolesViewModel(); //manage?
+                var utilizadorVM = new UserRolesViewModel();
 
                 utilizadorVM.UserId = user.Id;
                 utilizadorVM.Email = user.Email;
@@ -98,7 +97,7 @@ namespace Ficha1_P1_V1.Controllers
             result = await _userManager.AddToRolesAsync(user, model.Where(x=>x.Selected).Select(y=>y.RoleName));
             if (!result.Succeeded)
             {
-                ModelState.AddModelError("", "Cannot add selected reloes to user");
+                ModelState.AddModelError("", "Cannot add selected roles to user");
                 return View(model);
             }
             return RedirectToAction("Index");
