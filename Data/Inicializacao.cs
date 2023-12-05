@@ -10,6 +10,7 @@ namespace Ficha1_P1_V1.Data
         Cliente,
         Funcionario,
         Gestor,
+        AdminEmpresa,
         Admin
     }
     public static class Inicializacao
@@ -19,6 +20,7 @@ namespace Ficha1_P1_V1.Data
         {
             //Adicionar default Roles
             await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
+            await roleManager.CreateAsync(new IdentityRole(Roles.AdminEmpresa.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Funcionario.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Gestor.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Inativo.ToString()));
@@ -26,6 +28,7 @@ namespace Ficha1_P1_V1.Data
             //Adicionar Default User - Admin
             var defaultUser = new ApplicationUser
             {
+                //empresaId = 1,
                 UserName = "admin@localhost.com",
                 Email = "admin@localhost.com",
                 PrimeiroNome = "Administrador",

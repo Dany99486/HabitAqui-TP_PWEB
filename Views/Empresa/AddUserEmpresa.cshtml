@@ -1,0 +1,51 @@
+﻿@model Ficha1_P1_V1.Models.Empresa
+
+@{
+	ViewData["Title"] = "AddUser";
+	Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Adicionar</h1>
+
+<h4>Trabalhador na Empresa @Model.Nome</h4>
+<hr />
+@if (User.Identity.IsAuthenticated && User.IsInRole("AdminEmpresa"))
+{
+	<div class="row">
+		<div class="col-md-4">
+			<form asp-action="AddUserEmpresa">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="form-group">
+					<label class="control-label"></label>
+					<select name="RoleName" class="form-control">
+						<option value="">Selecione o tipo</option>
+						<option value="Inativo">Inativo</option>
+						<option value="Cliente">Cliente</option>
+						<option value="Funcionario">Funcionario</option>
+						<option value="Gestor">Gestor</option>
+					</select>
+				</div><br />
+				<div class="form-group">
+					<label class="control-label"></label>
+					<input name="email" class="form-control" />
+				</div><br />
+				<div class="form-group">
+					<input type="submit" value="AddUserEmpresa" class="btn btn-primary" />
+				</div>
+
+			</form>
+		</div>
+	</div>
+	<br />
+
+	<div>
+		<a asp-action="Index" class="btn btn-primary">Voltar</a>
+	</div>
+}
+else
+{
+    <p class="text-danger">Não tem permissões para adicionar um trabalhador.</p>
+}
+
+<br />
+

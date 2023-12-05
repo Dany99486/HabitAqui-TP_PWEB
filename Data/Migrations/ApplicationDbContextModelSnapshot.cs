@@ -91,6 +91,9 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int>("empresaId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -189,6 +192,35 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.ToTable("Categoria");
                 });
 
+            modelBuilder.Entity("Ficha1_P1_V1.Models.Empresa", b =>
+                {
+                    b.Property<int>("EmpresaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpresaId"), 1L, 1);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Localidade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmpresaId");
+
+                    b.ToTable("Empresa");
+                });
+
             modelBuilder.Entity("Ficha1_P1_V1.Models.Habitacao", b =>
                 {
                     b.Property<int>("Id")
@@ -209,6 +241,9 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("empresaId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

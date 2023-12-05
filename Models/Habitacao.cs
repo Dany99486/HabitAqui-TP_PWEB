@@ -9,7 +9,6 @@ namespace Ficha1_P1_V1.Models
         Condominio,
         Quinta,
         Residencia
-        // Adicione outros tipos conforme necessário
     }
     public class Habitacao
 	{
@@ -20,5 +19,8 @@ namespace Ficha1_P1_V1.Models
 		public int? CategoriaId { get; set; }
 		public Categoria Categoria { get; set; }
 		public string Descricao { get; set; }
-	}
+
+        [Display(Name = "Empresa ID")]
+        public int empresaId { get; set; }
+    }
 }

@@ -118,6 +118,34 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Empresa/AddUserEmpresa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxBZGRVc2VyRW1wcmVzYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Empresa/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Empresa/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Empresa/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Empresa/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Empresa/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Empresa/ListaEmpresa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYVxMaXN0YUVtcHJlc2EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Habitacao/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY2FvXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

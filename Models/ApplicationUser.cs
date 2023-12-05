@@ -17,5 +17,8 @@ namespace Ficha1_P1_V1.Models
         [Range(1, 5, ErrorMessage = "Minimo:1,Max:5")]
         public int? LocadorAvaliacao { get; set; }
 		public ICollection<Arrendamento> Arrendamentos { get; set; }
+
+        [Display(Name = "Empresa ID")]
+        public int empresaId { get; set; }
     }
 }

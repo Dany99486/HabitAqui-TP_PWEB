@@ -53,11 +53,25 @@
 											<li><hr class="dropdown-divider"></li>
                                             <li><a class="dropdown-item" asp-controller="RoleManager" asp-action="Index">Gerir Roles</a></li>
                                             <li><hr class="dropdown-divider"></li>
-											<li><a class="dropdown-item"  asp-controller="Categorias" asp-action="Index">Gerir Categorias</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index">Gerir Categorias</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" asp-controller="Empresa" asp-action="Index">Gerir Empresas</a></li>
 										</ul>
-
 									</li>
 								}
+                                @if (User.IsInRole("AdminEmpresa"))
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                            Admin da Empresa
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" asp-controller="Empresa" asp-action="AddUserEmpresa">Adicionar Trabalhador</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" asp-controller="Empresa" asp-action="ListaEmpresa">Informação da Empresa</a></li>
+                                        </ul>
+                                    </li>
+                                }
                             </ul>
                             <partial name="_LoginPartial" />
                         </div>
