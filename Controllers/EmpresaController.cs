@@ -84,7 +84,7 @@ namespace Ficha1_P1_V1.Controllers
                 {
                     if (user == null)
                     {
-                        await _userManager.CreateAsync(defaultUser, "Is3C..00"); //Password
+                        await _userManager.CreateAsync(defaultUser, "Is3C..00"); //Password do AdminEmpresa
                         await _userManager.AddToRoleAsync(defaultUser,
                         Roles.AdminEmpresa.ToString());
                     }
