@@ -20,5 +20,6 @@ namespace Ficha1_P1_V1.Models
 
         [Display(Name = "Empresa ID")]
         public int empresaId { get; set; }
+        //public int? trabalhadorNumero { get; set; }
     }
 }

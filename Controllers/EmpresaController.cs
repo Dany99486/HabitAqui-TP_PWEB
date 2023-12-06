@@ -207,12 +207,13 @@ namespace Ficha1_P1_V1.Controllers
             
         }
 
-        /*[HttpPost]
+        /*
+        [HttpPost]
         public async Task<IActionResult> AddUser()
         {
 			var user = await _userManager.GetUserAsync(User);
             var empresa = _context.Empresa.FirstOrDefault(e => e.EmpresaId == user.empresaId);
-            empresa.EmpresaId += 1;
+            empresa.AddTrabalhador();
 			var defaultUser = new ApplicationUser
 	        {
 		        empresaId = user.empresaId,
