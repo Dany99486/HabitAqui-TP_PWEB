@@ -1,41 +1,76 @@
-﻿@model Ficha1_P1_V1.Models.Empresa
+﻿@model Ficha1_P1_V1.ViewModels.EmpresaInfoViewModel
 
 @{
     ViewData["Title"] = "Lista Empresa";
 }
 
-<h1>Detalhes de trabalhadores da Empresa @Model.Nome</h1>
+<h1>Detalhes de trabalhadores da Empresa @Model.Empresa.Nome</h1>
 
 <div>
-    <h4>Empresa</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Localidade)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Localidade)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Telefone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
+	<h4>Empresa</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Nome)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Nome)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Localidade)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Localidade)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Telefone)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Telefone)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Email)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Email)
+		</dd>
+	</dl>
+	<hr />
+	<h4>Trabalhadores:</h4>
+
 </div>
+
+<table class="table">
+	<thead>
+	<tr>
+		<th>
+			Nome do Trabalhador
+		</th>
+		<th>
+			NIF
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model.ListaUsers) {
+		
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.PrimeiroNome) @Html.DisplayFor(modelItem => item.UltimoNome)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.NIF)
+			</td>
+			
+		</tr>
+	}
+	</tbody>
+</table>
+<hr />
+
+
 <div>
-    <a class="btn btn-primary" asp-action="Index">Voltar</a>
+	<a class="btn btn-secondary" asp-action="AddUser">Adicionar Trabalhador</a>
+
+	<a class="btn btn-primary" asp-controller="Home" asp-action="Index">Voltar</a>
 </div>

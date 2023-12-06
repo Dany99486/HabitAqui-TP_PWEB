@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ficha1_P1_V1.Data;
 using Ficha1_P1_V1.Models;
+using Ficha1_P1_V1.ViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace Ficha1_P1_V1.Controllers
@@ -192,21 +193,61 @@ namespace Ficha1_P1_V1.Controllers
 
         //Admin Empresa
 
-        public async Task<IActionResult> ListaEmpresa(string id)
-        {
-            var users = _userManager.Users.Where(u => u.empresaId.ToString() == id);
-            return View(users);
+        public async Task<IActionResult> ListaEmpresa()
+        {   
+	        var user = await _userManager.GetUserAsync(User);
+	        if (user == null)
+	        {
+				return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+			}
+            EmpresaInfoViewModel empresaInfoViewModel = new EmpresaInfoViewModel();
+            empresaInfoViewModel.Empresa = _context.Empresa.FirstOrDefault(e => e.EmpresaId == user.empresaId);
+            empresaInfoViewModel.ListaUsers = await _userManager.Users.Where(u => u.empresaId == user.empresaId&&u!=user).ToListAsync();
+	        return View(empresaInfoViewModel);
+            
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddUserEmpresa(string RoleName, string email)
+        /*[HttpPost]
+        public async Task<IActionResult> AddUser()
         {
-            var user = await _userManager.FindByIdAsync(email);
+			var user = await _userManager.GetUserAsync(User);
+            var empresa = _context.Empresa.FirstOrDefault(e => e.EmpresaId == user.empresaId);
+            empresa.EmpresaId += 1;
+			var defaultUser = new ApplicationUser
+	        {
+		        empresaId = user.empresaId,
+		        UserName = "gestor" + user.empresaId + "@localhost.com",
+		        Email = "gestor" + user.empresaId + "@localhost.com",
+		        PrimeiroNome = "Gestor" + user.empresaId,
+		        UltimoNome = "Empresa",
+		        EmailConfirmed = true, //Importante desbloquear (confirmar para usar logo a conta)
+		        PhoneNumberConfirmed = true
+	        };
+
+	        var user = _userManager.FindByEmailAsync(defaultUser.Email);
+	        if (_userManager.Users.All(u => u.Id != defaultUser.Id))
+	        {
+		        if (user == null)
+		        {
+			        await _userManager.CreateAsync(defaultUser, "Is3C..00"); //Password do AdminEmpresa
+			        await _userManager.AddToRoleAsync(defaultUser,
+				        Roles.AdminEmpresa.ToString());
+		        }
+	        }
+
+	        return RedirectToAction(nameof(Index));
+		}*/
+
+        //[HttpPost]
+			public async Task<IActionResult> AddUserEmpresa(string RoleName, string email)
+        {
+            /*var user = await _userManager.FindByIdAsync(email);
             if (user != null && RoleName != null)
             {
                 await _userManager.AddToRoleAsync(user, RoleName);
             }
-            return RedirectToAction("ListaEmpresa", new { id = user.empresaId });
+            return RedirectToAction("ListaEmpresa", new { id = user.empresaId });*/
+            return View();
         }
     }
 }

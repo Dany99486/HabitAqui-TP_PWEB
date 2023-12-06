@@ -573,3 +573,4 @@ D:\ISEC\3_ano\PWEB\TrabalhoPratico\HabitAqui-TP_PWEB\obj\Debug\net6.0\refint\Fic
 D:\ISEC\3_ano\PWEB\TrabalhoPratico\HabitAqui-TP_PWEB\obj\Debug\net6.0\Ficha1_P1_V1.pdb
 D:\ISEC\3_ano\PWEB\TrabalhoPratico\HabitAqui-TP_PWEB\obj\Debug\net6.0\Ficha1_P1_V1.genruntimeconfig.cache
 D:\ISEC\3_ano\PWEB\TrabalhoPratico\HabitAqui-TP_PWEB\obj\Debug\net6.0\ref\Ficha1_P1_V1.dll
+C:\Users\Danie\Documents\GitHub\HabitAqui-TP_PWEB\obj\Debug\net6.0\Ficha1_P1_V1.sourcelink.json
