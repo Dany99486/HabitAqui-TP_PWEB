@@ -40,15 +40,16 @@
 
 </div>
 
-<table class="table">
+<table class="table table-bordered table-striped table-hover">
 	<thead>
 	<tr>
 		<th>
-			Nome do Trabalhador
+			Trabalhador
 		</th>
 		<th>
 			NIF
 		</th>
+		<th></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -56,11 +57,21 @@
 		
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.PrimeiroNome) @Html.DisplayFor(modelItem => item.UltimoNome)
+				@Html.DisplayFor(modelItem => item.UserName)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.NIF)
 			</td>
+			<td class="col-3 ">
+				<a class="btn btn-primary " asp-action="EditWorker" asp-route-id="@item.Id">Editar</a> |
+				<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
+					
+						
+				</a> |
+				<a class="btn btn-danger" asp-action="DeleteWorker" asp-route-id="@item.Id"
+				   onclick="return confirm('Tem a certeza que deseja apagar este funcionário?')">Apagar</a>
+			</td>
+			
 			
 		</tr>
 	}

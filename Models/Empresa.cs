@@ -8,7 +8,6 @@
         public string Telefone { get; set; }
         public string Email { get; set; }
         
-        //public static int TrabalhadorID { get; set; } = 1;
-        //public void AddTrabalhador() { TrabalhadorID++; }
+        public int TrabalhadorID { get; set; } = 0;
     }
 }

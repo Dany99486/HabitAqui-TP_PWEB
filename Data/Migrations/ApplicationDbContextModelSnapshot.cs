@@ -216,6 +216,9 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TrabalhadorID")
+                        .HasColumnType("int");
+
                     b.HasKey("EmpresaId");
 
                     b.ToTable("Empresa");
