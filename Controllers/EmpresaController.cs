@@ -207,9 +207,22 @@ namespace Ficha1_P1_V1.Controllers
             
         }
 
-        
-        
-        public async Task<IActionResult> AddUser()
+
+		public async Task<IActionResult> ListaEmpresaGestor()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			if (user == null)
+			{
+				return NotFound($"Não foi possivel encontrar o ID '{_userManager.GetUserId(User)}'.");
+			}
+			GestorInfoViewModel empresaInfoViewModel = new GestorInfoViewModel();
+			empresaInfoViewModel.Empresa = _context.Empresa.FirstOrDefault(e => e.EmpresaId == user.empresaId);
+			empresaInfoViewModel.Funcionarios = await _userManager.Users.Where(u => u.empresaId == user.empresaId && u != user && !u.PrimeiroNome.Contains("admin")).ToListAsync();
+			return View(empresaInfoViewModel);
+		}
+
+
+		public async Task<IActionResult> AddUser()
         {
 			var user = await _userManager.GetUserAsync(User);
             var empresa = _context.Empresa.FirstOrDefault(e => e.EmpresaId == user.empresaId);
@@ -239,19 +252,162 @@ namespace Ficha1_P1_V1.Controllers
 
         }
 
-        //[HttpPost]
-			public async Task<IActionResult> AddUserEmpresa(string RoleName, string email)
+        //Gestor adiciona outro Gestor
+		public async Task<IActionResult> AddUserGestor()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			var empresa = _context.Empresa.FirstOrDefault(e => e.EmpresaId == user.empresaId);
+			empresa.TrabalhadorID++;
+			var defaultUser = new ApplicationUser
+			{
+				empresaId = user.empresaId,
+				UserName = "gestor" + empresa.TrabalhadorID + "@" + empresa.Nome + ".com",
+				Email = "gestor" + empresa.TrabalhadorID + "@" + empresa.Nome + ".com",
+				PrimeiroNome = "Gestor" + empresa.TrabalhadorID,
+				UltimoNome = "Empresa",
+				EmailConfirmed = true, //Importante desbloquear (confirmar para usar logo a conta)
+				PhoneNumberConfirmed = true
+			};
+
+			var users = await _userManager.FindByEmailAsync(defaultUser.Email);
+			if (_userManager.Users.All(u => u.Id != defaultUser.Id))
+			{
+				if (users == null)
+				{
+					await _userManager.CreateAsync(defaultUser, "Is3C..00"); //Password do gestor
+					await _userManager.AddToRoleAsync(defaultUser,
+						Roles.Gestor.ToString());
+				}
+			}
+			return RedirectToAction(nameof(ListaEmpresaGestor));
+
+		}
+
+		//Gestor adiciona Funcionario
+		public async Task<IActionResult> AddUserFuncionario()
         {
-            /*var user = await _userManager.FindByIdAsync(email);
+            var user = await _userManager.GetUserAsync(User);
+            var empresa = _context.Empresa.FirstOrDefault(e => e.EmpresaId == user.empresaId);
+            empresa.TrabalhadorID++;
+            var defaultUser = new ApplicationUser
+            {
+                empresaId = user.empresaId,
+                pertenceAlocadorId = user.Id,
+                UserName = "Funcionario" + empresa.TrabalhadorID + "@" + empresa.Nome + ".com",
+                Email = "Funcionario" + empresa.TrabalhadorID + "@" + empresa.Nome + ".com",
+                PrimeiroNome = "Funcionario" + empresa.TrabalhadorID,
+                UltimoNome = "Empresa",
+                EmailConfirmed = true, //Importante desbloquear (confirmar para usar logo a conta)
+                PhoneNumberConfirmed = true
+            };
+
+            var users = await _userManager.FindByEmailAsync(defaultUser.Email);
+            if (_userManager.Users.All(u => u.Id != defaultUser.Id))
+            {
+                if (users == null)
+                {
+                    await _userManager.CreateAsync(defaultUser, "Is3C..00"); //Password do gestor
+                    await _userManager.AddToRoleAsync(defaultUser,
+                        Roles.Funcionario.ToString());
+                }
+            }
+            return RedirectToAction(nameof(ListaEmpresaGestor));
+
+        }
+
+
+            public IActionResult AddUserEmpresa()
+            {
+                return View();
+            }
+
+            [HttpPost]
+			public async Task<IActionResult> AddUserEmpresa(string RoleName, string email)
+            {
+            var user = await _userManager.FindByIdAsync(email);
             if (user != null && RoleName != null)
             {
                 await _userManager.AddToRoleAsync(user, RoleName);
             }
-            return RedirectToAction("ListaEmpresa", new { id = user.empresaId });*/
-            return View();
-        }
+                return RedirectToAction("ListaEmpresa", new { id = user.empresaId });
+            }
 
-            public async Task<IActionResult> EditWorker(string id)
+
+		public async Task<IActionResult> EditFuncionario(string id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var user = await _userManager.FindByIdAsync(id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+            ViewBag.locadores = new SelectList(_context.Users.Where(u => u.pertenceAlocadorId == null && u.UserName.Contains("gestor")), "Id", "PrimeiroNome");
+
+			return View(user);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> EditFuncionario(string id, [Bind("Id,PrimeiroNome,UltimoNome,PhoneNumber,pertenceAlocadorId")] ApplicationUser user)
+		{
+			if (id != user.Id)
+			{
+				return NotFound();
+			}
+			ModelState.Remove(nameof(user.Arrendamentos));
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var existingUser = await _userManager.FindByIdAsync(id);
+
+					if (existingUser == null)
+					{
+						return NotFound();
+					}
+
+					existingUser.PrimeiroNome = user.PrimeiroNome;
+					existingUser.UltimoNome = user.UltimoNome;
+					existingUser.Email = user.Email;
+					existingUser.PhoneNumber = user.PhoneNumber;
+                    existingUser.pertenceAlocadorId = user.pertenceAlocadorId;
+
+					// Update the user using _userManager
+					var result = await _userManager.UpdateAsync(existingUser);
+
+					if (result.Succeeded)
+					{
+						return RedirectToAction(nameof(ListaEmpresa));
+					}
+					else
+					{
+						// Handle errors, for example, ModelState.AddModelError
+						// You might want to inspect result.Errors for details
+					}
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!await _userManager.Users.AnyAsync(e => e.Id == id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+			}
+			return View(user);
+		}
+
+
+		public async Task<IActionResult> EditWorker(string id)
             {
                 if (id == null)
                 {
@@ -321,7 +477,7 @@ namespace Ficha1_P1_V1.Controllers
                 }
                 return View(user);
             }
-        
+
 		public async Task<IActionResult> DeleteWorker(string id)
 		{
 			if (id == null)
@@ -334,6 +490,34 @@ namespace Ficha1_P1_V1.Controllers
 			if (user == null)
 			{
 				return NotFound();
+			}
+
+			// Delete the user using UserManager
+			var result = await _userManager.DeleteAsync(user);
+
+			return RedirectToAction(nameof(ListaEmpresa));
+
+		}
+
+		public async Task<IActionResult> DeleteFuncionario(string id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var user = await _userManager.FindByIdAsync(id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+            //Se não tiver arrendamentos associados
+            if (_context.Arrendamento.Any(a => a.Id.ToString() == user.Id))
+            {
+                //Enviar aviso de que não pode eliminar
+				return RedirectToAction(nameof(ListaEmpresa));
 			}
 
 			// Delete the user using UserManager

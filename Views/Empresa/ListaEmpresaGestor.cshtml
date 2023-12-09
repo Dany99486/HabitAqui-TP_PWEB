@@ -1,0 +1,126 @@
+﻿@model Ficha1_P1_V1.ViewModels.GestorInfoViewModel
+
+@{
+	ViewData["Title"] = "Lista Empresa";
+}
+
+<h1>Detalhes de trabalhadores e gestores da Empresa @Model.Empresa.Nome</h1>
+
+<div>
+	<h4>Empresa</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Nome)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Nome)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Localidade)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Localidade)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Telefone)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Telefone)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Empresa.Email)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Empresa.Email)
+		</dd>
+	</dl>
+	<hr />
+	<h4>Trabalhadores:</h4>
+
+</div>
+
+<table class="table table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>
+				Trabalhador
+			</th>
+			<th>
+				NIF
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Funcionarios)
+		{
+			if (item.Arrendamentos != null) {
+			if (item.Arrendamentos.Count > 0)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.UserName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.NIF)
+					</td>
+					<td class="col-3 ">
+						<a class="btn btn-primary " asp-action="EditFuncionario" asp-route-id="@item.Id">Editar</a> |
+						<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
+							Ativar/Desativar
+						</a> |
+						<a class="btn btn-danger" asp-action="DeleteFuncionario" asp-route-id="@item.Id"
+						onclick="return confirm('Tem a certeza que deseja apagar este funcionário?')">Apagar</a>
+					</td>
+				</tr>
+			}
+			else
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.UserName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.NIF)
+					</td>
+					<td class="col-3 ">
+						<a class="btn btn-primary " asp-action="EditFuncionario" asp-route-id="@item.Id">Editar</a> |
+						<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
+							Ativar/Desativar
+						</a>
+					</td>
+
+					</tr>
+				}
+			} else
+			{
+				<tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NIF)
+                    </td>
+                    <td class="col-3 ">
+                        <a class="btn btn-primary " asp-action="EditFuncionario" asp-route-id="@item.Id">Editar</a> |
+                        <a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
+                            Ativar/Desativar
+                        </a>
+                    </td>
+
+                </tr>
+			}
+		}
+	</tbody>
+</table>
+<hr />
+
+
+<div>
+	<a class="btn btn-secondary" asp-action="AddUserGestor">Adicionar Gestor</a>
+
+	<a class="btn btn-secondary" asp-action="AddUserFuncionario">Adicionar Trabalhador</a>
+
+	<a class="btn btn-primary" asp-controller="Home" asp-action="Index">Voltar</a>
+</div>

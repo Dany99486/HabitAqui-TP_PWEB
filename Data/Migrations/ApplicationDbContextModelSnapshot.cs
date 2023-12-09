@@ -94,6 +94,9 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.Property<int>("empresaId")
                         .HasColumnType("int");
 
+                    b.Property<string>("pertenceAlocadorId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
