@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using Ficha1_P1_V1.Data;
 using Ficha1_P1_V1.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Ficha1_P1_V1.Controllers
 {
     public class HabitacaoController : Controller
     {
         private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-        public HabitacaoController(ApplicationDbContext context)
+		public HabitacaoController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Habitacao
@@ -25,13 +29,25 @@ namespace Ficha1_P1_V1.Controllers
         {
 	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList().ToList(), "Id", "Nome");
 
-
 			return View(await _context.Habitacao.ToListAsync());
         }
 
-        // GET: Habitacao/Details/5
-        //[Authorize(Roles = "Cliente")]
-        public async Task<IActionResult> Details(int? id)
+		public async Task<IActionResult> ParqueIndex()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			if (User.IsInRole("Funcionario"))
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+			else if (User.IsInRole("Gestor"))
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+			else
+				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
+
+			return View(await _context.Habitacao.ToListAsync());
+		}
+
+		// GET: Habitacao/Details/5
+		//[Authorize(Roles = "Cliente")]
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Habitacao == null)
             {
@@ -54,7 +70,6 @@ namespace Ficha1_P1_V1.Controllers
         {
 	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
 
-
 			return View();
         }
 
@@ -72,9 +87,19 @@ namespace Ficha1_P1_V1.Controllers
             {
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ParqueIndex));
             }
-			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+            if (User.IsInRole("Cliente") || User.IsInRole("Inativo"))
+            {
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+			}
+			var user = await _userManager.GetUserAsync(User);
+            if (User.IsInRole("Funcionario"))
+			    ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+            else if (User.IsInRole("Gestor"))
+                ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+            else
+                ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
 			return View(habitacao);
         }
@@ -92,7 +117,17 @@ namespace Ficha1_P1_V1.Controllers
             {
                 return NotFound();
             }
-            ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+			if (User.IsInRole("Cliente") || User.IsInRole("Inativo"))
+			{
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+			}
+			var user = await _userManager.GetUserAsync(User);
+			if (User.IsInRole("Funcionario"))
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+			else if (User.IsInRole("Gestor"))
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+			else
+				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
 			return View(habitacao);
         }
@@ -103,7 +138,7 @@ namespace Ficha1_P1_V1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao,estado,reservado")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
             {
@@ -129,9 +164,19 @@ namespace Ficha1_P1_V1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ParqueIndex));
             }
-			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+			if (User.IsInRole("Cliente") || User.IsInRole("Inativo"))
+			{
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+			}
+			var user = await _userManager.GetUserAsync(User);
+			if (User.IsInRole("Funcionario"))
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+			else if (User.IsInRole("Gestor"))
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+			else
+				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
 			return View(habitacao);
         }
@@ -163,21 +208,76 @@ namespace Ficha1_P1_V1.Controllers
         {
             if (_context.Habitacao == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Habitacao'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Habitacao' is null.");
             }
-            var habitacao = await _context.Habitacao.FindAsync(id);
-            if (habitacao != null)
+			var habitacao = await _context.Habitacao.FindAsync(id);
+			
+			if (habitacao != null)
             {
-                _context.Habitacao.Remove(habitacao);
+                if (habitacao.reservado)
+                {
+                    ModelState.AddModelError("Reservado", "Não é possível apagar uma habitação reservada");
+                }
+                else
+                {
+                    _context.Habitacao.Remove(habitacao);
+                }
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ParqueIndex));
         }
 
         private bool HabitacaoExists(int id)
         {
           return (_context.Habitacao?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> AtivaDesativa(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var hab = await _context.Habitacao.FindAsync(id);
+
+            if (hab == null)
+            {
+                return NotFound();
+            }
+
+            if (hab.estado)
+            {
+                hab.estado = false;
+            }
+            else
+            {
+                hab.estado = true;
+            }
+
+            ModelState.Remove(nameof(Habitacao));
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(hab);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!HabitacaoExists(hab.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return RedirectToAction(nameof(ParqueIndex));
         }
     }
 }

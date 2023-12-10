@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Ficha1_P1_V1.Models.Habitacao>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Habitações</h1>
+
+<p>
+	<a class="btn btn-second" asp-action="Create">Criar novo registo de habitação</a>
+</p>
+<hr/>
+<h4>Filtros:</h4>
+<div>
+	<div class="col-30">
+		<form method="post">
+			<div class="col-md-7">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="Categoria" class="control-label">Categoria:</label>
+							<select name="Categoria" asp-items="ViewBag.ListaDeCategorias" class="form-control">
+								<option value="">Selecione a categoria</option>
+							</select>
+							<span class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="Tipo" class="control-label">Tipo:</label>
+							<select name="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
+								<option value="">Selecione o tipo</option>
+							</select>
+							<span class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="orderBy" class="control-label">Ordenar por:</label>
+							<select name="OrderBy" class="form-control">
+								<option value="">Selecione opção</option>
+								<option value="PrecoCrescente">Preco crescente</option>
+								<option value="PrecoDecrescente">Preco decrescente</option>
+								<option value="AvaliacaoCrescente">Avaliação crescente</option>
+								<option value="AvaliacaoDecrescente">Avaliação decrescente</option>
+							</select>
+							<span class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="orderBy" class="control-label">Estado:</label>
+							<select name="OrderBy" class="form-control">
+								<option value="">Selecione opção</option>
+								<option value="Ativo">Ativo</option>
+								<option value="Inativo">Inativo</option>
+							</select>
+							<span class="text-danger"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group mt-4">
+						<input type="submit" value="Pesquisar" class="btn btn-primary" />
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+</div>
+<hr />
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+	    <th>
+		    @Html.DisplayNameFor(model => model.Descricao)
+	    </th>
+	    <th>
+		    @Html.DisplayNameFor(model => model.Localizacao)
+	    </th>
+	    <th>
+		    @Html.DisplayNameFor(model => model.Tipo)
+	    </th>
+	    <th>
+		    @Html.DisplayNameFor(model => model.Categoria.Nome)
+	    </th>
+
+
+	    <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+	<tr>
+		<td>
+			@Html.DisplayFor(modelItem => item.Descricao)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Localizacao)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Tipo)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Categoria.Nome)
+		</td>
+
+		@if(User.IsInRole("Gestor") || User.IsInRole("Funcionario"))
+		{
+		<td>
+				<a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+				<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+				<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
+					@if (item.estado)
+                    {
+                        <text>Inativar</text>
+                    }
+                    else
+                    {
+                        <text>Ativar</text>
+                    }
+				</a>
+				@if (!item.reservado)
+				{
+					<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+				}
+		</td>
+		}
+	</tr>
+}
+    </tbody>
+</table>

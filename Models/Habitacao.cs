@@ -22,5 +22,23 @@ namespace Ficha1_P1_V1.Models
 
         [Display(Name = "Empresa ID")]
         public int empresaId { get; set; }
+
+        [Display(Name = "Empresa")]
+        public Empresa Empresa { get; set; }
+
+        [Display(Name = "Imagem")]
+        public string Imagem { get; set; }
+
+        [Display(Name = "Gerido Por")]
+        public ApplicationUser Funcionario { get; set; }
+
+        [Display(Name = "Gerido Por")]
+        public ApplicationUser Gestor { get; set; }
+
+        [Display(Name = "Estado")]
+        public bool estado { get; set; }
+
+        [Display(Name = "Reservado")]
+        public bool reservado { get; set; }
     }
 }
