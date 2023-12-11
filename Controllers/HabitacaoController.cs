@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Ficha1_P1_V1.ViewModels;
+using Microsoft.CodeAnalysis.Options;
+using Newtonsoft.Json.Linq;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -36,14 +38,19 @@ namespace Ficha1_P1_V1.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Pesquisa(TipoHabitacao? Tipo, string Categoria, string OrderBy, string OrderByAct)
+		public async Task<IActionResult> Pesquisa(TipoHabitacao? Tipo, string? Categoria, string? OrderByAct)
 		{
 			PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
 			ViewData["Title"] = "Pesquisar Habitações";
-            			
-			pesquisaViewModel.ListaDehabitacoes = await _context.Habitacao.Where(c => c.Categoria.Nome.ToLower() == Categoria.ToLower()).ToListAsync();
 
-			pesquisaViewModel.NumResultados = pesquisaViewModel.ListaDeArrendamentos.Count();
+            bool estado = false;
+
+            if (OrderByAct != null && OrderByAct.Equals("Ativo"))
+                estado = true;
+
+			pesquisaViewModel.ListaDehabitacoes = await _context.Habitacao.Where(c => c.Categoria.Nome.ToLower() == Categoria.ToLower()
+                                                || c.Tipo == Tipo
+                                                || c.Estado == estado).ToListAsync();
 			
 			return View(pesquisaViewModel);
 		}
