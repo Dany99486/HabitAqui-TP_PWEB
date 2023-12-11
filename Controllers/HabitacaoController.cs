@@ -33,29 +33,20 @@ namespace Ficha1_P1_V1.Controllers
 			return View(await _context.Habitacao.ToListAsync());
         }
 
-        /*
-		public async Task<IActionResult> Pesquisar(string? TextoAPesquisar)
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Pesquisa(TipoHabitacao? Tipo, string Categoria, string OrderBy, string OrderByAct)
 		{
-			PesquisaViewModel pesquisaVM = new PesquisaViewModel();
-			ViewData["Title"] = "Pesquisar cursos";
+			PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
+			ViewData["Title"] = "Pesquisar Habitações";
+            			
+			pesquisaViewModel.ListaDehabitacoes = await _context.Habitacao.Where(c => c.Categoria.Nome.ToLower() == Categoria.ToLower()).ToListAsync();
 
-			if (string.IsNullOrWhiteSpace(TextoAPesquisar))
-				pesquisaVM.ListaDehabitacoes = await _context.Habitacao.Include("categoria").OrderBy(c => c.Categoria).ToListAsync();
-			else
-			{
-                pesquisaVM.ListaDehabitacoes =
-                    await _context.Categoria.Include("categoria").Where(c => c.Nome.Contains(TextoAPesquisar);
-				pesquisaVM.TextoAPesquisar = TextoAPesquisar;
-				foreach (Curso c in pesquisaVM.ListaDeCursos)
-				{
-					c.Nome = AltCorSubSTR(c.Nome, pesquisaVM.TextoAPesquisar);
-					c.DescricaoResumida = AltCorSubSTR(c.DescricaoResumida, pesquisaVM.TextoAPesquisar);
-				}
-			}
-			pesquisaVM.NumResultados = pesquisaVM.ListaDeCursos.Count();
-
-			return View(pesquisaVM);
-		}*/
+			pesquisaViewModel.NumResultados = pesquisaViewModel.ListaDeArrendamentos.Count();
+			
+			return View(pesquisaViewModel);
+		}
 
 		public async Task<IActionResult> ParqueIndex()
 		{
@@ -122,6 +113,7 @@ namespace Ficha1_P1_V1.Controllers
                 {
 					habitacao.GestorDaHabitacaoId = funcId.Id;
 				}
+                habitacao.EmpresaId = funcId.empresaId;
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(ParqueIndex));

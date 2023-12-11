@@ -64,6 +64,8 @@ namespace Ficha1_P1_V1.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (empresa.Nome.Contains(" "))
+                    empresa.Nome = empresa.Nome.Replace(" ", "");
                 _context.Add(empresa);
                 await _context.SaveChangesAsync();
 
