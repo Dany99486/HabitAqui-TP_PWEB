@@ -10,6 +10,7 @@ using Ficha1_P1_V1.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Identity;
+using Ficha1_P1_V1.ViewModels;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -31,6 +32,30 @@ namespace Ficha1_P1_V1.Controllers
 
 			return View(await _context.Habitacao.ToListAsync());
         }
+
+        /*
+		public async Task<IActionResult> Pesquisar(string? TextoAPesquisar)
+		{
+			PesquisaViewModel pesquisaVM = new PesquisaViewModel();
+			ViewData["Title"] = "Pesquisar cursos";
+
+			if (string.IsNullOrWhiteSpace(TextoAPesquisar))
+				pesquisaVM.ListaDehabitacoes = await _context.Habitacao.Include("categoria").OrderBy(c => c.Categoria).ToListAsync();
+			else
+			{
+                pesquisaVM.ListaDehabitacoes =
+                    await _context.Categoria.Include("categoria").Where(c => c.Nome.Contains(TextoAPesquisar);
+				pesquisaVM.TextoAPesquisar = TextoAPesquisar;
+				foreach (Curso c in pesquisaVM.ListaDeCursos)
+				{
+					c.Nome = AltCorSubSTR(c.Nome, pesquisaVM.TextoAPesquisar);
+					c.DescricaoResumida = AltCorSubSTR(c.DescricaoResumida, pesquisaVM.TextoAPesquisar);
+				}
+			}
+			pesquisaVM.NumResultados = pesquisaVM.ListaDeCursos.Count();
+
+			return View(pesquisaVM);
+		}*/
 
 		public async Task<IActionResult> ParqueIndex()
 		{

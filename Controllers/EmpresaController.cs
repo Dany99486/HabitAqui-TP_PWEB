@@ -329,8 +329,9 @@ namespace Ficha1_P1_V1.Controllers
             {
                 await _userManager.AddToRoleAsync(user, RoleName);
             }
-                return RedirectToAction("ListaEmpresa", new { id = user.empresaId });
-            }
+			    //return RedirectToAction("ListaEmpresa", new { id = user.empresaId });
+			    return RedirectToAction(nameof(ListaEmpresaGestor));
+		    }
 
 
 		public async Task<IActionResult> EditFuncionario(string id)

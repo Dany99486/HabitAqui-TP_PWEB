@@ -6,6 +6,7 @@ namespace Ficha1_P1_V1.ViewModels
 	public class PesquisaViewModel
 	{
 		public List<Arrendamento>? ListaDeArrendamentos { get; set; }
+		public List<Habitacao>? ListaDehabitacoes { get; set; }
 		public int NumResultados { get; set; }
 		[Display(Name = "PESQUISA DE CURSOS ...", Prompt = "introduza o texto a pesquisar")]
 		public string? TextoAPesquisar { get; set; }
