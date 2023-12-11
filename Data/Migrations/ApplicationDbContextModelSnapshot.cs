@@ -239,44 +239,33 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FuncionarioId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("GestorId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Imagem")
-                        .IsRequired()
+                    b.Property<string>("FuncionarioDaHabitacaoId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GestorDaHabitacaoId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Localizacao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Reservado")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
-
-                    b.Property<int>("empresaId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("estado")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("reservado")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
-
-                    b.HasIndex("FuncionarioId");
-
-                    b.HasIndex("GestorId");
-
-                    b.HasIndex("empresaId");
 
                     b.ToTable("Habitacao");
                 });
@@ -454,27 +443,7 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .WithMany("Habitacao")
                         .HasForeignKey("CategoriaId");
 
-                    b.HasOne("Ficha1_P1_V1.Models.ApplicationUser", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioId");
-
-                    b.HasOne("Ficha1_P1_V1.Models.ApplicationUser", "Gestor")
-                        .WithMany()
-                        .HasForeignKey("GestorId");
-
-                    b.HasOne("Ficha1_P1_V1.Models.Empresa", "Empresa")
-                        .WithMany()
-                        .HasForeignKey("empresaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Categoria");
-
-                    b.Navigation("Empresa");
-
-                    b.Navigation("Funcionario");
-
-                    b.Navigation("Gestor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

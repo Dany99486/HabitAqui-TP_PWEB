@@ -27,7 +27,7 @@ namespace Ficha1_P1_V1.Controllers
         // GET: Habitacao
         public async Task<IActionResult> Index()
         {
-	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList().ToList(), "Id", "Nome");
+	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
 
 			return View(await _context.Habitacao.ToListAsync());
         }
@@ -36,9 +36,9 @@ namespace Ficha1_P1_V1.Controllers
 		{
 			var user = await _userManager.GetUserAsync(User);
 			if (User.IsInRole("Funcionario"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
 			else if (User.IsInRole("Gestor"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
 			else
 				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
@@ -85,6 +85,18 @@ namespace Ficha1_P1_V1.Controllers
 
 			if (ModelState.IsValid)
             {
+                habitacao.Reservado = false;
+                habitacao.Estado = true;
+
+				var funcId = await _userManager.GetUserAsync(User);
+				if (User.IsInRole("Funcionario"))
+                {
+                    habitacao.FuncionarioDaHabitacaoId = funcId.Id;
+                }
+                if (User.IsInRole("Gestor"))
+                {
+					habitacao.GestorDaHabitacaoId = funcId.Id;
+				}
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(ParqueIndex));
@@ -95,9 +107,9 @@ namespace Ficha1_P1_V1.Controllers
 			}
 			var user = await _userManager.GetUserAsync(User);
             if (User.IsInRole("Funcionario"))
-			    ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+			    ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
             else if (User.IsInRole("Gestor"))
-                ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+                ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
             else
                 ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
@@ -123,9 +135,9 @@ namespace Ficha1_P1_V1.Controllers
 			}
 			var user = await _userManager.GetUserAsync(User);
 			if (User.IsInRole("Funcionario"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
 			else if (User.IsInRole("Gestor"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
 			else
 				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
@@ -172,9 +184,9 @@ namespace Ficha1_P1_V1.Controllers
 			}
 			var user = await _userManager.GetUserAsync(User);
 			if (User.IsInRole("Funcionario"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Funcionario.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
 			else if (User.IsInRole("Gestor"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.Gestor.Id.ToString() == user.Id).ToList().ToList(), "Id", "Nome");
+				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
 			else
 				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
@@ -214,7 +226,7 @@ namespace Ficha1_P1_V1.Controllers
 			
 			if (habitacao != null)
             {
-                if (habitacao.reservado)
+                if (habitacao.Reservado)
                 {
                     ModelState.AddModelError("Reservado", "Não é possível apagar uma habitação reservada");
                 }
@@ -247,13 +259,13 @@ namespace Ficha1_P1_V1.Controllers
                 return NotFound();
             }
 
-            if (hab.estado)
+            if (hab.Estado)
             {
-                hab.estado = false;
+                hab.Estado = false;
             }
             else
             {
-                hab.estado = true;
+                hab.Estado = true;
             }
 
             ModelState.Remove(nameof(Habitacao));

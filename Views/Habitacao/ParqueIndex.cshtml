@@ -117,7 +117,7 @@
 				<a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
 				<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
 				<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
-					@if (item.estado)
+					@if (item.Estado)
                     {
                         <text>Inativar</text>
                     }
@@ -126,7 +126,7 @@
                         <text>Ativar</text>
                     }
 				</a>
-				@if (!item.reservado)
+				@if (!item.Reservado)
 				{
 					<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
 				}
