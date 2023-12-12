@@ -16,7 +16,7 @@
 <h4>Filtros:</h4>
 <div >
 	<div class="col-30">
-		<form method="post">
+		<form method="post" asp-action="Index">
 			<div class="col-md-7">
 				<div class="row">
 					<div class="col-md-4">
@@ -38,6 +38,17 @@
 							<span class="text-danger"></span>
 						</div>
 					</div>
+					
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="Locador" class="control-label">Locador:</label>
+							<select name="Locador" asp-items="@ViewBag.ListaDeLocadores" class="form-control">
+								<option value="">Selecione o locador</option>
+							</select>
+							<span class="text-danger"></span>
+						</div>
+					</div>
+
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="orderBy" class="control-label">Ordenar por:</label>
@@ -86,7 +97,13 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.habitacao)
-            </th>
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.locador)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Avaliacao)
+			</th>
             
             <th></th>
         </tr>
@@ -112,9 +129,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.habitacao.Localizacao)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.locador.Id)
-            </td>
+			<td>
+				@Html.DisplayFor(modelItem => item.locador.Email)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.locador.LocadorAvaliacao)
+			</td>
 	        <td>
 	        @if (User.Identity.IsAuthenticated)
 	        {

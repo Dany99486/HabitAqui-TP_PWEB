@@ -25,58 +25,86 @@ namespace Ficha1_P1_V1.Controllers
             _context = context;
             _userManager = userManager;
         }
+		private async Task<List<ApplicationUser>> ObterLocadoresAsync()
+		{
+			var usersWithRoles = await _userManager.GetUsersInRoleAsync("AdminEmpresa");
+			var distinctUsers = usersWithRoles.Distinct().ToList();
 
-        // GET: Arrendamentos
-        public async Task<IActionResult> Index()
-        {
-	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+			return distinctUsers;
+		}
 
-			var arrendamentos = _context.Arrendamento.Include(a => a.habitacao).OrderByDescending(c=>c.DataInicio);//Include(a => a.locador);
-            return View(await arrendamentos.ToListAsync());
-        }
+		// GET: Arrendamentos
+		public async Task<IActionResult> Index()
+		{
+			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
 
-        [HttpPost]
-        public IActionResult Index(TipoHabitacao? Tipo, string? Categoria, string? OrderBy)
-        {
-	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
-	        var query = _context.Arrendamento.AsQueryable();
-	        // Aplicar filtro para TextoAPesquisar se estiver preenchido
-	        // Aplicar filtro para Tipo se estiver preenchido
-	        if (Tipo.HasValue)
-	        {
-		        query = query.Where(c => c.habitacao.Tipo == Tipo);
-		        //query = query.Where(c => c.DataFim > DateTime.Now);
-	        }
+			var arrendamentos = _context.Arrendamento
+				.Include(a => a.habitacao)
+				.Include(a => a.locador)
+				.OrderByDescending(c => c.DataInicio);
 
-	        if (OrderBy== "PrecoCrescente")
-	        {
-		        query = query.OrderBy(c => c.Preco);
-	        }
-            else if (OrderBy == "PrecoDecrescente")
-	        {
-		        query = query.OrderByDescending(c => c.Preco);
-	        }
-	        else if (OrderBy == "AvaliacaoCrescente")
-	        {
-		        query = query.OrderBy(c => c.Avaliacao);
-	        }
-	        else if (OrderBy == "AvaliacaoDecrescente")
-	        {
-		        query = query.OrderByDescending(c => c.Avaliacao);
-	        }
-	        if (!string.IsNullOrEmpty(Categoria) && Categoria != "Selecione a categoria")
-	        {
-		        int categoriaId;
-		        if (int.TryParse(Categoria, out categoriaId))
-		        {
-			        query = query.Where(c => c.habitacao.Categoria.Id == categoriaId);
-		        }
-	        }
+			var locadores = await ObterLocadoresAsync();
+			ViewData["ListaDeLocadores"] = new SelectList(locadores, "Id", "Email");
 
+			return View(await arrendamentos.ToListAsync());
+		}
 
-	        var resultado = query.Include(a => a.habitacao).ToList();
-	        return View(resultado);
-        }
+		[HttpPost]
+		public async Task<IActionResult> Index(TipoHabitacao? Tipo, string? Categoria, string? Locador, string? OrderBy)
+		{
+			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+			var locadores = await ObterLocadoresAsync();
+			ViewData["ListaDeLocadores"] = new SelectList(locadores, "Id", "Email");
+
+			var query = _context.Arrendamento
+				.Include(a => a.locador)
+                .AsQueryable();
+
+			// Aplicar filtro para Tipo se estiver preenchido
+			if (Tipo.HasValue)
+			{
+				query = query.Where(c => c.habitacao.Tipo == Tipo);
+			}
+
+			if (!string.IsNullOrEmpty(Locador) && Locador != "Selecione o locador")
+			{
+				// Supondo que Locador seja o ID do usuário
+				var locadorId = Locador;
+				query = query.Where(c => c.locador.Id == locadorId);
+			}
+
+			// Aplicar filtro de Categoria se estiver preenchido
+			if (!string.IsNullOrEmpty(Categoria) && Categoria != "Selecione a categoria")
+			{
+				int categoriaId;
+				if (int.TryParse(Categoria, out categoriaId))
+				{
+					query = query.Where(c => c.habitacao.Categoria.Id == categoriaId);
+				}
+			}
+
+			// Aplicar lógica de ordenação
+			if (OrderBy == "PrecoCrescente")
+			{
+				query = query.OrderBy(c => c.Preco);
+			}
+			else if (OrderBy == "PrecoDecrescente")
+			{
+				query = query.OrderByDescending(c => c.Preco);
+			}
+			else if (OrderBy == "AvaliacaoCrescente")
+			{
+				query = query.OrderBy(c => c.Avaliacao);
+			}
+			else if (OrderBy == "AvaliacaoDecrescente")
+			{
+				query = query.OrderByDescending(c => c.Avaliacao);
+			}
+
+			var resultado = await query.Include(a => a.habitacao).ToListAsync();
+			return View(resultado);
+		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
