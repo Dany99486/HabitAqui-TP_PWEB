@@ -109,6 +109,7 @@ namespace Ficha1_P1_V1.Controllers
             {
                 habitacao.Reservado = false;
                 habitacao.Estado = true;
+                habitacao.EstadoHabitacao = "Disponivel, em condições novas";
 
 				var funcId = await _userManager.GetUserAsync(User);
 				if (User.IsInRole("Funcionario"))

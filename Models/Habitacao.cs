@@ -33,7 +33,7 @@ namespace Ficha1_P1_V1.Models
         public bool Estado { get; set; } //Nao é o estado da habitacao
 
         [Display(Name = "Estado da habitação")]
-        public string EstadoHabitacao { get; set; }
+        public string? EstadoHabitacao { get; set; }
 
         [Display(Name = "Reservado")]
         public bool Reservado { get; set; }
