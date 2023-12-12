@@ -118,6 +118,9 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("Aceite")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DataFim")
                         .IsRequired()
                         .HasColumnType("datetime2");
@@ -246,6 +249,10 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.Property<bool>("Estado")
                         .HasColumnType("bit");
+
+                    b.Property<string>("EstadoHabitacao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FuncionarioDaHabitacaoId")
                         .HasColumnType("nvarchar(max)");

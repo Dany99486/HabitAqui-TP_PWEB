@@ -30,5 +30,8 @@ namespace Ficha1_P1_V1.Models
 
 		[Display(Name = "Avaliação", Prompt = "Indique a Avaliação!")]
 		public List<Avaliacao>? Avaliacao { get; set; }
+
+		[Display(Name = "Aceite")]
+		public bool Aceite { get; set; }
     }
 }

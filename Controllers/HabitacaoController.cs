@@ -41,7 +41,6 @@ namespace Ficha1_P1_V1.Controllers
 		public async Task<IActionResult> Pesquisa(TipoHabitacao? Tipo, string? Categoria, string? OrderByAct)
 		{
 			PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
-			ViewData["Title"] = "Pesquisar Habitações";
 
             bool estado = false;
 
@@ -51,21 +50,21 @@ namespace Ficha1_P1_V1.Controllers
 			pesquisaViewModel.ListaDehabitacoes = await _context.Habitacao.Where(c => c.Categoria.Nome.ToLower() == Categoria.ToLower()
                                                 || c.Tipo == Tipo
                                                 || c.Estado == estado).ToListAsync();
-			
-			return View(pesquisaViewModel);
+            ViewData["ListaDeHabitacao"] = pesquisaViewModel;
+			return View(ViewData["ListaDeHabitacao"]);
 		}
 
 		public async Task<IActionResult> ParqueIndex()
 		{
 			var user = await _userManager.GetUserAsync(User);
-			if (User.IsInRole("Funcionario"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
-			else if (User.IsInRole("Gestor"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
-			else
-				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
+            if (User.IsInRole("Funcionario"))
+                ViewData["Lista"] = await _context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToListAsync();
+            else if (User.IsInRole("Gestor"))
+                ViewData["Lista"] = await _context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToListAsync();
+            else
+                ViewData["Lista"] = await _context.Habitacao.ToListAsync();
 
-			return View(await _context.Habitacao.ToListAsync());
+			return View(/*await _context.Habitacao.ToListAsync()*/ ViewData["Lista"]);
 		}
 
 		// GET: Habitacao/Details/5
