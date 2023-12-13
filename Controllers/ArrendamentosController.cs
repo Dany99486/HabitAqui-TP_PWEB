@@ -34,6 +34,7 @@ namespace Ficha1_P1_V1.Controllers
 		}
 
 		// GET: Arrendamentos
+        [Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Index()
 		{
 			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
@@ -50,6 +51,7 @@ namespace Ficha1_P1_V1.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Index(TipoHabitacao? Tipo, string? Categoria, string? Locador, string? OrderBy)
 		{
 			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
@@ -108,6 +110,7 @@ namespace Ficha1_P1_V1.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Pesquisa(string TextoAPesquisar, TipoHabitacao? Tipo,DateTime? dataInicio,DateTime? dataFim,int? periodoMinimo)
         {
             PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
@@ -141,7 +144,8 @@ namespace Ficha1_P1_V1.Controllers
 		// GET: Arrendamentos/Details/5
 
 		//[Authorize(Roles = "Cliente")]
-        public async Task<IActionResult> Details(int? id)
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Arrendamento == null)
             {
@@ -199,7 +203,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Arrendamentos/Edit/5
-        //[Authorize(Roles = "Funcionario,Gestor")]
+        //[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Arrendamento == null)
@@ -222,7 +226,7 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Funcionario,Gestor")]
+        //[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
         {
             if (id != arrendamento.Id)
@@ -256,7 +260,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Arrendamentos/Delete/5
-        //[Authorize(Roles = "Funcionario,Gestor")]
+        //[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Arrendamento == null)
@@ -279,7 +283,7 @@ namespace Ficha1_P1_V1.Controllers
         // POST: Arrendamentos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Funcionario,Gestor")]
+        //[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Arrendamento == null)

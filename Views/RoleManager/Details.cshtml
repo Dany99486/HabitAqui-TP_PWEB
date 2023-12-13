@@ -5,34 +5,37 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<form method="post">
-	<div class="card">
-		<div class="card-header">
-			<h2>Gerir User Roles</h2>
-			<span class="badge bg-dark text-white">@ViewBag.UserName</span> Adicionar/Remover Roles
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+{
+	<form method="post">
+		<div class="card">
+			<div class="card-header">
+				<h2>Gerir User Roles</h2>
+				<span class="badge bg-dark text-white">@ViewBag.UserName</span> Adicionar/Remover Roles
+			</div>
+			<div class="card-body">
+				<h5>Roles Atribuidos/A atribuir</h5>
+				@for (int i = 0; i < Model.Count; i++)
+				{
+					<div class="form-check m-1">
+						<input type="hidden" asp-for="@Model[i].RoleId"/>
+						<input type="hidden" asp-for="@Model[i].RoleName"/>
+						<input asp-for="@Model[i].Selected" class="form-check-input"/>
+						<label class="form-check-label" asp-for="@Model[i].Selected">
+							@Model[i].RoleName
+						</label>
+					</div>
+				}
+				<hr/>
+
+				<div asp-validation-summary="All" class="text-danger"></div>
+			</div>
+
+			<div class="card-footer">
+				<input type="submit" value="Actualizar" class="btn btn-primary"
+				style="width: auto"/>
+				<a class="btn btn-primary" asp-action="Index" class="btn btn-primary" style="width: auto">Cancelar</a>
+			</div>
 		</div>
-		<div class="card-body">
-			<h5>Roles Atribuidos/A atribuir</h5>
-			@for (int i = 0; i < Model.Count; i++)
-			{
-				<div class="form-check m-1">
-					<input type="hidden" asp-for="@Model[i].RoleId"/>
-					<input type="hidden" asp-for="@Model[i].RoleName"/>
-					<input asp-for="@Model[i].Selected" class="form-check-input"/>
-					<label class="form-check-label" asp-for="@Model[i].Selected">
-						@Model[i].RoleName
-					</label>
-				</div>
-			}
-			<hr/>
-			
-			<div asp-validation-summary="All" class="text-danger"></div>
-		</div>
-		
-		<div class="card-footer">
-			<input type="submit" value="Actualizar" class="btn btn-primary"
-			       style="width: auto"/>
-			<a class="btn btn-primary" asp-action="Index" class="btn btn-primary" style="width: auto">Cancelar</a>
-		</div>
-	</div>
-</form>
+	</form>
+}

@@ -3,31 +3,35 @@
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_Layout2.cshtml";
 }
-<h1>Gestão de Users</h1>
 
-<table class="table table-striped table-hover table-bordered mt-4">
-	<thead>
-		<tr>
-			<th>Nome</th>
-			<th>Email</th>
-			<th>Roles</th>
-			<th>Ação</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var user in Model)
-		{
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+{
+	<h1>Gestão de Users</h1>
+
+	<table class="table table-striped table-hover table-bordered mt-4">
+		<thead>
 			<tr>
-				<td>@user.PrimeiroNome @user.UltimoNome</td>
-				<td>@user.Email</td>
-				<td>@string.Join(" , ", user.Roles.ToList())</td>
-				<td>
-					<a class="btn btn-primary"
-					   asp-controller="UserRolesManager"
-					   asp-action="Details"
-					   asp-route-userId="@user.UserId">Gerir Roles</a>
-				</td>
+				<th>Nome</th>
+				<th>Email</th>
+				<th>Roles</th>
+				<th>Ação</th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach (var user in Model)
+			{
+				<tr>
+					<td>@user.PrimeiroNome @user.UltimoNome</td>
+					<td>@user.Email</td>
+					<td>@string.Join(" , ", user.Roles.ToList())</td>
+					<td>
+						<a class="btn btn-primary"
+						asp-controller="UserRolesManager"
+						asp-action="Details"
+						asp-route-userId="@user.UserId">Gerir Roles</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

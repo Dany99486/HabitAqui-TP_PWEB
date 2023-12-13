@@ -5,8 +5,9 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<h1>Inicio</h1>
-@if (User.Identity.IsAuthenticated)
+<h1>Arrendar</h1>
+@if (User.Identity.IsAuthenticated &&
+			(User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
 {
 	<p>
 		<a asp-action="Create" class="btn btn-primary">Arrendar</a>
@@ -136,13 +137,13 @@
 				@Html.DisplayFor(modelItem => item.locador.LocadorAvaliacao)
 			</td>
 	        <td>
-	        @if (User.Identity.IsAuthenticated)
-	        {
+			@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
+			{
 		        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
 	        } |
 	        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Detalhes</a> |
-	        @if (User.Identity.IsAuthenticated)
-	        {
+			@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
+			{
 		        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Apagar</a>
 	        }
 	        </td>

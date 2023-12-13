@@ -29,19 +29,19 @@
 	                            <li class="nav-item">
 		                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="About">Quem Somos?</a>
 	                            </li>
-                               
-								@if (User.Identity.IsAuthenticated && !User.IsInRole("Inativo"))
-								{
-									<li class="nav-item">
-										<a class="nav-link text-white" asp-area="" asp-controller="Habitacao" asp-action="Index">Habitações</a>
-									</li>
-								}
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Arrendamentos" asp-action="Index">Arrendar</a>
-                                </li>
+
 								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
+									<a class="nav-link text-white" asp-area="" asp-controller="Habitacao" asp-action="Index">Habitações</a>
 								</li>
+                                @if (User.Identity.IsAuthenticated && !User.IsInRole("Inativo"))
+								{
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Arrendamentos" asp-action="Index">Arrendar</a>
+                                    </li>
+								    <li class="nav-item">
+									    <a class="nav-link text-white" asp-area="" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
+								    </li>
+								}
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <li class="nav-item dropdown">

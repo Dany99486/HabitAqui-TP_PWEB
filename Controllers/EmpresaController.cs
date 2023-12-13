@@ -9,6 +9,7 @@ using Ficha1_P1_V1.Data;
 using Ficha1_P1_V1.Models;
 using Ficha1_P1_V1.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -223,7 +224,7 @@ namespace Ficha1_P1_V1.Controllers
 			return View(empresaInfoViewModel);
 		}
 
-
+		[Authorize(Roles = "AdminEmpresa")]
 		public async Task<IActionResult> AddUser()
         {
 			var user = await _userManager.GetUserAsync(User);
@@ -254,7 +255,8 @@ namespace Ficha1_P1_V1.Controllers
 
         }
 
-        //Gestor adiciona outro Gestor
+		//Gestor adiciona outro Gestor
+		[Authorize(Roles = "AdminEmpresa,Gestor")]
 		public async Task<IActionResult> AddUserGestor()
 		{
 			var user = await _userManager.GetUserAsync(User);
@@ -285,7 +287,8 @@ namespace Ficha1_P1_V1.Controllers
 
 		}
 
-		//Gestor adiciona Funcionario
+        //Gestor adiciona Funcionario
+        [Authorize(Roles = "AdminEmpresa,Gestor")]
 		public async Task<IActionResult> AddUserFuncionario()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -318,24 +321,25 @@ namespace Ficha1_P1_V1.Controllers
         }
 
 
-            public IActionResult AddUserEmpresa()
-            {
-                return View();
-            }
+        public IActionResult AddUserEmpresa()
+        {
+            return View();
+        }
 
-            [HttpPost]
-			public async Task<IActionResult> AddUserEmpresa(string RoleName, string email)
-            {
+        [HttpPost]
+		[Authorize(Roles = "AdminEmpresa,Gestor")]
+		public async Task<IActionResult> AddUserEmpresa(string RoleName, string email)
+        {
             var user = await _userManager.FindByIdAsync(email);
             if (user != null && RoleName != null)
             {
                 await _userManager.AddToRoleAsync(user, RoleName);
             }
-			    //return RedirectToAction("ListaEmpresa", new { id = user.empresaId });
-			    return RedirectToAction(nameof(ListaEmpresaGestor));
-		    }
+		    //return RedirectToAction("ListaEmpresa", new { id = user.empresaId });
+		    return RedirectToAction(nameof(ListaEmpresaGestor));
+		}
 
-
+		[Authorize(Roles = "AdminEmpresa,Gestor")]
 		public async Task<IActionResult> EditFuncionario(string id)
 		{
 			if (id == null)
@@ -356,6 +360,7 @@ namespace Ficha1_P1_V1.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "AdminEmpresa,Gestor")]
 		public async Task<IActionResult> EditFuncionario(string id, [Bind("Id,PrimeiroNome,UltimoNome,PhoneNumber,pertenceAlocadorId")] ApplicationUser user)
 		{
 			if (id != user.Id)
@@ -429,7 +434,9 @@ namespace Ficha1_P1_V1.Controllers
 
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<IActionResult> EditWorker(string id, [Bind("Id,PrimeiroNome,UltimoNome,PhoneNumber")] ApplicationUser user)
+		[Authorize(Roles = "AdminEmpresa,Gestor")]
+
+		public async Task<IActionResult> EditWorker(string id, [Bind("Id,PrimeiroNome,UltimoNome,PhoneNumber")] ApplicationUser user)
             {
                 if (id != user.Id)
                 {
@@ -502,6 +509,7 @@ namespace Ficha1_P1_V1.Controllers
 
 		}
 
+		[Authorize(Roles = "AdminEmpresa")]
 		public async Task<IActionResult> DeleteFuncionario(string id)
 		{
 			if (id == null)
@@ -530,6 +538,7 @@ namespace Ficha1_P1_V1.Controllers
 
 		}
 
+		[Authorize(Roles = "AdminEmpresa")]
 		public async Task<IActionResult> AtivaDesativa(string id)
 		{
 			if (id == null)

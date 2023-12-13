@@ -27,10 +27,21 @@ namespace Ficha1_P1_V1.Controllers
             _userManager = userManager;
         }
 
-        // GET: Habitacao
-        public async Task<IActionResult> Index()
+		private async Task<List<ApplicationUser>> ObterLocadoresAsync()
+		{
+			var usersWithRoles = await _userManager.GetUsersInRoleAsync("AdminEmpresa");
+			var distinctUsers = usersWithRoles.Distinct().ToList();
+
+			return distinctUsers;
+		}
+
+		// GET: Habitacao
+		public async Task<IActionResult> Index()
         {
 	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+			var locadores = await ObterLocadoresAsync();
+			ViewData["ListaDeLocadores"] = new SelectList(locadores, "Id", "Email");
 
 			return View(await _context.Habitacao.ToListAsync());
         }
@@ -86,9 +97,9 @@ namespace Ficha1_P1_V1.Controllers
             return View(habitacao);
         }
 
-        // GET: Habitacao/Create
-        //[Authorize(Roles = "Funcionario,Gestor")]
-        public IActionResult Create()
+		// GET: Habitacao/Create
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+		public IActionResult Create()
         {
 	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
 
@@ -100,8 +111,8 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,CategoriaId,Descricao")] Habitacao habitacao)
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+		public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,CategoriaId,Descricao")] Habitacao habitacao)
         {
 	        ModelState.Remove(nameof(Habitacao.Categoria));
 
@@ -140,8 +151,9 @@ namespace Ficha1_P1_V1.Controllers
 			return View(habitacao);
         }
 
-        // GET: Habitacao/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+		// GET: Habitacao/Edit/5
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+		public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Habitacao == null)
             {
@@ -173,8 +185,8 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao,estado,reservado")] Habitacao habitacao)
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao,estado,reservado")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
             {
@@ -217,9 +229,9 @@ namespace Ficha1_P1_V1.Controllers
 			return View(habitacao);
         }
 
-        // GET: Habitacao/Delete/5
-        //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Delete(int? id)
+		// GET: Habitacao/Delete/5
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+		public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Habitacao == null)
             {
@@ -239,8 +251,8 @@ namespace Ficha1_P1_V1.Controllers
         // POST: Habitacao/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+		public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Habitacao == null)
             {
@@ -269,7 +281,8 @@ namespace Ficha1_P1_V1.Controllers
           return (_context.Habitacao?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        public async Task<IActionResult> AtivaDesativa(string id)
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+		public async Task<IActionResult> AtivaDesativa(string id)
         {
             if (id == null)
             {

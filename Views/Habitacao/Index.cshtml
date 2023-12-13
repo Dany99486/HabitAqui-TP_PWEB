@@ -5,11 +5,14 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<h1>Inicio</h1>
-
-<p>
-	<a class="btn btn-primary" asp-action="Create">Criar nova Habitação</a>
-</p>
+<h1>Habitações</h1>
+@if(User.Identity.IsAuthenticated &&
+			(User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+{
+	<p>
+		<a class="btn btn-primary" asp-action="Create">Criar nova Habitação</a>
+	</p>
+}
 <table class="table table-bordered table-striped table-hover">
     <thead>
     <tr>
@@ -48,9 +51,17 @@
 				@if (User.IsInRole("AdminEmpresa"))
 				{
 					<td>
-						<a class="btn btn-primary"  asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+						@if (User.Identity.IsAuthenticated &&
+								(User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+						{
+							<a class="btn btn-primary"  asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+						} |
 						<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-						<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+						@if (User.Identity.IsAuthenticated &&
+								(User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+						{
+							<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+						}
 					</td>
 				}
 			</tr>

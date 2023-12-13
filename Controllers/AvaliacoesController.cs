@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ficha1_P1_V1.Data;
 using Ficha1_P1_V1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ficha1_P1_V1.Controllers
 {
@@ -19,8 +20,9 @@ namespace Ficha1_P1_V1.Controllers
             _context = context;
         }
 
-        // GET: Avaliacaos
-        public async Task<IActionResult> Index()
+		// GET: Avaliacaos
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		public async Task<IActionResult> Index()
         {
             /*var applicationDbContext = _context.Avaliacao.Include(a => a.Arrendamento);
             return View(await applicationDbContext.ToListAsync());*/
@@ -29,8 +31,9 @@ namespace Ficha1_P1_V1.Controllers
              Problem("Entity set 'ApplicationDbContext.Habitacao'  is null.");
         }
 
-        // GET: Avaliacaos/Details/5
-        public async Task<IActionResult> Details(int? id)
+		// GET: Avaliacaos/Details/5
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Avaliacao == null)
             {
@@ -48,8 +51,9 @@ namespace Ficha1_P1_V1.Controllers
             return View(avaliacao);
         }
 
-        // GET: Avaliacaos/Create
-        public IActionResult? Create()
+		// GET: Avaliacaos/Create
+		[Authorize(Roles = "Cliente")]
+		public IActionResult? Create()
         {
             ViewData["ArrendamentoId"] = new SelectList(_context.Arrendamento, "Id", "Id");
             return View();
@@ -60,7 +64,8 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Classificacao,Comentario,ArrendamentoId")] Avaliacao avaliacao)
+		[Authorize(Roles = "Cliente")]
+		public async Task<IActionResult> Create([Bind("Id,Classificacao,Comentario,ArrendamentoId")] Avaliacao avaliacao)
         {
             if (ModelState.IsValid)
             {
@@ -76,8 +81,9 @@ namespace Ficha1_P1_V1.Controllers
             return View(avaliacao);
         }
 
-        // GET: Avaliacaos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+		// GET: Avaliacaos/Edit/5
+		[Authorize(Roles = "Cliente")]
+		public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Avaliacao == null)
             {
@@ -98,7 +104,8 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Classificacao,Comentario,ArrendamentoId")] Avaliacao avaliacao)
+		[Authorize(Roles = "Cliente")]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Classificacao,Comentario,ArrendamentoId")] Avaliacao avaliacao)
         {
             if (id != avaliacao.Id)
             {
@@ -129,8 +136,9 @@ namespace Ficha1_P1_V1.Controllers
             return View(avaliacao);
         }
 
-        // GET: Avaliacaos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+		// GET: Avaliacaos/Delete/5
+		//[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Avaliacao == null)
             {
@@ -151,6 +159,7 @@ namespace Ficha1_P1_V1.Controllers
         // POST: Avaliacaos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Avaliacao == null)
