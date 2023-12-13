@@ -154,7 +154,7 @@ namespace Ficha1_P1_V1.Controllers
 
             var arrendamento = await _context.Arrendamento
                 .Include(a => a.habitacao)
-                //.Include(a => a.locador)
+                .Include(a => a.locador)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (arrendamento == null)
             {

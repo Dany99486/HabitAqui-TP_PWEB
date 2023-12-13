@@ -12,6 +12,15 @@
 	<p>
 		<a asp-action="Create" class="btn btn-primary">Arrendar</a>
 	</p>
+	<p>
+		<a asp-action="GerirArrendamentos" class="btn btn-primary">Gerir Arrendamentos</a>
+	</p>
+}
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Cliente")))
+{
+	<p>
+		<a asp-action="MeusArrendamentos" class="btn btn-primary">Meus Arrendamentos</a>
+	</p>
 }
 <hr/>
 <h4>Filtros:</h4>
@@ -145,7 +154,11 @@
 			@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
 			{
 		        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Apagar</a>
-	        }
+			} |
+			@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
+			{
+				<a asp-action="Arrendar" asp-route-id="@item.Id" class="btn btn-primary">Arrendar</a>
+			}
 	        </td>
         </tr>
 }

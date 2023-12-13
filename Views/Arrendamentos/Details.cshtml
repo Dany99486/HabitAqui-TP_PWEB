@@ -47,9 +47,25 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.habitacao.Id)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.locador.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.locador.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.locador.LocadorAvaliacao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.locador.LocadorAvaliacao)
+        </dd>
     </dl>
 </div>
 <div>
     <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
-    <a class="btn btn-primary" asp-action="Index">Voltar</a>
+    <a class="btn btn-primary" asp-action="Index">Voltar</a> |
+    @if(User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
+    {
+        <a class="btn btn-primary" asp-action="Arrendar">Arrendar</a>
+    }
 </div>
