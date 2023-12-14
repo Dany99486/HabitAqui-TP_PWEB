@@ -19,22 +19,61 @@
             <div class="col">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
-
-                        
-                            <h4 class="my-0 fw-normal">
-	                            @Html.DisplayFor(model=>c.locador.PrimeiroNome )----
-                            </h4>
-                        
-
+                        <h4 class="my-0 fw-normal">
+	                        @Html.DisplayFor(model=>c.locador.PrimeiroNome)
+                        </h4>
                     </div>
                     <div class="card-body">
 	                    <h1 class="card-title pricing-card-title">
 		                    € @c.Preco<small class="text-muted fw-light"></small>
-	                    </h1>
+                        </h1>
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.locador)
+                        </h4>
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.locador)
+                        </h4>
+                        @if (c.habitacao.ReservadoCliente != null) {
+                            <h4 class="my-0 fw-normal">
+                                @Html.DisplayNameFor(model => c.habitacao.ReservadoCliente.PrimeiroNome)
+                            </h4>
+                            <h4 class="my-0 fw-normal">
+                                @Html.DisplayFor(model => c.habitacao.ReservadoCliente.PrimeiroNome)
+                            </h4>
+                        }
+                        else
+                        {
+                            <h4 class="my-0 fw-normal">
+                                Reservado a nenhum cliente
+                            </h4>
+                            <h4 class="my-0 fw-normal">
+                                Sem reserva
+                            </h4>
+                        }
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.PeriodoMinimo)
+                        </h4>
 	                    <h4 class="my-0 fw-normal">
 		                    @Html.DisplayFor(model=>c.PeriodoMinimo) dias
 	                    </h4>
-                        
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.habitacao.Categoria)
+                        </h4>
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model=>c.habitacao.Categoria)
+                        </h4>
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.DataInicio)
+                        </h4>
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.DataInicio)
+                        </h4>
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.DataFim)
+                        </h4>
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.DataFim)
+                        </h4>
 
                         <a asp-controller="Arrendamentos" asp-action="Details" asp-route-id="@c.Id"
                            class="w-100 btn btn-lg btn-outline-primary">Saber mais</a>

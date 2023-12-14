@@ -121,12 +121,36 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.Property<bool>("Aceite")
                         .HasColumnType("bit");
 
+                    b.Property<string>("DanosHabitacao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DanosHabitacaoC")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("DataFim")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DataInicio")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("EquipamentosOpcionais")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EquipamentosOpcionaisC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoEntregue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoRecebido")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Observacoes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ObservacoesC")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PeriodoMaximo")
                         .HasColumnType("int");
@@ -251,7 +275,6 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("EstadoHabitacao")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FuncionarioDaHabitacaoId")
@@ -264,8 +287,14 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("QuererReserva")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Reservado")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ReservadoClienteId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
@@ -273,6 +302,8 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
+
+                    b.HasIndex("ReservadoClienteId");
 
                     b.ToTable("Habitacao");
                 });
@@ -450,7 +481,13 @@ namespace Ficha1_P1_V1.Data.Migrations
                         .WithMany("Habitacao")
                         .HasForeignKey("CategoriaId");
 
+                    b.HasOne("Ficha1_P1_V1.Models.ApplicationUser", "ReservadoCliente")
+                        .WithMany()
+                        .HasForeignKey("ReservadoClienteId");
+
                     b.Navigation("Categoria");
+
+                    b.Navigation("ReservadoCliente");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

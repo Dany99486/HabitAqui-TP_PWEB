@@ -23,19 +23,25 @@ namespace Ficha1_P1_V1.Models
         [Display(Name = "Empresa ID")]
         public int EmpresaId { get; set; }
 
+        [Display(Name = "Estado")]
+        public bool Estado { get; set; } //ativo ou nao
+
         [Display(Name = "Gerido pelo Funcionário")]
         public string? FuncionarioDaHabitacaoId { get; set; }
 
         [Display(Name = "Gerido pelo Gestor")]
         public string? GestorDaHabitacaoId { get; set; }
 
-        [Display(Name = "Estado")]
-        public bool Estado { get; set; } //Nao é o estado da habitacao
+        [Display(Name = "Pedido de Reserva")]
+        public bool QuererReserva { get; set; }
 
         [Display(Name = "Estado da habitação")]
         public string? EstadoHabitacao { get; set; }
 
         [Display(Name = "Reservado")]
         public bool Reservado { get; set; }
+
+        [Display(Name = "Reservado a")]
+        public ApplicationUser? ReservadoCliente { get; set; }
     }
 }
