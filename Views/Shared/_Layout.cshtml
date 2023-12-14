@@ -83,6 +83,31 @@
                                         </ul>
                                     </li>
                                 }
+                                @if (User.IsInRole("Gestor") || User.IsInRole("Funcionario"))
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                            Gerir Arrendamentos
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" asp-controller="Arrendamento" asp-action="ReservaAceita">Aceita / Recusa</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Arrendamento" asp-action="Pesquisa">Pesquisas</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (User.IsInRole("Cliente"))
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                            Ver e gerir arrendamentos
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" asp-controller="Arrendamento" asp-action="ReservarCliente">Fazer reserva</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Arrendamento" asp-action="MeusArrendamentos">Meus arrendamentos</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Arrendamento" asp-action="EntregaCliente">Entregar reserva</a></li>
+                                        </ul>
+                                    </li>
+                                }
                             </ul>
                             <partial name="_LoginPartial" />
                         </div>

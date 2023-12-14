@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Ficha1_P1_V1.Models.Arrendamento>
+
+@{
+	ViewData["Title"] = "EntregaHabitacao";
+	Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Definir estado atual da reserva a ser entregue ao cliente</h1>
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+{
+	<hr />
+	<h4>Campos de informação para detalhes:</h4>
+	<div>
+		<div class="col-30">
+			<form method="post" asp-action="AceitarReserva">
+				<div class="col-md-7">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="EstadoRecebido">Estado da Habitação no momento de entrega:</label>
+								<textarea id="EstadoEntregue" name="EstadoEntregue" rows="2" cols="50"></textarea>
+								<span class="text-danger"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="EquipamentosOpcionaisC">Equipamentos Opcionais no momento da entrega:</label>
+								<textarea id="EquipamentosOpcionaisC" name="EquipamentosOpcionaisC" rows="2" cols="50"></textarea>
+								<span class="text-danger"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="DanosHabitacaoC">Danos da Habitação no momento de entrega:</label>
+								<textarea id="DanosHabitacaoC" name="DanosHabitacaoC" rows="2" cols="50"></textarea>
+								<span class="text-danger"></span>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="ObservacoesC">Observações a colocar:</label>
+								<textarea id="ObservacoesC" name="ObservacoesC" rows="4" cols="50"></textarea>
+								<span class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group mt-4">
+							<input type="submit" value="EntregaCliente" class="btn btn-primary" />
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<hr />
+}
+else
+{
+	<p>Não pode aceder a esta página</p>
+}
+<div>
+	<a class="btn btn-primary" asp-action="Index">Voltar</a>
+</div>
+<br />

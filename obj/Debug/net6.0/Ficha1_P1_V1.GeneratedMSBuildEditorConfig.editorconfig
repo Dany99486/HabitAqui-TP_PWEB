@@ -54,6 +54,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/AceitarReserva.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xBY2VpdGFyUmVzZXJ2YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -74,6 +78,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/EntregaCliente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xFbnRyZWdhQ2xpZW50ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -82,8 +90,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xJbnNlcmlyQXZhbGlhY2FvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/MeusArrendamentos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xNZXVzQXJyZW5kYW1lbnRvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/Pesquisa.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xQZXNxdWlzYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/ReservaAceita.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xSZXNlcnZhQWNlaXRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Arrendamentos/ReservarCliente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xSZXNlcnZhckNsaWVudGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ISEC/3_ano/PWEB/TrabalhoPratico/HabitAqui-TP_PWEB/Views/Avaliacoes/Create.cshtml]

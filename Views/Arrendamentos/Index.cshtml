@@ -12,9 +12,6 @@
 	<p>
 		<a asp-action="Create" class="btn btn-primary">Novo Arrendamento</a>
 	</p>
-	<p>
-		<a asp-action="GerirArrendamentos" class="btn btn-primary">Gerir Arrendamentos</a>
-	</p>
 }
 @if (User.Identity.IsAuthenticated && (User.IsInRole("Cliente")))
 {

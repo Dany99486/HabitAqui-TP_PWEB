@@ -174,7 +174,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasIndex("locadorId");
 
-                    b.ToTable("Arrendamento");
+                    b.ToTable("Arrendamento", (string)null);
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Avaliacao", b =>
@@ -199,7 +199,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasIndex("ArrendamentoId");
 
-                    b.ToTable("Avaliacao");
+                    b.ToTable("Avaliacao", (string)null);
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Categoria", b =>
@@ -219,7 +219,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categoria", (string)null);
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Empresa", b =>
@@ -251,7 +251,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasKey("EmpresaId");
 
-                    b.ToTable("Empresa");
+                    b.ToTable("Empresa", (string)null);
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Habitacao", b =>
@@ -305,7 +305,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasIndex("ReservadoClienteId");
 
-                    b.ToTable("Habitacao");
+                    b.ToTable("Habitacao", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

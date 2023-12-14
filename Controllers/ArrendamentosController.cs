@@ -308,6 +308,34 @@ namespace Ficha1_P1_V1.Controllers
           return (_context.Arrendamento?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
+
+        public async Task<IActionResult> MeusArrendamentos()
+        {
+			ViewData["MyHabitacoes"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)).ToList(), "Id", "Nome");
+
+            var arrendamentos = _context.Arrendamento
+                .Include(a => a.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync))
+                .OrderByDescending(c => c.DataInicio);
+
+			return View(await arrendamentos.ToListAsync());
+		}
+
+        public async Task<IActionResult> ReservarCliente()
+        {
+            ViewData["ListaHabitacoesSemReserva"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado == false).ToList(), "Id", "Nome");
+
+            var arrendamentos = _context.Arrendamento
+                .Include(a => a.habitacao)
+                .Include(a => a.locador)
+                .Include(a => a.habitacao.Reservado == false)
+                .OrderByDescending(c => c.DataInicio);
+
+            var locadores = await ObterLocadoresAsync();
+            ViewData["ListaDeLocadores"] = new SelectList(locadores, "Id", "Email");
+
+            return View(await arrendamentos.ToListAsync());
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReservarCliente(int id)
@@ -330,7 +358,7 @@ namespace Ficha1_P1_V1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ReservaAceita()
+        public async Task<IActionResult> ReservaAceita() //Ver em Aceitar/Negar uma reserva
         {
             var arrend = _context.Arrendamento.Where(c => c.locadorId.Equals(_userManager.GetUserIdAsync) && c.habitacao.QuererReserva); //Devolve todos os arrendamentos que o locador tem e que o cliente quer reservar
             var arrendamento = await arrend.FirstOrDefaultAsync();
@@ -344,31 +372,48 @@ namespace Ficha1_P1_V1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReservaAceita(int id, bool aceita, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend)
+        public async Task<IActionResult> ReservaAceita(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend)
         {
             if (_context.Arrendamento == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
             }
             var arrendamento = await _context.Arrendamento.FindAsync(id);
-            if (arrendamento != null)
+            if (arrendamento != null && arrendamento.habitacao.QuererReserva)
             {
-                if (aceita)
-                {
-                    arrendamento.habitacao.Reservado = true;
-                    arrendamento.EstadoEntregue = arrend.EstadoEntregue;
-                    arrendamento.EquipamentosOpcionais = arrend.EquipamentosOpcionais;
-                    arrendamento.DanosHabitacao = arrend.DanosHabitacao;
-                }
-                arrendamento.Aceite = aceita;
+                arrendamento.habitacao.Reservado = true;
+                arrendamento.EstadoEntregue = arrend.EstadoEntregue;
+                arrendamento.EquipamentosOpcionais = arrend.EquipamentosOpcionais;
+                arrendamento.DanosHabitacao = arrend.DanosHabitacao;
+                arrendamento.Aceite = true;
                 _context.Arrendamento.Update(arrendamento);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        //Para recusar
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ReservaRejeitada(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend)
+		{
+			if (_context.Arrendamento == null)
+			{
+				return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
+			}
+			var arrendamento = await _context.Arrendamento.FindAsync(id);
+			if (arrendamento != null && arrendamento.habitacao.QuererReserva)
+			{
+				arrendamento.habitacao.Reservado = false;
+				arrendamento.Aceite = false;
+				_context.Arrendamento.Update(arrendamento);
+			}
 
-        [HttpPost]
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EntregaCliente(int id, [Bind("Id, EstadoRecebido, EquipamentosOpcionaisC, DanosHabitacaoC, ObservacoesC")] Arrendamento arrend)
         {

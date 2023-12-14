@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Ficha1_P1_V1.Models.Arrendamento>
+
+@{
+	ViewData["Title"] = "MeusArrendamentos";
+	Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Meus Arrendamentos</h1>
+<hr />
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.DataInicio)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DataFim)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PeriodoMinimo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PeriodoMaximo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Preco)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.habitacao)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.locador)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.DataInicio)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DataFim)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PeriodoMinimo)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PeriodoMaximo)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Preco)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.habitacao.Localizacao)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.locador.Email)
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
