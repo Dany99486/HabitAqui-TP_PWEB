@@ -377,6 +377,8 @@ namespace Ficha1_P1_V1.Controllers
 			var locadorId = await _userManager.GetUserIdAsync(user);
 			var arrendamentos = await _context.Arrendamento
                 .Include(a => a.habitacao)
+                .Include(a => a.locador)
+                .Include(a => a.habitacao.ReservadoCliente)
 				.Where(c => c.locadorId == locadorId)
 				.ToListAsync();
 
@@ -395,15 +397,21 @@ namespace Ficha1_P1_V1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReservaAceita(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend) //lado do gestor
 		{
+            if (!ModelState.IsValid)
+            {
                 if (_context.Arrendamento == null)
                 {
                     return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
                 }
-                var arrendamento = await _context.Arrendamento.FindAsync(id);
+				var arrendamento = await _context.Arrendamento
+							.Include(a => a.habitacao)
+                            .Include(a => a.locador)
+                            .Include(a => a.habitacao.ReservadoCliente)
+							.FirstOrDefaultAsync(a => a.Id == id); 
                 if (arrendamento != null && arrendamento.habitacao.QuererReserva)
                 {
-                    var habit = await _context.Habitacao.FindAsync(arrendamento.habitacaoId);
-                    if (habit != null)
+					var habit = arrendamento.habitacao;
+					if (habit != null)
                     {
                         habit.Reservado = true;
                         arrendamento.EstadoEntregue = arrend.EstadoEntregue;
@@ -416,7 +424,7 @@ namespace Ficha1_P1_V1.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-            
+            }
                 return RedirectToAction(nameof(Index));
         }
         //Para recusar
@@ -428,9 +436,14 @@ namespace Ficha1_P1_V1.Controllers
 			{
 				return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
 			}
-			var arrendamento = await _context.Arrendamento.FindAsync(id);
+			var arrendamento = await _context.Arrendamento
+						.Include(a => a.habitacao)
+						.Include(a => a.locador)
+						.Include(a => a.habitacao.ReservadoCliente)
+						.FirstOrDefaultAsync(a => a.Id == id);
 			if (arrendamento != null && arrendamento.habitacao.QuererReserva)
 			{
+                arrendamento.habitacao.QuererReserva = false;
 				arrendamento.habitacao.Reservado = false;
 				arrendamento.Aceite = false;
 				_context.Arrendamento.Update(arrendamento);
