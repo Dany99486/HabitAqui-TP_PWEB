@@ -1,0 +1,74 @@
+﻿@model Ficha1_P1_V1.ViewModels.PesquisaViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<h1>Habitações</h1>
+
+<p>@Model.NumResultados Resultado da pesquisa por "@Model.TextoAPesquisar":</p>
+
+@if (Model.NumResultados > 0)
+{
+    <p>Existe(m) @Model.NumResultados disponíveis</p>
+
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+        @foreach (Habitacao c in Model.ListaDehabitacoes)
+        {
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.Descricao)
+                        </h4>
+                    </div>
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.Descricao)
+                        </h4>
+                    </div>
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.Localizacao)
+                        </h4>
+                    </div>
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.Localizacao)
+                        </h4>
+                    </div>
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayNameFor(model => c.Tipo)
+                        </h4>
+                    </div>
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.Tipo)
+                        </h4>
+                    </div>
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.Categoria.Nome)
+                        </h4>
+                    </div>
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">
+                            @Html.DisplayFor(model => c.Categoria.Nome)
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+else
+{
+    <p class="alert alert-warning">
+        Não foi possível
+        encontrar ofertas com os dados introduzidos.
+        <br />
+        Por favor, reveja a sua pesquisa!
+    </p>
+}

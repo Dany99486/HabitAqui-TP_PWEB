@@ -62,7 +62,7 @@ namespace Ficha1_P1_V1.Controllers
                                                 || c.Tipo == Tipo
                                                 || c.Estado == estado).ToListAsync();
             ViewData["ListaDeHabitacao"] = pesquisaViewModel;
-			return View(ViewData["ListaDeHabitacao"]);
+            return View(ViewData["ListaDeHabitacao"]);
 		}
 
 		public async Task<IActionResult> ParqueIndex()
@@ -74,6 +74,34 @@ namespace Ficha1_P1_V1.Controllers
                 ViewData["Lista"] = await _context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToListAsync();
             else
                 ViewData["Lista"] = await _context.Habitacao.ToListAsync();
+
+			return View(/*await _context.Habitacao.ToListAsync()*/ ViewData["Lista"]);
+		}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+		public async Task<IActionResult> ParqueIndexPesquisa(TipoHabitacao? Tipo, string? Categoria, string? OrderByAct)
+		{
+			var user = await _userManager.GetUserAsync(User);
+			bool estado = false;
+
+			if (OrderByAct != null && OrderByAct.Equals("Ativo"))
+				estado = true;
+
+			if (User.IsInRole("Funcionario"))
+				ViewData["Lista"] = await _context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id
+                                        && (c.Categoria.Nome.ToLower() == Categoria.ToLower()
+												|| c.Tipo == Tipo
+												|| c.Estado == estado)).ToListAsync();
+			else if (User.IsInRole("Gestor"))
+				ViewData["Lista"] = await _context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id
+										&& (c.Categoria.Nome.ToLower() == Categoria.ToLower()
+												|| c.Tipo == Tipo
+												|| c.Estado == estado)).ToListAsync();
+			else
+				ViewData["Lista"] = await _context.Habitacao.Where(c => c.Categoria.Nome.ToLower() == Categoria.ToLower()
+												|| c.Tipo == Tipo
+												|| c.Estado == estado).ToListAsync();
 
 			return View(/*await _context.Habitacao.ToListAsync()*/ ViewData["Lista"]);
 		}

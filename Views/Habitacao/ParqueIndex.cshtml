@@ -14,7 +14,7 @@
 <h4>Filtros:</h4>
 <div>
 	<div class="col-30">
-		<form method="post">
+		<form method="post" asp-action="ParqueIndexPesquisa">
 			<div class="col-md-7">
 				<div class="row">
 					<div class="col-md-4">
@@ -52,7 +52,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group mt-4">
-						<input type="submit" value="Pesquisar" class="btn btn-primary" />
+						<input type="submit" value="Pesquisar" class="btn btn-primary"/>
 					</div>
 				</div>
 			</div>
@@ -62,65 +62,65 @@
 	</div>
 </div>
 <hr />
-<table class="table table-bordered table-striped table-hover">
-    <thead>
-    <tr>
-	    <th>
-		    @Html.DisplayNameFor(model => model.Descricao)
-	    </th>
-	    <th>
-		    @Html.DisplayNameFor(model => model.Localizacao)
-	    </th>
-	    <th>
-		    @Html.DisplayNameFor(model => model.Tipo)
-	    </th>
-	    <th>
-		    @Html.DisplayNameFor(model => model.Categoria.Nome)
-	    </th>
+	<table class="table table-bordered table-striped table-hover">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.Descricao)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Localizacao)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Tipo)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Categoria.Nome)
+				</th>
 
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Descricao)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Localizacao)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Tipo)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Categoria.Nome)
+					</td>
 
-	    <th></th>
-    </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-	<tr>
-		<td>
-			@Html.DisplayFor(modelItem => item.Descricao)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.Localizacao)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.Tipo)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.Categoria.Nome)
-		</td>
-
-		@if(User.IsInRole("Gestor") || User.IsInRole("Funcionario"))
-		{
-		<td>
-				<a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-				<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-				<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
-					@if (item.Estado)
-                    {
-                        <text>Inativar</text>
-                    }
-                    else
-                    {
-                        <text>Ativar</text>
-                    }
-				</a>
-				@if (!item.Reservado)
-				{
-					<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
-				}
-		</td>
-		}
-	</tr>
-}
-    </tbody>
+					@if (User.IsInRole("Gestor") || User.IsInRole("Funcionario"))
+					{
+						<td>
+							<a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+							<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+							<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
+								@if (item.Estado)
+								{
+									<text>Inativar</text>
+								}
+								else
+								{
+									<text>Ativar</text>
+								}
+							</a>
+							@if (!item.Reservado)
+							{
+								<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+							}
+						</td>
+					}
+				</tr>
+			}
+		</tbody>
 </table>
 <br />

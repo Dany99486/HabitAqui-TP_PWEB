@@ -27,14 +27,16 @@ namespace Ficha1_P1_V1.Controllers
         }
 		private async Task<List<ApplicationUser>> ObterLocadoresAsync()
 		{
-			var usersWithRoles = await _userManager.GetUsersInRoleAsync("Gestor"); //AdminEmpresa
-			var distinctUsers = usersWithRoles.Distinct().ToList();
+			var gestores = await _userManager.GetUsersInRoleAsync("Gestor");
+			var adminEmpresas = await _userManager.GetUsersInRoleAsync("AdminEmpresa");
 
-			return distinctUsers;
+			var locadores = gestores.Union(adminEmpresas).Distinct().ToList();
+
+			return locadores;
 		}
 
 		// GET: Arrendamentos
-        [Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Index()
 		{
 			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
@@ -309,7 +311,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
 
-        public async Task<IActionResult> MeusArrendamentos()
+        public async Task<IActionResult> MeusArrendamentos() //lado do cliente
         {
 			ViewData["MyHabitacoes"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)).ToList(), "Id", "Nome");
 
@@ -320,7 +322,7 @@ namespace Ficha1_P1_V1.Controllers
 			return View(await arrendamentos.ToListAsync());
 		}
 
-        public async Task<IActionResult> ReservarCliente()
+        public async Task<IActionResult> ReservarCliente()  //Lado do gestor
         {
             ViewData["ListaHabitacoesSemReserva"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado == false).ToList(), "Id", "Nome");
 
@@ -338,7 +340,7 @@ namespace Ficha1_P1_V1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReservarCliente(int id)
+        public async Task<IActionResult> ReservarCliente(int id) //lado do cliente
         {
             if (_context.Arrendamento == null)
             {
@@ -358,7 +360,7 @@ namespace Ficha1_P1_V1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ReservaAceita() //Ver em Aceitar/Negar uma reserva
+        public async Task<IActionResult> ReservaAceita() //Ver em Aceitar/Negar uma reserva, lado do gestor
         {
             var arrend = _context.Arrendamento.Where(c => c.locadorId.Equals(_userManager.GetUserIdAsync) && c.habitacao.QuererReserva); //Devolve todos os arrendamentos que o locador tem e que o cliente quer reservar
             var arrendamento = await arrend.FirstOrDefaultAsync();
@@ -375,7 +377,7 @@ namespace Ficha1_P1_V1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReservaAceita(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend)
+        public async Task<IActionResult> ReservaAceita(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend) //lado do gestor
         {
             if (_context.Arrendamento == null)
             {
@@ -398,7 +400,7 @@ namespace Ficha1_P1_V1.Controllers
         //Para recusar
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> ReservaRejeitada(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend)
+		public async Task<IActionResult> ReservaRejeitada(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend) //lado do gestor
 		{
 			if (_context.Arrendamento == null)
 			{
@@ -416,7 +418,7 @@ namespace Ficha1_P1_V1.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-        public async Task<IActionResult> EntregaDoCliente()
+        public async Task<IActionResult> EntregaDoCliente()  //lado do gestor
         {
 			//ViewData["habitacaoEntregue"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado == true && c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)).ToList(), "Id", "Nome");
 			ViewData["habitacaoEntregue"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado == true && c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)).ToList(), "Id", "Nome");
@@ -425,7 +427,7 @@ namespace Ficha1_P1_V1.Controllers
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EntregaDoCliente(int id, [Bind("Id, EstadoRecebido, EquipamentosOpcionaisC, DanosHabitacaoC, ObservacoesC")] Arrendamento arrend)
+        public async Task<IActionResult> EntregaDoCliente(int id, [Bind("Id, EstadoRecebido, EquipamentosOpcionaisC, DanosHabitacaoC, ObservacoesC")] Arrendamento arrend) //lado do gestor
         {
             if (id != arrend.Id)
             {
