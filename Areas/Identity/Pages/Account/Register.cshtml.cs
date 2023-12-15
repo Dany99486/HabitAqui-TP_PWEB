@@ -132,6 +132,8 @@ namespace Ficha1_P1_V1.Areas.Identity.Pages.Account
                 //user.LocadorAvaliacao=Input.LocadorAvaliacao;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                if (result.Succeeded)
+                    await _userManager.AddToRoleAsync(user, "Cliente");
 
                 if (result.Succeeded)
                 {

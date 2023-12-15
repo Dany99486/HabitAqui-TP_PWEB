@@ -29,7 +29,9 @@
                 <label asp-for="ArrendamentoId" class="control-label"></label>
                 @if (ViewBag.ArrendamentoId != null)
                 {
-                    <select asp-for="ArrendamentoId" class="form-control" asp-items="ViewBag.ArrendamentoId"></select>
+                    <select asp-for="ArrendamentoId" class="form-control" asp-items="ViewBag.ArrendamentoId">
+                        <option value="">Selecione o arrendamento</option>
+                    </select>
                 }
                 else
                 {

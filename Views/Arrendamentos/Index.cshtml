@@ -154,7 +154,7 @@
 			} |
 			@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
 			{
-				<a asp-action="Arrendar" asp-route-id="@item.Id" class="btn btn-primary">Arrendar</a>
+				<a asp-action="ReservarCliente" asp-route-id="@item.Id" class="btn btn-primary">Arrendar</a>
 			}
 	        </td>
         </tr>

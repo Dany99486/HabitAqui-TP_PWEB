@@ -193,10 +193,9 @@ namespace Ficha1_P1_V1.Controllers
           return (_context.Empresa?.Any(e => e.EmpresaId == id)).GetValueOrDefault();
         }
 
+		//Admin Empresa
 
-        //Admin Empresa
-
-        public async Task<IActionResult> ListaEmpresa()
+		public async Task<IActionResult> ListaEmpresa()
         {   
 	        var user = await _userManager.GetUserAsync(User);
 	        if (user == null)

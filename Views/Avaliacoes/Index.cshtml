@@ -7,9 +7,12 @@
 
 <h1>Avaliação</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Nova avaliação</a>
-</p>
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Cliente")))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Nova avaliação</a>
+    </p>
+}
 
 <h4>Filtros:</h4>
 <div>

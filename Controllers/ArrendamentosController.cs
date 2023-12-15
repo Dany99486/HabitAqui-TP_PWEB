@@ -20,7 +20,7 @@ namespace Ficha1_P1_V1.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ArrendamentosController(ApplicationDbContext context,UserManager<ApplicationUser>userManager)
+        public ArrendamentosController(ApplicationDbContext context, UserManager<ApplicationUser>userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -314,7 +314,7 @@ namespace Ficha1_P1_V1.Controllers
 			ViewData["MyHabitacoes"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)).ToList(), "Id", "Nome");
 
             var arrendamentos = _context.Arrendamento
-                .Include(a => a.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync))
+                .Where(a => a.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync))
                 .OrderByDescending(c => c.DataInicio);
 
 			return View(await arrendamentos.ToListAsync());
@@ -327,7 +327,7 @@ namespace Ficha1_P1_V1.Controllers
             var arrendamentos = _context.Arrendamento
                 .Include(a => a.habitacao)
                 .Include(a => a.locador)
-                .Include(a => a.habitacao.Reservado == false)
+                .Where(a => a.habitacao.Reservado == false)
                 .OrderByDescending(c => c.DataInicio);
 
             var locadores = await ObterLocadoresAsync();
@@ -365,10 +365,13 @@ namespace Ficha1_P1_V1.Controllers
             if (arrendamento != null)
             {
                 ViewData["habitacoesAPedirReserva"] = new SelectList(_context.Arrendamento, "Id", "Habitacao", arrendamento);
-                return View(arrendamento);
-            } else
-                return RedirectToAction(nameof(Index));
-        }
+				return View(arrendamento);
+			}
+            else
+            {
+                return View();
+            }
+		}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -413,9 +416,16 @@ namespace Ficha1_P1_V1.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
+        public async Task<IActionResult> EntregaDoCliente()
+        {
+			//ViewData["habitacaoEntregue"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado == true && c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)).ToList(), "Id", "Nome");
+			ViewData["habitacaoEntregue"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado == true && c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)).ToList(), "Id", "Nome");
+			return View();
+        }
+
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EntregaCliente(int id, [Bind("Id, EstadoRecebido, EquipamentosOpcionaisC, DanosHabitacaoC, ObservacoesC")] Arrendamento arrend)
+        public async Task<IActionResult> EntregaDoCliente(int id, [Bind("Id, EstadoRecebido, EquipamentosOpcionaisC, DanosHabitacaoC, ObservacoesC")] Arrendamento arrend)
         {
             if (id != arrend.Id)
             {
@@ -425,7 +435,7 @@ namespace Ficha1_P1_V1.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
             }
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && arrend.EstadoRecebido != null)
             {
                 try
                 {
@@ -458,7 +468,7 @@ namespace Ficha1_P1_V1.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["habitacaoEntregue"] = new SelectList(_context.Habitacao, "Id", "Descricao", arrend.habitacaoId);
-            return View(arrend);
+            return View(nameof(Index));
         }
     }
 }

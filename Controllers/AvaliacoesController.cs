@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using Ficha1_P1_V1.Data;
 using Ficha1_P1_V1.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Ficha1_P1_V1.Controllers
 {
     public class AvaliacoesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AvaliacoesController(ApplicationDbContext context)
+        public AvaliacoesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
 		// GET: Avaliacaos
@@ -28,7 +31,7 @@ namespace Ficha1_P1_V1.Controllers
             return View(await applicationDbContext.ToListAsync());*/
             return _context.Avaliacao != null ?
              View(await _context.Avaliacao.ToListAsync()) :
-             Problem("Entity set 'ApplicationDbContext.Habitacao'  is null.");
+             Problem("Entity set 'ApplicationDbContext.Habitacao' is null.");
         }
 
 		// GET: Avaliacaos/Details/5
@@ -55,7 +58,7 @@ namespace Ficha1_P1_V1.Controllers
 		[Authorize(Roles = "Cliente")]
 		public IActionResult? Create()
         {
-            ViewData["ArrendamentoId"] = new SelectList(_context.Arrendamento, "Id", "Id");
+            ViewData["ArrendamentoId"] = new SelectList(_context.Arrendamento.Where(c=>c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)), "Id", "ArrendamentoId");
             return View();
         }
 

@@ -1,4 +1,5 @@
-﻿@model Ficha1_P1_V1.ViewModels.GestorInfoViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model Ficha1_P1_V1.ViewModels.GestorInfoViewModel
 
 @{
 	ViewData["Title"] = "Lista Empresa";
@@ -49,13 +50,16 @@
 			<th>
 				NIF
 			</th>
-			<th></th>
+			<th>
+				Ações
+			</th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var item in Model.Funcionarios)
 		{
-			if (item.Arrendamentos != null) {
+			if (item.Arrendamentos != null)
+			{
 			if (item.Arrendamentos.Count > 0)
 			{
 				<tr>
@@ -65,13 +69,22 @@
 					<td>
 						@Html.DisplayFor(modelItem => item.NIF)
 					</td>
-					<td class="col-3 ">
+					<td class="col-4">
 						<a class="btn btn-primary " asp-action="EditFuncionario" asp-route-id="@item.Id">Editar</a> |
 						<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
 							Ativar/Desativar
 						</a> |
 						<a class="btn btn-danger" asp-action="DeleteFuncionario" asp-route-id="@item.Id"
-						onclick="return confirm('Tem a certeza que deseja apagar este funcionário?')">Apagar</a>
+						onclick="return confirm('Tem a certeza que deseja apagar este funcionário?')">Apagar</a> |
+						@{
+						@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+						var user = await UserManager.FindByIdAsync(item.Id);
+						var roles = await UserManager.GetRolesAsync(user);
+						foreach (var role in roles)
+						{
+							<span>@role</span>
+						}
+						}
 					</td>
 				</tr>
 			}
@@ -84,16 +97,26 @@
 					<td>
 						@Html.DisplayFor(modelItem => item.NIF)
 					</td>
-					<td class="col-3 ">
+					<td class="col-4">
 						<a class="btn btn-primary " asp-action="EditFuncionario" asp-route-id="@item.Id">Editar</a> |
 						<a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
 							Ativar/Desativar
-						</a>
+						</a> |
+						@{
+						@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+						var user = await UserManager.FindByIdAsync(item.Id);
+						var roles = await UserManager.GetRolesAsync(user);
+						foreach (var role in roles)
+						{
+							<span>@role</span>
+						}
+						}
 					</td>
 
 					</tr>
 				}
-			} else
+			}
+			else
 			{
 				<tr>
                     <td>
@@ -102,13 +125,21 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.NIF)
                     </td>
-                    <td class="col-3 ">
+                    <td class="col-4">
                         <a class="btn btn-primary " asp-action="EditFuncionario" asp-route-id="@item.Id">Editar</a> |
                         <a class="btn btn-primary" asp-action="AtivaDesativa" asp-route-id="@item.Id">
                             Ativar/Desativar
-                        </a>
+                        </a> |
+						@{
+						@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
+						var user = await UserManager.FindByIdAsync(item.Id);
+						var roles = await UserManager.GetRolesAsync(user);
+						foreach (var role in roles)
+						{
+							<span>@role</span>
+						}
+						}
                     </td>
-
                 </tr>
 			}
 		}

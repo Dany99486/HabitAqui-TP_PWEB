@@ -12,75 +12,100 @@
 		<a asp-action="MeusArrendamentos" class="btn btn-primary">Meus Arrendamentos</a>
 	</p>
 }
-<hr />
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.DataInicio)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.DataFim)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.PeriodoMinimo)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.PeriodoMaximo)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Preco)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.habitacao)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.locador)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Avaliacao)
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			if (!item.Aceite && item.habitacao.QuererReserva)
+@if (Model != null && User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+{
+	<hr />
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.DataInicio)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataFim)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.PeriodoMinimo)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.PeriodoMaximo)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Preco)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.habitacao)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.locador)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Avaliacao)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.habitacao.Estado)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.habitacao.Reservado)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.habitacao.QuererReserva)
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
 			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.DataInicio)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.DataFim)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.PeriodoMinimo)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.PeriodoMaximo)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Preco)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.habitacao.Localizacao)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.locador.Email)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.locador.LocadorAvaliacao)
-					</td>
-					<td>
-						@if (User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
-						{
-							<a asp-action="AceitarReserva" class="btn btn-primary">Aceitar</a>
-							<a asp-action="ReservaRejeitada" asp-route-id="@item.Id" class="btn btn-outline-primary">Rejeitar</a>
-						}
-					</td>
-				</tr>
+				if (!item.Aceite && item.habitacao.QuererReserva)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.DataInicio)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.DataFim)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.PeriodoMinimo)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.PeriodoMaximo)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Preco)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.habitacao.Localizacao)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.locador.Email)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.locador.LocadorAvaliacao)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.habitacao.Estado)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.habitacao.Reservado)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.habitacao.QuererReserva)
+						</td>
+						<td>
+							@if (User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+							{
+								<a asp-action="AceitarReserva" class="btn btn-primary">Aceitar</a>
+								<a asp-action="ReservaRejeitada" asp-route-id="@item.Id" class="btn btn-outline-primary">Rejeitar</a>
+							}
+						</td>
+					</tr>
+				}
 			}
-		}
-	</tbody>
-</table>
+		</tbody>
+	</table>
+}
+else
+{
+    <h2>Não existem reservas</h2>
+}
