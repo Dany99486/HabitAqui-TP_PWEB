@@ -323,7 +323,7 @@ namespace Ficha1_P1_V1.Controllers
 
         public async Task<IActionResult> ReservarCliente()  //Lado do gestor
         {
-            ViewData["ListaHabitacoesSemReserva"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado == false).ToList(), "Id", "Nome");
+            ViewData["ListaHabitacoesSemReserva"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.Reservado).ToList(), "Id", "Nome");
 
             var arrendamentos = _context.Arrendamento
                 .Include(a => a.habitacao)
@@ -350,14 +350,19 @@ namespace Ficha1_P1_V1.Controllers
                 var arrendamento = await _context.Arrendamento.FindAsync(id);
                 if (arrendamento != null)
                 {
-                    arrendamento.habitacao.Reservado = false;
-                    arrendamento.habitacao.ReservadoCliente = await _userManager.GetUserAsync(User);
-                    arrendamento.Aceite = false;
-                    arrendamento.habitacao.QuererReserva = true;
-                    _context.Arrendamento.Update(arrendamento);
-                }
+                    var habit = await _context.Habitacao.FindAsync(arrendamento.habitacaoId);
+                    if (habit != null)
+                    {
+                        habit.Reservado = false;
+                        habit.ReservadoCliente = await _userManager.GetUserAsync(User);
+                        arrendamento.Aceite = false;
+                        habit.QuererReserva = true;
+						_context.Habitacao.Update(habit);
+						_context.Arrendamento.Update(arrendamento);
 
-                await _context.SaveChangesAsync();
+						await _context.SaveChangesAsync();
+					}
+                }
             }
             return RedirectToAction(nameof(Index));
         }
@@ -388,12 +393,17 @@ namespace Ficha1_P1_V1.Controllers
             var arrendamento = await _context.Arrendamento.FindAsync(id);
             if (arrendamento != null && arrendamento.habitacao.QuererReserva)
             {
-                arrendamento.habitacao.Reservado = true;
-                arrendamento.EstadoEntregue = arrend.EstadoEntregue;
-                arrendamento.EquipamentosOpcionais = arrend.EquipamentosOpcionais;
-                arrendamento.DanosHabitacao = arrend.DanosHabitacao;
-                arrendamento.Aceite = true;
-                _context.Arrendamento.Update(arrendamento);
+				var habit = await _context.Habitacao.FindAsync(arrendamento.habitacaoId);
+                if (habit != null)
+                {
+					habit.Reservado = true;
+                    arrendamento.EstadoEntregue = arrend.EstadoEntregue;
+                    arrendamento.EquipamentosOpcionais = arrend.EquipamentosOpcionais;
+                    arrendamento.DanosHabitacao = arrend.DanosHabitacao;
+                    arrendamento.Aceite = true;
+                    _context.Habitacao.Update(habit);
+                    _context.Arrendamento.Update(arrendamento);
+                }
             }
 
             await _context.SaveChangesAsync();

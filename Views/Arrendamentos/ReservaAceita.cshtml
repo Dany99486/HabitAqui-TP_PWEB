@@ -12,7 +12,7 @@
 		<a asp-action="MeusArrendamentos" class="btn btn-primary">Meus Arrendamentos</a>
 	</p>
 }
-@if (Model != null && User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+@if (Model != null && User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario") || User.IsInRole("AdminEmpresa")))
 {
 	<hr />
 	<table class="table">
