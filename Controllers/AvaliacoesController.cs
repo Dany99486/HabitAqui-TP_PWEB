@@ -24,7 +24,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
 		// GET: Avaliacaos
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Index()
         {
             /*var applicationDbContext = _context.Avaliacao.Include(a => a.Arrendamento);
@@ -35,10 +35,11 @@ namespace Ficha1_P1_V1.Controllers
         }
 
 		// GET: Avaliacaos/Details/5
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Avaliacao == null)
+
+			if (id == null || _context.Avaliacao == null)
             {
                 return NotFound();
             }

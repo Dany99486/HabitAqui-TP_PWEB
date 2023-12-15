@@ -29,14 +29,15 @@ namespace Ficha1_P1_V1.Controllers
 		{
 			var gestores = await _userManager.GetUsersInRoleAsync("Gestor");
 			var adminEmpresas = await _userManager.GetUsersInRoleAsync("AdminEmpresa");
+			var funcionario = await _userManager.GetUsersInRoleAsync("Funcionario");
 
-			var locadores = gestores.Union(adminEmpresas).Distinct().ToList();
+			var locadores = gestores.Union(adminEmpresas).Union(funcionario).Distinct().ToList();
 
 			return locadores;
 		}
 
 		// GET: Arrendamentos
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Index()
 		{
 			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
@@ -53,7 +54,7 @@ namespace Ficha1_P1_V1.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Index(TipoHabitacao? Tipo, string? Categoria, string? Locador, string? OrderBy)
 		{
 			ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
@@ -112,7 +113,7 @@ namespace Ficha1_P1_V1.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Pesquisa(string TextoAPesquisar, TipoHabitacao? Tipo, DateTime? dataInicio, DateTime? dataFim, int? periodoMinimo)
         {
             PesquisaViewModel pesquisaViewModel = new PesquisaViewModel();
@@ -147,12 +148,11 @@ namespace Ficha1_P1_V1.Controllers
         }
 
 		// GET: Arrendamentos/Details/5
-
-		//[Authorize(Roles = "Cliente")]
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario,Cliente")]
+		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Arrendamento == null)
+
+			if (id == null || _context.Arrendamento == null)
             {
                 return NotFound();
             }
@@ -170,8 +170,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Arrendamentos/Create
-
-        //[Authorize(Roles = "Funcionario,Gestor")]
+        [Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
         public IActionResult Create()
         {
             ViewData["habitacaoId"] = new SelectList(_context.Habitacao, "Id", "Descricao");
@@ -184,8 +183,8 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Funcionario,Gestor")]
-        public async Task<IActionResult> Create([Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
+		[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
+		public async Task<IActionResult> Create([Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
         {
             ModelState.Remove(nameof(arrendamento.habitacao));
 
@@ -207,9 +206,9 @@ namespace Ficha1_P1_V1.Controllers
             return View(arrendamento);
         }
 
-        // GET: Arrendamentos/Edit/5
-        //[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
-        public async Task<IActionResult> Edit(int? id)
+		// GET: Arrendamentos/Edit/5
+		[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
+		public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Arrendamento == null)
             {
@@ -231,8 +230,8 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
+		[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,DataInicio,DataFim,PeriodoMinimo,PeriodoMaximo,Preco,habitacaoId")] Arrendamento arrendamento)
         {
             if (id != arrendamento.Id)
             {
@@ -265,7 +264,7 @@ namespace Ficha1_P1_V1.Controllers
         }
 
         // GET: Arrendamentos/Delete/5
-        //[Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
+        [Authorize(Roles = "AdminEmpresa,Funcionario,Gestor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Arrendamento == null)
@@ -342,21 +341,24 @@ namespace Ficha1_P1_V1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReservarCliente(int id) //lado do cliente
         {
-            if (_context.Arrendamento == null)
+            if (ModelState.IsValid)
             {
-                return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
-            }
-            var arrendamento = await _context.Arrendamento.FindAsync(id);
-            if (arrendamento != null)
-            {
-                arrendamento.habitacao.Reservado = false;
-                arrendamento.habitacao.ReservadoCliente = await _userManager.GetUserAsync(User);
-                arrendamento.Aceite = false;
-                arrendamento.habitacao.QuererReserva = true;
-                _context.Arrendamento.Update(arrendamento);
-            }
+                if (_context.Arrendamento == null)
+                {
+                    return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
+                }
+                var arrendamento = await _context.Arrendamento.FindAsync(id);
+                if (arrendamento != null)
+                {
+                    arrendamento.habitacao.Reservado = false;
+                    arrendamento.habitacao.ReservadoCliente = await _userManager.GetUserAsync(User);
+                    arrendamento.Aceite = false;
+                    arrendamento.habitacao.QuererReserva = true;
+                    _context.Arrendamento.Update(arrendamento);
+                }
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

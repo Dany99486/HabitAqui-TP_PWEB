@@ -66,6 +66,6 @@
     <a class="btn btn-primary" asp-action="Index">Voltar</a> |
     @if(User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
     {
-        <a class="btn btn-primary" asp-action="Arrendar">Arrendar</a>
+        <a class="btn btn-primary" asp-action="ReservaCliente">Avançar para o Arrendamento</a>
     }
 </div>
