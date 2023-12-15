@@ -95,8 +95,15 @@
 						<td>
 							@if (User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
 							{
-								<a asp-action="AceitarReserva" class="btn btn-primary">Aceitar</a>
-								<a asp-action="ReservaRejeitada" asp-route-id="@item.Id" class="btn btn-outline-primary">Rejeitar</a>
+								<form asp-action="ReservaAceita" method="post">
+									<input type="hidden" name="id" value="@item.Id" />
+									<button type="submit" class="btn btn-primary">Aceitar</button>
+								</form>
+
+								<form asp-action="ReservaRejeitada" method="post">
+									<input type="hidden" name="id" value="@item.Id" />
+									<button type="submit" class="btn btn-outline-primary">Rejeitar</button>
+								</form>
 							}
 						</td>
 					</tr>
