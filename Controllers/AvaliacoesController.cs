@@ -57,9 +57,10 @@ namespace Ficha1_P1_V1.Controllers
 
 		// GET: Avaliacaos/Create
 		[Authorize(Roles = "Cliente")]
-		public IActionResult? Create()
+		public async Task<IActionResult> Create()
         {
-            ViewData["ArrendamentoId"] = new SelectList(_context.Arrendamento.Where(c=>c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserId)), "Id", "ArrendamentoId"); //Pode dar null aqui?
+            var user = _userManager.GetUserId(User);
+            ViewData["ListaId"] = new SelectList(_context.Arrendamento.Where(c => c.habitacao.ReservadoCliente.Id == user), "Id", "habitacaoId");
             return View();
         }
 
