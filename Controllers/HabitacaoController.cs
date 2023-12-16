@@ -35,19 +35,56 @@ namespace Ficha1_P1_V1.Controllers
 			return distinctUsers;
 		}
 
-		// GET: Habitacao
-		public async Task<IActionResult> Index()
+        // GET: Habitacao
+        public async Task<IActionResult> Index()
         {
-	        ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+            ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
 
-			var locadores = await ObterLocadoresAsync();
-			ViewData["ListaDeLocadores"] = new SelectList(locadores, "Id", "Email");
+            var locadores = await ObterLocadoresAsync();
+            ViewData["ListaDeLocadores"] = new SelectList(locadores, "Id", "Email");
 
-			return View(await _context.Habitacao.ToListAsync());
+            // Diretório relativo aos ficheiros das Habitações
+            try
+            {
+                string ficheirosPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros");
+
+                if (Directory.Exists(ficheirosPath))
+                {
+                    var directories = Directory.GetDirectories(ficheirosPath);
+
+                    // Obter os nomes dos arquivos na pasta de cada habitação
+                    var habitationFiles = directories
+                        .Select(dir => new
+                        {
+                            Id = int.TryParse(Path.GetFileName(dir), out var id) ? id : 0,
+                            Files = Directory.GetFiles(dir, "*.*")
+                                .Where(file => file.ToLower().EndsWith("png") || file.ToLower().EndsWith("jpg") || file.ToLower().EndsWith("jpeg"))
+                                .Select(file => Path.GetFileName(file))
+                                .ToList()
+                        })
+                        .Where(h => h.Id > 0)
+                        .ToList();
+
+                    // Adicionar os dados à ViewBag
+                    ViewData["HabitationFiles"] = habitationFiles;
+
+                    // Obter os IDs das habitações
+                    var habitationIds = habitationFiles.Select(h => h.Id).ToList();
+
+                    // Adicionar os IDs à ViewBag
+                    ViewData["HabitationIds"] = habitationIds;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Tratar a exceção, se necessário
+            }
+
+            return View(await _context.Habitacao.Include("Categoria").ToListAsync());
         }
 
 
-		[HttpPost]
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Pesquisa(TipoHabitacao? Tipo, string? Categoria, string? OrderByAct)
 		{

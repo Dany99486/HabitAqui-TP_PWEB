@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {}
+    "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {}
   },
   "projects": {
-    "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {
+    "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
+        "projectUniqueName": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
         "projectName": "Ficha1_P1_V1",
-        "projectPath": "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
-        "packagesPath": "C:\\Users\\Flavio\\.nuget\\packages\\",
-        "outputPath": "D:\\ISEC\\3_ano\\PWEB\\TrabalhoPratico\\HabitAqui-TP_PWEB\\obj\\",
+        "projectPath": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\Ficha1_P1_V1.csproj",
+        "packagesPath": "C:\\Users\\ricar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Flavio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ricar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
