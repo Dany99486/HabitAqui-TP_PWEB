@@ -204,6 +204,12 @@ namespace Ficha1_P1_V1.Controllers
                 habitacao.Estado = true;
                 habitacao.EstadoHabitacao = "Disponivel, em condições novas";
 
+                var categoria = await _context.Categoria.FindAsync(habitacao.CategoriaId);
+                if (categoria != null)
+                {
+					habitacao.Categoria = categoria;
+				}
+
 				var funcId = await _userManager.GetUserAsync(User);
 				if (User.IsInRole("Funcionario"))
                 {
@@ -275,18 +281,16 @@ namespace Ficha1_P1_V1.Controllers
             {
                 return NotFound();
             }
-			if (User.IsInRole("Cliente") || User.IsInRole("Inativo"))
-			{
-				ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
-			}
-			var user = await _userManager.GetUserAsync(User);
+			
+			/*var user = await _userManager.GetUserAsync(User);
 			if (User.IsInRole("Funcionario"))
 				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
 			else if (User.IsInRole("Gestor"))
 				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
 			else
-				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.ToList(), "Id", "CategoriaId");
-
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Include("Categoria").ToList(), "Id", "CategoriaId");
+            */
+            ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.ToList(), "Id", "Nome");
 
             // directorio relativo aos ficheiros das Habitações
             try

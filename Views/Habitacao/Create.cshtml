@@ -25,14 +25,17 @@
 		        </select>
 		        <span asp-validation-for="Tipo" class="text-danger"></span>
 			</div><br />
-	        <div class="form-group">
-		        <label asp-for="CategoriaId" class="control-label fw-bold"></label>
-		        <select asp-for="CategoriaId"
-		                asp-items="ViewBag.ListaDeCategorias"
-		                class="form-control">
-		        </select>
-		        <span asp-validation-for="CategoriaId" class="text-danger"></span>
-			</div><br />
+			@if (ViewBag.ListaDeCategorias != null)
+			{
+				<div class="form-group">
+					<label asp-for="CategoriaId" class="control-label fw-bold"></label>
+					<select asp-for="CategoriaId"
+							asp-items="ViewBag.ListaDeCategorias"
+							class="form-control">
+					</select>
+					<span asp-validation-for="CategoriaId" class="text-danger"></span>
+				</div><br />
+			}
 	        <div class="form-group">
 		        <label asp-for="Descricao" class="control-label"></label>
 		        <input asp-for="Descricao" class="form-control" />
