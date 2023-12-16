@@ -34,8 +34,26 @@ namespace Ficha1_P1_V1.Controllers
              Problem("Entity set 'ApplicationDbContext.Habitacao' is null.");
         }
 
-		// GET: Avaliacaos/Details/5
-		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
+        [HttpPost]
+        [Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
+        public async Task<IActionResult> Index(TipoClassificacao? Tipo)
+        {
+            ViewData["ListaDeClassificacoes"] = new SelectList(_context.Avaliacao.Where(c => c.Classificacao == Tipo).ToList(), "Id", "Classificacao");
+
+            var query = _context.Avaliacao.AsQueryable();
+
+            // Aplicar filtro para Tipo se estiver preenchido
+            if (Tipo.HasValue)
+            {
+                query = query.Where(c => c.Classificacao == Tipo);
+            }
+
+            var resultado = await query.ToListAsync();
+            return View(resultado);
+        }
+
+        // GET: Avaliacaos/Details/5
+        [Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Details(int? id)
         {
 

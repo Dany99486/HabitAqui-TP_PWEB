@@ -79,6 +79,44 @@ namespace Ficha1_P1_V1.Controllers
 		}
 
         [HttpPost]
+        [Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
+        public async Task<IActionResult> ParqueIndex(TipoHabitacao? Tipo, string? Categoria, string? OrderByAct)
+        {
+            ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+
+            var query = _context.Habitacao.AsQueryable();
+
+            // Aplicar filtro para Tipo se estiver preenchido
+            if (Tipo.HasValue)
+            {
+                query = query.Where(c => c.Tipo == Tipo);
+            }
+
+            // Aplicar filtro de Categoria se estiver preenchido
+            if (!string.IsNullOrEmpty(Categoria) && Categoria != "Selecione a categoria")
+            {
+                int categoriaId;
+                if (int.TryParse(Categoria, out categoriaId))
+                {
+                    query = query.Where(c => c.Id == categoriaId);
+                }
+            }
+
+            // Aplicar lógica de ordenação
+            if (OrderByAct == "Ativo")
+            {
+                query = query.OrderBy(c => c.Estado);
+            }
+            else
+            {
+                query = query.OrderByDescending(c => !c.Estado);
+            }
+
+            var resultado = await query.ToListAsync();
+            return View(resultado);
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
 		public async Task<IActionResult> ParqueIndexPesquisa(TipoHabitacao? Tipo, string? Categoria, string? OrderByAct)
 		{
