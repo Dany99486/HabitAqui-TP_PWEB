@@ -77,7 +77,6 @@
 				<th>
 					@Html.DisplayNameFor(model => model.Categoria.Nome)
 				</th>
-
 				<th></th>
 			</tr>
 		</thead>
@@ -115,7 +114,8 @@
 							</a>
 							@if (!item.Reservado)
 							{
-								<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+								<text>|</text>
+								<a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
 							}
 						</td>
 					}

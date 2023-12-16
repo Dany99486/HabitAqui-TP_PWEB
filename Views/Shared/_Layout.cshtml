@@ -29,19 +29,18 @@
 	                            <li class="nav-item">
 		                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="About">Quem Somos?</a>
 	                            </li>
-
-								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Habitacao" asp-action="Index">Habitações</a>
-								</li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Habitacao" asp-action="Index">Habitações</a>
+                                </li>
                                 @if (User.Identity.IsAuthenticated && !User.IsInRole("Inativo"))
-								{
+                                {
                                     <li class="nav-item">
                                         <a class="nav-link text-white" asp-area="" asp-controller="Arrendamentos" asp-action="Index">Arrendar</a>
                                     </li>
-								    <li class="nav-item">
-									    <a class="nav-link text-white" asp-area="" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
-								    </li>
-								}
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
+                                    </li>
+                                }
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <li class="nav-item dropdown">
@@ -80,6 +79,17 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" asp-controller="Empresa" asp-action="ListaEmpresaGestor">Informação de Trabalhadores da Empresa</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if (User.IsInRole("Gestor") || User.IsInRole("Funcionario"))
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="False">
+                                            Gestor da Empresa
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" asp-controller="Habitacao" asp-action="ParqueIndex">Parque de Habitações</a></li>
                                         </ul>
                                     </li>
                                 }

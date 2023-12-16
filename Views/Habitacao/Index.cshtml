@@ -28,9 +28,6 @@
 	    <th>
 		    @Html.DisplayNameFor(model => model.Categoria.Nome)
 	    </th>
-
-
-	    <th></th>
     </tr>
     </thead>
     <tbody>
@@ -55,11 +52,13 @@
 								(User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
 						{
 							<a class="btn btn-primary"  asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-						} |
-						<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+							<text>|</text>
+						}
+						<a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
 						@if (User.Identity.IsAuthenticated &&
 								(User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
 						{
+							<text>|</text>
 							<a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
 						}
 					</td>

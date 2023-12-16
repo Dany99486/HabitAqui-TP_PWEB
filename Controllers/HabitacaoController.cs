@@ -75,7 +75,7 @@ namespace Ficha1_P1_V1.Controllers
             else
                 ViewData["Lista"] = await _context.Habitacao.ToListAsync();
 
-			return View(/*await _context.Habitacao.ToListAsync()*/ ViewData["Lista"]);
+			return View(ViewData["Lista"]);
 		}
 
         [HttpPost]
@@ -224,11 +224,11 @@ namespace Ficha1_P1_V1.Controllers
 			}
 			var user = await _userManager.GetUserAsync(User);
             if (User.IsInRole("Funcionario"))
-			    ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
+			    ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
             else if (User.IsInRole("Gestor"))
-                ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
             else
-                ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "CategoriaId");
 
 			return View(habitacao);
         }
@@ -281,11 +281,11 @@ namespace Ficha1_P1_V1.Controllers
 			}
 			var user = await _userManager.GetUserAsync(User);
 			if (User.IsInRole("Funcionario"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
 			else if (User.IsInRole("Gestor"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
 			else
-				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.ToList(), "Id", "CategoriaId");
 
 
             // directorio relativo aos ficheiros das Habitações
@@ -398,11 +398,11 @@ namespace Ficha1_P1_V1.Controllers
 			}
 			var user = await _userManager.GetUserAsync(User);
 			if (User.IsInRole("Funcionario"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
 			else if (User.IsInRole("Gestor"))
-				ViewData["Lista"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "Nome");
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
 			else
-				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
+				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "CategoriaId");
 
 			return View(habitacao);
         }
