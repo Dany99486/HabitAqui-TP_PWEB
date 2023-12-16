@@ -66,6 +66,11 @@ namespace Ficha1_P1_V1.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "A minha fotografia")]
+            public byte[]? Fotografia { get; set; }
+            public IFormFile FotoFile { get; set; }
+
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -81,7 +86,8 @@ namespace Ficha1_P1_V1.Areas.Identity.Pages.Account.Manage
                 DataNascimento = user.DataNascimento,
                 PrimeiroNome = user.PrimeiroNome,
                 UltimoNome = user.UltimoNome,
-                NIF = user.NIF
+                NIF = user.NIF,
+                Fotografia = user.Fotografia
 
             };
         }
@@ -129,6 +135,27 @@ namespace Ficha1_P1_V1.Areas.Identity.Pages.Account.Manage
 
             await _userManager.UpdateAsync(user);
 
+            if (Input.FotoFile != null)
+            {
+                if (Input.FotoFile.Length > (200 * 1024))
+                {
+                    StatusMessage = "Erro: Ficheiro demasiado grande";
+                    return RedirectToPage();
+                }
+                // método a implementar – verifica se a extensão é .png,.jpg,.jpeg
+                if (!isValidFileType(Input.FotoFile.FileName))
+                {
+                    StatusMessage = "Erro: Ficheiro não suportado";
+                    return RedirectToPage();
+                }
+                using (var dataStream = new MemoryStream())
+                {
+                    await Input.FotoFile.CopyToAsync(dataStream);
+                    user.Fotografia = dataStream.ToArray();
+                }
+                await _userManager.UpdateAsync(user);
+            }
+
             if (user.PrimeiroNome != Input.PrimeiroNome)
             {
                 user.PrimeiroNome = Input.PrimeiroNome;
@@ -138,6 +165,22 @@ namespace Ficha1_P1_V1.Areas.Identity.Pages.Account.Manage
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
+        }
+
+        bool isValidFileType(string fileName)
+        {
+            string ext = Path.GetExtension(fileName);
+            switch (ext.ToLower())
+            {
+                case ".png":
+                    return true;
+                case ".jpg":
+                    return true;
+                case ".jpeg":
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

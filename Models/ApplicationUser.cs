@@ -24,6 +24,10 @@ namespace Ficha1_P1_V1.Models
         [Display(Name = "Locador a que pertence")]
         public string? pertenceAlocadorId { get; set; }
 
+        [Display(Name = "A minha fotografia")]
+        public byte[]? Fotografia { get; set; }
+
+
         //public int? trabalhadorNumero { get; set; }
     }
 }

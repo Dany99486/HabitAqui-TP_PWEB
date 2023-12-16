@@ -44,6 +44,9 @@ namespace Ficha1_P1_V1.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<byte[]>("Fotografia")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int?>("LocadorAvaliacao")
                         .HasColumnType("int");
 
@@ -174,7 +177,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasIndex("locadorId");
 
-                    b.ToTable("Arrendamento", (string)null);
+                    b.ToTable("Arrendamento");
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Avaliacao", b =>
@@ -199,7 +202,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasIndex("ArrendamentoId");
 
-                    b.ToTable("Avaliacao", (string)null);
+                    b.ToTable("Avaliacao");
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Categoria", b =>
@@ -219,7 +222,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categoria", (string)null);
+                    b.ToTable("Categoria");
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Empresa", b =>
@@ -251,7 +254,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasKey("EmpresaId");
 
-                    b.ToTable("Empresa", (string)null);
+                    b.ToTable("Empresa");
                 });
 
             modelBuilder.Entity("Ficha1_P1_V1.Models.Habitacao", b =>
@@ -305,7 +308,7 @@ namespace Ficha1_P1_V1.Data.Migrations
 
                     b.HasIndex("ReservadoClienteId");
 
-                    b.ToTable("Habitacao", (string)null);
+                    b.ToTable("Habitacao");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
