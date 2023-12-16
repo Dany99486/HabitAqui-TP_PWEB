@@ -153,11 +153,27 @@ namespace Ficha1_P1_V1.Controllers
                 return NotFound();
             }
 
-            var habitacao = await _context.Habitacao.Include("Categoria")
+            var habitacao = await _context.Habitacao
+                .Include("Categoria")
 				.FirstOrDefaultAsync(m => m.Id == id);
             if (habitacao == null)
             {
                 return NotFound();
+            }
+
+            //imagens das Habitações
+            try
+            {
+                string CoursePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros/" + id.ToString());
+                var files = from file in Directory.EnumerateFiles(CoursePath)
+                            select string.Format("/Ficheiros/{0}/{1}", id, Path.GetFileName(file));
+                ViewData["NFich"] = files.Count();
+                ViewData["Ficheiros"] = files;
+            }
+            catch (Exception ex)
+            {
+                //ViewData["NFich"] = 0;
+                //ViewData["Ficheiros"] = null;
             }
 
             return View(habitacao);
@@ -217,8 +233,36 @@ namespace Ficha1_P1_V1.Controllers
 			return View(habitacao);
         }
 
-		// GET: Habitacao/Edit/5
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+
+        // Apagar imagem
+        [Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+        public async Task<IActionResult> deleteImage(int? id, string image)
+        {
+            if (id == null || _context.Habitacao == null)
+            {
+                return NotFound();
+            }
+
+            var curso = await _context.Habitacao.FirstOrDefaultAsync(m => m.Id == id);
+            if (curso == null)
+            {
+                return NotFound();
+            }
+
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/" + image);
+
+            try
+            {
+                System.IO.File.Delete(filePath);
+            }
+            catch (Exception ex)
+            {
+            }
+            return RedirectToAction("Edit", new { Id = id });
+        }
+
+        // GET: Habitacao/Edit/5
+        [Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
 		public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Habitacao == null)
@@ -243,7 +287,25 @@ namespace Ficha1_P1_V1.Controllers
 			else
 				ViewData["Lista"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "Nome");
 
-			return View(habitacao);
+
+            // directorio relativo aos ficheiros das Habitações
+            try
+            {
+                string CoursePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros/" + id.ToString());
+                if (Directory.Exists(CoursePath))
+                {
+                    var files = from file in Directory.EnumerateFiles(CoursePath)
+                                select string.Format("/Ficheiros/{0}/{1}", id, Path.GetFileName(file));
+                    ViewData["Ficheiros"] = files;
+                    ViewData["NFich"] = files.Count();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return View(habitacao);
         }
 
         // POST: Habitacao/Edit/5
@@ -252,20 +314,70 @@ namespace Ficha1_P1_V1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao,estado,reservado")] Habitacao habitacao)
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao,estado,reservado")] Habitacao habitacao, [FromForm] List<IFormFile> ficheiros)
         {
             if (id != habitacao.Id)
             {
                 return NotFound();
             }
             ModelState.Remove(nameof(Habitacao.Categoria));
+            ModelState.Remove(nameof(Habitacao.FuncionarioDaHabitacaoId));
+            ModelState.Remove(nameof(Habitacao.GestorDaHabitacaoId));
+            ModelState.Remove(nameof(Habitacao.EmpresaId));
 
-			if (ModelState.IsValid)
+            var funcId = await _userManager.GetUserAsync(User);
+            if (User.IsInRole("Funcionario"))
+            {
+                habitacao.FuncionarioDaHabitacaoId = funcId.Id;
+            }
+            if (User.IsInRole("Gestor"))
+            {
+                habitacao.GestorDaHabitacaoId = funcId.Id;
+            }
+            habitacao.EmpresaId = funcId.empresaId;
+
+            if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(habitacao);
                     await _context.SaveChangesAsync();
+
+                    // directorio onde vão ser guardados os ficheiros
+                    // logica :
+                    /* wwwroot\Ficheiros
+                     * wwwroot\Ficheiros\1
+                     * wwwroot\Ficheiros\1\blablabla.jpg
+                     * wwwroot\Ficheiros\1\bl3bleble.jpg 
+                     * wwwroot\Ficheiros\2
+                     * wwwroot\Ficheiros\3
+                     * */
+
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros");
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+
+                    // directorio relativo aos ficheiros do curso
+                    string CoursePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros/" + id.ToString());
+
+                    if (!Directory.Exists(CoursePath))
+                        Directory.CreateDirectory(CoursePath);
+
+                    foreach (var formFile in ficheiros)
+                    {
+                        if (formFile.Length > 0)
+                        {
+                            var filePath = Path.Combine(CoursePath, Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName));
+                            while (System.IO.File.Exists(filePath))
+                            {
+                                filePath = Path.Combine(CoursePath, Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName));
+                            }
+                            using (var stream = System.IO.File.Create(filePath))
+                            {
+                                await formFile.CopyToAsync(stream);
+                            }
+                        }
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
