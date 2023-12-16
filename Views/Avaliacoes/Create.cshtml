@@ -8,6 +8,9 @@
 <h1>Criar</h1>
 
 <h4>Avaliação</h4>
+
+@if (User.Identity.IsAuthenticated)
+{
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -46,6 +49,11 @@
     </div>
 </div>
 <br />
+}
+else
+{
+    <p class="text-danger">Inicie sessão para criar avaliações.</p>
+}
 <div>
     <a asp-action="Index" class="btn btn-primary">Voltar</a>
 </div>

@@ -371,7 +371,37 @@ namespace Ficha1_P1_V1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ReservaAceita() //Ver em Aceitar/Negar uma reserva, lado do gestor
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DesreservarCliente(int id) //lado do cliente
+		{
+			if (ModelState.IsValid)
+			{
+				if (_context.Arrendamento == null)
+				{
+					return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
+				}
+				var arrendamento = await _context.Arrendamento.FindAsync(id);
+				if (arrendamento != null)
+				{
+					var habit = await _context.Habitacao.FindAsync(arrendamento.habitacaoId);
+					if (habit != null)
+					{
+						habit.Reservado = false;
+						habit.ReservadoCliente = null;
+						arrendamento.Aceite = false;
+						habit.QuererReserva = false;
+						_context.Habitacao.Update(habit);
+						_context.Arrendamento.Update(arrendamento);
+
+						await _context.SaveChangesAsync();
+					}
+				}
+			}
+			return RedirectToAction(nameof(Index));
+		}
+
+		public async Task<IActionResult> ReservaAceita() //Ver em Aceitar/Negar uma reserva, lado do gestor
         {
 			var user = await _userManager.GetUserAsync(User);
 			var locadorId = await _userManager.GetUserIdAsync(user);
@@ -506,6 +536,126 @@ namespace Ficha1_P1_V1.Controllers
             }
             ViewData["habitacaoEntregue"] = new SelectList(_context.Habitacao, "Id", "Descricao", arrend.habitacaoId);
             return View(nameof(Index));
+        }
+
+
+        ///Para adicionar o texto
+        public async Task<IActionResult> AceitarReserva(int? id)
+        {
+			if (id == null || _context.Arrendamento == null)
+			{
+				return NotFound();
+			}
+
+			var arrendamento = await _context.Arrendamento
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (arrendamento == null)
+			{
+				return NotFound();
+			}
+
+			return View(nameof(AceitarReserva), arrendamento);
+		}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AceitarReserva(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend) //lado do gestor
+        {
+			if (id != arrend.Id)
+			{
+				return NotFound();
+			}
+			if (_context.Arrendamento == null)
+			{
+				return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
+			}
+			if (ModelState.IsValid && arrend.EstadoEntregue != null)
+			{
+				try
+				{
+					var arrendamento = await _context.Arrendamento.FindAsync(id);
+					if (arrendamento != null)
+					{
+						arrendamento.EstadoEntregue = arrend.EstadoEntregue;
+						arrendamento.EquipamentosOpcionais = arrend.EquipamentosOpcionais;
+						arrendamento.DanosHabitacao = arrend.DanosHabitacao;
+						arrendamento.Observacoes = arrend.Observacoes;
+						_context.Arrendamento.Update(arrendamento);
+					}
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!ArrendamentoExists(arrend.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+			}
+			return RedirectToAction(nameof(Index));
+		}
+
+        public async Task<IActionResult> EntregaDeCliente(int? id)
+        {
+            if (id == null || _context.Arrendamento == null)
+            {
+                return NotFound();
+            }
+
+            var arrendamento = await _context.Arrendamento
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (arrendamento == null)
+            {
+                return NotFound();
+            }
+
+            return View(nameof(EntregaDeCliente), arrendamento);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EntregaDeCliente(int id, [Bind("Id, EstadoRecebido, EquipamentosOpcionaisC, DanosHabitacaoC, ObservacoesC")] Arrendamento arrend) //lado do gestor
+        {
+            if (id != arrend.Id)
+            {
+                return NotFound();
+            }
+            if (_context.Arrendamento == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
+            }
+            if (ModelState.IsValid && arrend.EstadoRecebido != null)
+            {
+                try
+                {
+                    var arrendamento = await _context.Arrendamento.FindAsync(id);
+                    if (arrendamento != null)
+                    {
+                        arrendamento.EstadoRecebido = arrend.EstadoRecebido;
+                        arrendamento.EquipamentosOpcionaisC = arrend.EquipamentosOpcionaisC;
+                        arrendamento.DanosHabitacaoC = arrend.DanosHabitacaoC;
+                        arrendamento.ObservacoesC = arrend.ObservacoesC;
+                        _context.Arrendamento.Update(arrendamento);
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArrendamentoExists(arrend.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

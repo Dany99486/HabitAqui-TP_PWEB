@@ -132,12 +132,11 @@ namespace Ficha1_P1_V1.Areas.Identity.Pages.Account
                 //user.LocadorAvaliacao=Input.LocadorAvaliacao;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
-                    await _userManager.AddToRoleAsync(user, "Cliente");
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+					await _userManager.AddToRoleAsync(user, "Cliente");
+					_logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

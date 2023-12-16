@@ -59,6 +59,52 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.locador.LocadorAvaliacao)
         </dd>
+
+        @if (User.IsInRole("AdminEmpresa") || User.IsInRole("Admin") || User.IsInRole("Gestor") || User.IsInRole("Funcionario"))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EstadoEntregue)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EstadoEntregue)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EquipamentosOpcionais)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EquipamentosOpcionais)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DanosHabitacao)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Observacoes)
+            </dd>
+
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EstadoRecebido)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EstadoRecebido)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EquipamentosOpcionaisC)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EquipamentosOpcionaisC)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DanosHabitacaoC)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ObservacoesC)
+        </dd>
+        }
     </dl>
 </div>
 <div>

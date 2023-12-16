@@ -59,7 +59,7 @@ namespace Ficha1_P1_V1.Controllers
 		[Authorize(Roles = "Cliente")]
 		public IActionResult? Create()
         {
-            ViewData["ArrendamentoId"] = new SelectList(_context.Arrendamento.Where(c=>c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserIdAsync)), "Id", "ArrendamentoId");
+            ViewData["ArrendamentoId"] = new SelectList(_context.Arrendamento.Where(c=>c.habitacao.ReservadoCliente.Id.Equals(_userManager.GetUserId)), "Id", "ArrendamentoId"); //Pode dar null aqui?
             return View();
         }
 

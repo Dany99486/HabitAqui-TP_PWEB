@@ -36,10 +36,10 @@ namespace Ficha1_P1_V1.Models
 		[Display(Name = "Aceite")] //Aceitar/rejeitar arrendamento
 		public bool Aceite { get; set; }
 
-		[Display(Name = "Entregue a cliente")] //Estado da habitacao
+		[Display(Name = "Entregue a cliente no seguinte estado:")] //Estado da habitacao
 		public string? EstadoEntregue { get; set; }
 
-        [Display(Name = "Recebido do Cliente")] //Estado da habitacao quando recebida
+        [Display(Name = "Recebido do Cliente no seguinte estado:")] //Estado da habitacao quando recebida
         public string? EstadoRecebido { get; set; }
 
         [Display(Name = "Equipamentos opcionais")]

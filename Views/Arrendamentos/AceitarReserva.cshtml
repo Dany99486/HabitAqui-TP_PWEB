@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ficha1_P1_V1.Models.Arrendamento>
+﻿@model Ficha1_P1_V1.Models.Arrendamento
 
 @{
 	ViewData["Title"] = "AceitaReserva";
@@ -8,62 +8,62 @@
 <h1>Definir estado atual da reserva a ser entregue ao cliente</h1>
 @if (User.Identity.IsAuthenticated && (User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
 {
-	<hr />
-	<h4>Campos de informação para detalhes:</h4>
-	<div>
-		<div class="col-30">
-			<form method="post" asp-action="AceitarReserva">
-				<div class="col-md-7">
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="EstadoEntregue">Estado da Habitação no momento de entrega (entregue ao cliente):</label>
-								<textarea id="EstadoEntregue" name="EstadoEntregue" rows="2" cols="50" required></textarea>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-						<br />
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="EquipamentosOpcionais">Equipamentos Opcionais no momento da entrega:</label>
-								<textarea id="EquipamentosOpcionais" name="EquipamentosOpcionais" rows="2" cols="50"></textarea>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-						<br />
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="DanosHabitacao">Danos da Habitação no momento de entrega:</label>
-								<textarea id="DanosHabitacao" name="DanosHabitacao" rows="2" cols="50"></textarea>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-						<br />
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="Observacoes">Observações a colocar:</label>
-								<textarea id="Observacoes" name="Observacoes" rows="4" cols="50"></textarea>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group mt-4">
-							<input type="submit" value="AceitarReserva" class="btn btn-primary" />
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<hr />
-}else
+    <hr />
+
+    <h4>Campos de informação para detalhes:</h4>
+
+    <div class="container">
+        <form method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="EstadoEntregue">Estado da Habitação no momento de entrega (entregue ao cliente):</label>
+                        <textarea id="EstadoEntregue" name="EstadoEntregue" rows="2" cols="50" required></textarea>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="EquipamentosOpcionais">Equipamentos Opcionais no momento da entrega:</label>
+                        <textarea id="EquipamentosOpcionais" name="EquipamentosOpcionais" rows="2" cols="50"></textarea>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="DanosHabitacao">Danos da Habitação no momento de entrega:</label>
+                        <textarea id="DanosHabitacao" name="DanosHabitacao" rows="2" cols="50"></textarea>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="Observacoes">Observações a colocar:</label>
+                        <textarea id="Observacoes" name="Observacoes" rows="4" cols="50"></textarea>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-primary" asp-action="AceitarReserva" asp-route-id="@Model.Id">Submeter</button>
+                        | <a class="btn btn-outline-secondary" asp-action="Index">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr />
+}
+else
 {
 	<p>Não pode aceder a esta página</p>
+    <div>
+        <a class="btn btn-outline-secondary" asp-action="Index">Voltar</a>
+    </div>
 }
-<div>
-	<a class="btn btn-primary" asp-action="Index">Voltar</a>
-</div>
 <br />

@@ -151,10 +151,26 @@
 			@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
 			{
 		        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Apagar</a>
-			} |
-			@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
+				@if (item.Aceite)
+				{
+					<text>|</text>
+					<a asp-action="AceitarReserva" asp-route-id="@item.Id" class="btn btn-primary">Informações adicionais ao entregar</a>
+				}
+				else
+				{
+					<a asp-action="EntregaDoCliente" asp-route-id="@item.Id" class="btn btn-primary">Informações adicionais ao receber</a>
+				}
+			}
+			@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente") && !item.Aceite)
 			{
-				<a asp-action="ReservarCliente" asp-route-id="@item.Id" class="btn btn-primary">Avançar para Arrendamento</a>
+				<text>|</text><a asp-action="ReservarCliente" asp-route-id="@item.Id" class="btn btn-outline-secondary">Avançar para Arrendamento</a>
+			}
+			@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente") && item.Aceite)
+			{
+				<text>|</text>
+				<form method="post" asp-action="DesReservarCliente" asp-route-id="@item.Id">
+					<button type="submit" class="btn btn-primary">Arrendar</button>
+				</form>
 			}
 	        </td>
         </tr>
