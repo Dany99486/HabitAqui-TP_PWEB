@@ -130,10 +130,15 @@
         <main class="container mt-5 pt-5 text-start">
             @RenderBody()
         </main>
-
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2023 - HabitAqui - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidade</a>
+        <!-- Main Footer -->
+        <footer class="main-footer d-flex justify-content-between align-items-center bg-light p-3">
+            <div class="text-left">
+                <!-- Conteúdo à esquerda -->
+                <strong>Copyright &copy; @DateTime.Now.Year <a>HabitAqui</a>.</strong> <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidade</a>
+            </div>
+            <div class="text-right">
+                <!-- Conteúdo à direita -->
+                Powered by <a href="https://isec.pt/" target="_blank">ISEC</a>
             </div>
         </footer>
     </div>

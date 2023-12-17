@@ -57,3 +57,7 @@ body {
     background-repeat: no-repeat;
     background-position: 50% 50%;
 }
+
+.main-footer {
+    border-top: 1px solid #ddd; /* Adiciona uma linha superior com uma cor cinza claro (#ddd) */
+}
