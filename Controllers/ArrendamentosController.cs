@@ -50,6 +50,14 @@ namespace Ficha1_P1_V1.Controllers
 			var locadores = await ObterLocadoresAsync();
 			ViewData["ListaDeLocadores"] = new SelectList(locadores, "Id", "Email");
 
+			var idc = _context.Arrendamento.Select(c => c.Id).ToList();
+
+			var avaliacoesComuns = _context.Avaliacao
+				.Where(c => idc.Contains(c.ArrendamentoId))
+				.ToList();
+
+			ViewData["ListaDeAvaliacoes"] = new SelectList(avaliacoesComuns, "Id", "Classificacao");
+
 			return View(await arrendamentos.ToListAsync());
 		}
 
@@ -569,7 +577,7 @@ namespace Ficha1_P1_V1.Controllers
 			{
 				return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
 			}
-			if (ModelState.IsValid && arrend.EstadoEntregue != null)
+			if (arrend.EstadoEntregue != null)
 			{
 				try
 				{
@@ -595,6 +603,13 @@ namespace Ficha1_P1_V1.Controllers
 						throw;
 					}
 				}
+            }
+            else
+            {
+				var errors = ModelState.Values.SelectMany(v => v.Errors)
+									  .Select(e => e.ErrorMessage)
+									  .ToList();
+				return BadRequest(errors);
 			}
 			return RedirectToAction(nameof(Index));
 		}
@@ -628,7 +643,7 @@ namespace Ficha1_P1_V1.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
             }
-            if (ModelState.IsValid && arrend.EstadoRecebido != null)
+            if (arrend.EstadoRecebido != null)
             {
                 try
                 {
@@ -654,6 +669,13 @@ namespace Ficha1_P1_V1.Controllers
                         throw;
                     }
                 }
+            }
+            else
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                      .Select(e => e.ErrorMessage)
+                                      .ToList();
+                return BadRequest(errors);
             }
             return RedirectToAction(nameof(Index));
         }

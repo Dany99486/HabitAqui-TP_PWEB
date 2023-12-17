@@ -43,7 +43,8 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Criar" class="btn btn-primary" />
+                <input type="submit" value="Criar" class="btn btn-primary" /> |
+                <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
             </div>
         </form>
     </div>
@@ -52,9 +53,9 @@
 }
 else
 {
-    <p class="text-danger">Inicie sessão para criar avaliações.</p>
+    <p class="text-warning">Inicie sessão para criar avaliações.</p>
+    <div>
+        <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+    </div>
 }
-<div>
-    <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
-</div>
 <br />

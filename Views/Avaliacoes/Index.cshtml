@@ -68,7 +68,16 @@
                 @Html.DisplayFor(modelItem => item.Comentario)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Arrendamento.Id)
+                <!--Html.DisplayFor(modelItem => item.Arrendamento.Id)-->
+                <ul>
+					@foreach (var arrendamento in (IEnumerable<SelectListItem>)ViewData["ListaDeArrenda"])
+					{
+                        if (arrendamento.Value == item.ArrendamentoId.ToString())
+                        {
+                            <li>@arrendamento.Text</li>
+						}
+					}
+				</ul>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a> |

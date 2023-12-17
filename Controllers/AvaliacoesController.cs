@@ -27,9 +27,18 @@ namespace Ficha1_P1_V1.Controllers
 		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
 		public async Task<IActionResult> Index()
         {
-            /*var applicationDbContext = _context.Avaliacao.Include(a => a.Arrendamento);
+			/*var applicationDbContext = _context.Avaliacao.Include(a => a.Arrendamento);
             return View(await applicationDbContext.ToListAsync());*/
-            return _context.Avaliacao != null ?
+
+			var idc = _context.Arrendamento.Select(c => c.Id).ToList();
+
+			var arrendamentosComuns = _context.Avaliacao
+				.Where(c => idc.Contains(c.ArrendamentoId))
+				.ToList();
+
+			ViewData["ListaDeArrenda"] = new SelectList(arrendamentosComuns, "Id", "ArrendamentoId");
+
+			return _context.Avaliacao != null ?
              View(await _context.Avaliacao.ToListAsync()) :
              Problem("Entity set 'ApplicationDbContext.Habitacao' is null.");
         }
@@ -90,12 +99,18 @@ namespace Ficha1_P1_V1.Controllers
 		[Authorize(Roles = "Cliente")]
 		public async Task<IActionResult> Create([Bind("Id,Classificacao,Comentario,ArrendamentoId")] Avaliacao avaliacao)
         {
+            ModelState.Remove(nameof(avaliacao.Arrendamento));
+            ModelState.Remove(nameof(avaliacao.ArrendamentoId));
+
             if (ModelState.IsValid)
             {
-                if (_context.Arrendamento.Find(avaliacao.ArrendamentoId) == null)
+                var avaliacaoExiste = _context.Arrendamento.Find(avaliacao.ArrendamentoId);
+				if (avaliacaoExiste == null)
                 {
                     return NotFound();
                 }
+                avaliacao.Arrendamento = avaliacaoExiste;
+                avaliacao.ArrendamentoId = avaliacaoExiste.Id;
                 _context.Add(avaliacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
