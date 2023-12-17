@@ -21,8 +21,16 @@
       "PackagePath": "staticwebassets\\Ficheiros\\8\\d54320fd-5be7-4f6d-8514-6a98a6004cd7.png"
     },
     {
+      "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\css\\all.min.css",
+      "PackagePath": "staticwebassets\\css\\all.min.css"
+    },
+    {
       "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\css\\carousel.css",
       "PackagePath": "staticwebassets\\css\\carousel.css"
+    },
+    {
+      "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\css\\fontawesome.min.css",
+      "PackagePath": "staticwebassets\\css\\fontawesome.min.css"
     },
     {
       "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\css\\site.css",
@@ -63,6 +71,14 @@
     {
       "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\user.png",
       "PackagePath": "staticwebassets\\img\\user.png"
+    },
+    {
+      "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\js\\all.min.js",
+      "PackagePath": "staticwebassets\\js\\all.min.js"
+    },
+    {
+      "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\js\\fontawesome.min.js",
+      "PackagePath": "staticwebassets\\js\\fontawesome.min.js"
     },
     {
       "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\js\\site.js",
