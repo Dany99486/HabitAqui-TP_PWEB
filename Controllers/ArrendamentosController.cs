@@ -169,12 +169,12 @@ namespace Ficha1_P1_V1.Controllers
 			return View(pesquisaViewModel);
         }
 
-		// GET: Arrendamentos/Details/5
-		[Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
-		public async Task<IActionResult> Details(int? id)
+        // GET: Arrendamentos/Details/5
+        [Authorize(Roles = "Admin,AdminEmpresa,Gestor,Funcionario,Cliente")]
+        public async Task<IActionResult> Details(int? id)
         {
 
-			if (id == null || _context.Arrendamento == null)
+            if (id == null || _context.Arrendamento == null)
             {
                 return NotFound();
             }
@@ -186,6 +186,21 @@ namespace Ficha1_P1_V1.Controllers
             if (arrendamento == null)
             {
                 return NotFound();
+            }
+
+            //imagens das Habitações
+            try
+            {
+                string CoursePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros/" + arrendamento.habitacaoId.ToString());
+                var files = from file in Directory.EnumerateFiles(CoursePath)
+                            select string.Format("/Ficheiros/{0}/{1}", arrendamento.habitacaoId, Path.GetFileName(file));
+                ViewData["NFich"] = files.Count();
+                ViewData["Ficheiros"] = files;
+            }
+            catch (Exception ex)
+            {
+                //ViewData["NFich"] = 0;
+                //ViewData["Ficheiros"] = null;
             }
 
             return View(arrendamento);

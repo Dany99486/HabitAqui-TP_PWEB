@@ -76,7 +76,14 @@
 </div>
 <br />
 <div>
-	<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+	@{
+		var userId = ViewBag.UserId as string;
+	}
+	@if (User.Identity.IsAuthenticated && userId == Model.FuncionarioDaHabitacaoId || userId == Model.GestorDaHabitacaoId)
+	{
+		<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+		<text>|</text>
+	}
 	<a class="btn btn-outline-secondary" asp-action="Index">Voltar</a>
 </div>
 <br />

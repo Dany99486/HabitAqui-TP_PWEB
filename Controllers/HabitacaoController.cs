@@ -77,6 +77,11 @@ namespace Ficha1_P1_V1.Controllers
                 // Tratar a exceção, se necessário
             }
 
+            var user = await _userManager.GetUserAsync(User);
+
+            // Armazenar o ID do usuário na ViewBag
+            ViewBag.UserId = user?.Id;
+
             return View(await _context.Habitacao.Include("Categoria").ToListAsync());
         }
 
@@ -217,6 +222,11 @@ namespace Ficha1_P1_V1.Controllers
                 //ViewData["NFich"] = 0;
                 //ViewData["Ficheiros"] = null;
             }
+
+            var user = await _userManager.GetUserAsync(User);
+
+            // Armazenar o ID do usuário na ViewBag
+            ViewBag.UserId = user?.Id;
 
             return View(habitacao);
         }

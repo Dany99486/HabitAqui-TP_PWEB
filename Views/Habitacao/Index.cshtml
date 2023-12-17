@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Ficha1_P1_V1.Models.Habitacao>
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
@@ -41,7 +42,7 @@
 
 <h1>Habitações</h1>
 @if (User.Identity.IsAuthenticated &&
-         (User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+        (User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
 {
     <p>
         <a class="btn btn-primary" asp-action="Create">Criar nova Habitação</a>
@@ -61,7 +62,10 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Detalhes</a>
-                            @if (User.IsInRole("AdminEmpresa"))
+                            @{
+                                var userId = ViewBag.UserId as string;
+                            }
+                            @if (User.Identity.IsAuthenticated && userId == item.FuncionarioDaHabitacaoId || userId == item.GestorDaHabitacaoId)
                             {
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Apagar</a>

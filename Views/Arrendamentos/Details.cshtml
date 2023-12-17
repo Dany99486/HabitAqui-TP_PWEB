@@ -11,46 +11,65 @@
     <h4>Arrendamento</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataInicio)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DataInicio)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DataFim)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DataFim)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PeriodoMinimo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PeriodoMinimo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PeriodoMaximo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PeriodoMaximo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Preco)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Preco)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.habitacao)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.habitacao.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.habitacao.Localizacao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.habitacao.Localizacao)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.habitacao.Tipo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.habitacao.Tipo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.habitacao.Descricao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.habitacao.Descricao)
+        </dd>
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.locador.Email)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.locador.Email)
         </dd>
         <dt class="col-sm-2">
@@ -103,16 +122,34 @@
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.ObservacoesC)
-        </dd>
+            </dd>
         }
     </dl>
+    <p>Imagens da Habitação</p>
+    <div class="row d-flex">
+        @if (@ViewBag.NFich > 0)
+        {
+            foreach (var file in ViewBag.Ficheiros)
+            {
+                <img src="@file" class="img-thumbnail" style="max-width:150px; max-height:150px;" onclick="showImage('@file')" />
+            }
+        }
+        else
+        {
+            <p class="alert text-danger alert-warning"> Ainda não existem imagens associadas a esta Habitação!</p>
+        }
+    </div>
 </div>
 <div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+    @if (User.Identity.IsAuthenticated && User.Identity.Name == Model?.locador.Email)
+    {
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+        <text>|</text>
+    }
     <a class="btn btn-outline-secondary" asp-action="Index">Voltar</a> |
-    @if(User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
     {
         <a class="btn btn-primary" asp-action="ReservaCliente">Avançar para o Arrendamento</a>
     }
 </div>
-<br/>
+<br />
