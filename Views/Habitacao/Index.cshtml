@@ -5,9 +5,43 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
+<style>
+    h1 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    .btn-primary {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-text {
+        margin-bottom: 10px;
+    }
+
+    .btn-group {
+        margin-top: 10px;
+    }
+</style>
+
 <h1>Habitações</h1>
 @if (User.Identity.IsAuthenticated &&
-           (User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
+         (User.IsInRole("AdminEmpresa") || User.IsInRole("Gestor") || User.IsInRole("Funcionario")))
 {
     <p>
         <a class="btn btn-primary" asp-action="Create">Criar nova Habitação</a>
@@ -18,7 +52,7 @@
     {
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-                <img src="@GetHabitationImageUrl(item.Id)" class="bd-placeholder-img card-img-top" width="100%" height="225" alt="Habitation Image">
+                <img src="@GetHabitationImageUrl(item.Id)" class="bd-placeholder-img card-img" alt="Habitation Image">
                 <div class="card-body">
                     <p class="card-text">@item.Localizacao</p>
                     <p class="card-text">Categoria: @(item.Categoria?.Nome ?? "N/A")</p>

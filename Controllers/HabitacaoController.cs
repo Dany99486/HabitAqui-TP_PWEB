@@ -109,7 +109,15 @@ namespace Ficha1_P1_V1.Controllers
             else
                 ViewData["Lista"] = await _context.Habitacao.ToListAsync();
 
-			return View(ViewData["Lista"]);
+            var idc = _context.Habitacao.Select(c => c.CategoriaId).ToList();
+
+            var categoriasComuns = _context.Categoria
+                .Where(c => idc.Contains(c.Id))
+                .ToList();
+
+            ViewData["ListaDeCategorias"] = new SelectList(categoriasComuns, "Id", "Nome");
+
+            return View(ViewData["Lista"]);
 		}
 
         [HttpPost]
@@ -227,12 +235,12 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
-		public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,CategoriaId,Descricao")] Habitacao habitacao)
+        [Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+        public async Task<IActionResult> Create([Bind("Id,Localizacao,Tipo,CategoriaId,Descricao")] Habitacao habitacao, [FromForm] List<IFormFile> ficheiros)
         {
-	        ModelState.Remove(nameof(Habitacao.Categoria));
+            ModelState.Remove(nameof(Habitacao.Categoria));
 
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 habitacao.Reservado = false;
                 habitacao.Estado = true;
@@ -241,36 +249,40 @@ namespace Ficha1_P1_V1.Controllers
                 var categoria = await _context.Categoria.FindAsync(habitacao.CategoriaId);
                 if (categoria != null)
                 {
-					habitacao.Categoria = categoria;
-				}
+                    habitacao.Categoria = categoria;
+                }
 
-				var funcId = await _userManager.GetUserAsync(User);
-				if (User.IsInRole("Funcionario"))
+                var funcId = await _userManager.GetUserAsync(User);
+                if (User.IsInRole("Funcionario"))
                 {
                     habitacao.FuncionarioDaHabitacaoId = funcId.Id;
                 }
                 if (User.IsInRole("Gestor"))
                 {
-					habitacao.GestorDaHabitacaoId = funcId.Id;
-				}
+                    habitacao.GestorDaHabitacaoId = funcId.Id;
+                }
                 habitacao.EmpresaId = funcId.empresaId;
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
+
+                // Chama o método para salvar as imagens
+                await SalvarImagensHabitacao(habitacao.Id, ficheiros);
+
                 return RedirectToAction(nameof(ParqueIndex));
             }
             if (User.IsInRole("Cliente") || User.IsInRole("Inativo"))
             {
-				ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
-			}
-			var user = await _userManager.GetUserAsync(User);
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+            }
+            var user = await _userManager.GetUserAsync(User);
             if (User.IsInRole("Funcionario"))
-			    ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
             else if (User.IsInRole("Gestor"))
                 ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
             else
                 ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "CategoriaId");
 
-			return View(habitacao);
+            return View(habitacao);
         }
 
 
@@ -351,8 +363,8 @@ namespace Ficha1_P1_V1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao,estado,reservado")] Habitacao habitacao, [FromForm] List<IFormFile> ficheiros)
+        [Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Localizacao,Tipo,CategoriaId,Descricao,estado,reservado")] Habitacao habitacao, [FromForm] List<IFormFile> ficheiros)
         {
             if (id != habitacao.Id)
             {
@@ -381,41 +393,8 @@ namespace Ficha1_P1_V1.Controllers
                     _context.Update(habitacao);
                     await _context.SaveChangesAsync();
 
-                    // directorio onde vão ser guardados os ficheiros
-                    // logica :
-                    /* wwwroot\Ficheiros
-                     * wwwroot\Ficheiros\1
-                     * wwwroot\Ficheiros\1\blablabla.jpg
-                     * wwwroot\Ficheiros\1\bl3bleble.jpg 
-                     * wwwroot\Ficheiros\2
-                     * wwwroot\Ficheiros\3
-                     * */
-
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros");
-                    if (!Directory.Exists(path))
-                        Directory.CreateDirectory(path);
-
-                    // directorio relativo aos ficheiros do curso
-                    string CoursePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros/" + id.ToString());
-
-                    if (!Directory.Exists(CoursePath))
-                        Directory.CreateDirectory(CoursePath);
-
-                    foreach (var formFile in ficheiros)
-                    {
-                        if (formFile.Length > 0)
-                        {
-                            var filePath = Path.Combine(CoursePath, Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName));
-                            while (System.IO.File.Exists(filePath))
-                            {
-                                filePath = Path.Combine(CoursePath, Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName));
-                            }
-                            using (var stream = System.IO.File.Create(filePath))
-                            {
-                                await formFile.CopyToAsync(stream);
-                            }
-                        }
-                    }
+                    // Chama o método para salvar as imagens
+                    await SalvarImagensHabitacao(id, ficheiros);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -430,23 +409,23 @@ namespace Ficha1_P1_V1.Controllers
                 }
                 return RedirectToAction(nameof(ParqueIndex));
             }
-			if (User.IsInRole("Cliente") || User.IsInRole("Inativo"))
-			{
-				ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
-			}
-			var user = await _userManager.GetUserAsync(User);
-			if (User.IsInRole("Funcionario"))
-				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
-			else if (User.IsInRole("Gestor"))
-				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
-			else
-				ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "CategoriaId");
+            if (User.IsInRole("Cliente") || User.IsInRole("Inativo"))
+            {
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Categoria.Where(c => c.Disponivel).ToList(), "Id", "Nome");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (User.IsInRole("Funcionario"))
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.FuncionarioDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
+            else if (User.IsInRole("Gestor"))
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.Where(c => c.GestorDaHabitacaoId == user.Id).ToList(), "Id", "CategoriaId");
+            else
+                ViewData["ListaDeCategorias"] = new SelectList(_context.Habitacao.ToList().ToList(), "Id", "CategoriaId");
 
-			return View(habitacao);
+            return View(habitacao);
         }
 
-		// GET: Habitacao/Delete/5
-		[Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
+        // GET: Habitacao/Delete/5
+        [Authorize(Roles = "AdminEmpresa,Gestor,Funcionario")]
 		public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Habitacao == null)
@@ -505,44 +484,80 @@ namespace Ficha1_P1_V1.Controllers
                 return NotFound();
             }
 
-            var hab = await _context.Habitacao.FindAsync(id);
-
-            if (hab == null)
+            if (int.TryParse(id, out int numeroId))
             {
-                return NotFound();
-            }
+                var hab = await _context.Habitacao.FindAsync(numeroId);
 
-            if (hab.Estado)
-            {
-                hab.Estado = false;
-            }
-            else
-            {
-                hab.Estado = true;
-            }
-
-            ModelState.Remove(nameof(Habitacao));
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (hab == null)
                 {
-                    _context.Update(hab);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+
+                if (hab.Estado)
                 {
-                    if (!HabitacaoExists(hab.Id))
+                    hab.Estado = false;
+                }
+                else
+                {
+                    hab.Estado = true;
+                }
+
+                ModelState.Remove(nameof(Habitacao));
+
+                if (ModelState.IsValid)
+                {
+                    try
                     {
-                        return NotFound();
+                        _context.Update(hab);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!HabitacaoExists(hab.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+				return RedirectToAction(nameof(ParqueIndex));
+			}
+			ModelState.AddModelError(string.Empty, "Ocorreu um erro, não é possivel mudar o estado da habitação");
+			return View("PáginaErro");
+		}
+
+        private async Task SalvarImagensHabitacao(int id, List<IFormFile> ficheiros)
+        {
+            // Diretório relativo aos ficheiros das Habitações
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Ficheiros");
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            // Diretório relativo aos ficheiros da Habitação específica
+            string habitacaoPath = Path.Combine(path, id.ToString());
+
+            if (!Directory.Exists(habitacaoPath))
+                Directory.CreateDirectory(habitacaoPath);
+
+            foreach (var formFile in ficheiros)
+            {
+                if (formFile.Length > 0)
+                {
+                    var filePath = Path.Combine(habitacaoPath, Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName));
+                    while (System.IO.File.Exists(filePath))
+                    {
+                        filePath = Path.Combine(habitacaoPath, Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName));
+                    }
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await formFile.CopyToAsync(stream);
                     }
                 }
             }
-            return RedirectToAction(nameof(ParqueIndex));
         }
     }
 }

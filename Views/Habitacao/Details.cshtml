@@ -1,40 +1,40 @@
 ﻿@model Ficha1_P1_V1.Models.Habitacao
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout2.cshtml";
+	ViewData["Title"] = "Details";
+	Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 <h1>Detalhes</h1>
 
 <div>
-    <h4>Habitacao</h4>
-    <hr />
-    <dl class="row">
-	    <dt class = "col-sm-2">
-		    @Html.DisplayNameFor(model => model.Localizacao)
-	    </dt>
-	    <dd class = "col-sm-10">
-		    @Html.DisplayFor(model => model.Localizacao)
-	    </dd>
+	<h4>Habitacao</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Localizacao)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Localizacao)
+		</dd>
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.Tipo)
 		</dt>
-	    <dd class="col-sm-10">
-		    @Html.DisplayFor(model => model.Tipo)
-	    </dd>
-	    <dt class="col-sm-2">
-		    @Html.DisplayNameFor(model => model.Categoria.Nome)
-	    </dt>
-	    <dd class="col-sm-10">
-		    @Html.DisplayFor(model => model.Categoria.Nome)
-	    </dd>
-	    <dt class = "col-sm-2">
-		    @Html.DisplayNameFor(model => model.Descricao)
-	    </dt>
-	    <dd class = "col-sm-10">
-		    @Html.DisplayFor(model => model.Descricao)
-	    </dd>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Tipo)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Categoria.Nome)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Categoria.Nome)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Descricao)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Descricao)
+		</dd>
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.Estado)
 		</dt>
@@ -47,11 +47,46 @@
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.Reservado)
 		</dd>
-	    
-    </dl>
+	</dl>
+	<p>Imagens da Habitação</p>
+	<div class="row d-flex">
+		@if (@ViewBag.NFich > 0)
+		{
+			foreach (var file in ViewBag.Ficheiros)
+			{
+				<img src="@file" class="img-thumbnail" style="max-width:150px; max-height:150px;" onclick="showImage('@file')" />
+			}
+		}
+		else
+		{
+			<p class="alert text-danger alert-warning"> Ainda não existem imagens associadas a esta Habitação!</p>
+		}
+	</div>
+
+	<!-- Modal para exibir imagens em tamanho maior -->
+	<div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<img id="modalImage" class="img-fluid" style="max-width: 100%; max-height: 100vh;" />
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+<br />
 <div>
 	<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
 	<a class="btn btn-outline-secondary" asp-action="Index">Voltar</a>
 </div>
 <br />
+
+
+@section Scripts {
+	<script>
+		function showImage(imageSrc) {
+			$('#modalImage').attr('src', imageSrc);
+			$('#imageModal').modal('show');
+		}
+	</script>
+}

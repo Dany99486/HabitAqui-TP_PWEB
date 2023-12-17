@@ -11,52 +11,127 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-	        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-	        <div class="form-group">
-		        <label asp-for="Localizacao" class="control-label"></label>
-				<input asp-for="Localizacao" class="form-control" />
-				<span asp-validation-for="Localizacao" class="text-danger"></span>
-			</div><br />
-	        <div class="form-group">
-		        <label asp-for="Tipo" class="control-label"></label>
-		        <select asp-for="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
-			        <option value="">Selecione o tipo</option>
-		        </select>
-		        <span asp-validation-for="Tipo" class="text-danger"></span>
-			</div><br />
-			@if (ViewBag.ListaDeCategorias != null)
-			{
-				<div class="form-group">
-					<label asp-for="CategoriaId" class="control-label fw-bold"></label>
-					<select asp-for="CategoriaId"
-							asp-items="ViewBag.ListaDeCategorias"
-							class="form-control">
-					</select>
-					<span asp-validation-for="CategoriaId" class="text-danger"></span>
-				</div><br />
-			}
-	        <div class="form-group">
-		        <label asp-for="Descricao" class="control-label"></label>
-		        <input asp-for="Descricao" class="form-control" />
-		        <span asp-validation-for="Descricao" class="text-danger"></span>
-			</div><br />
-	        
-	        
-	        <div class="form-group">
-		        <input type="submit" value="Criar" class="btn btn-primary" />
-	        </div>
-            
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Localizacao" class="control-label"></label>
+                <input asp-for="Localizacao" class="form-control" />
+                <span asp-validation-for="Localizacao" class="text-danger"></span>
+            </div><br />
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label>
+                <select asp-for="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
+                    <option value="">Selecione o tipo</option>
+                </select>
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div><br />
+            @if (ViewBag.ListaDeCategorias != null)
+            {
+                <div class="form-group">
+                    <label asp-for="CategoriaId" class="control-label fw-bold"></label>
+                    <select asp-for="CategoriaId"
+                            asp-items="ViewBag.ListaDeCategorias"
+                            class="form-control">
+                    </select>
+                    <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                </div>
+
+                <br />
+            }
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div><br />
+
+            <div class="col-md-8">
+                <p>Adicionar imagens:</p>
+                <div>
+                    <div id="galeriaImagens" class="row d-flex"></div>
+                    <img id="NovaIMG" class="img-thumbnail" src="">
+                </div>
+                <div class="form-group">
+                    <input type="file" name="ficheiros" id="ficheiros" multiple
+                           accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                           class="form-control"
+                           style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                           onchange="carregarImagens(this)" />
+                </div>
+                <p>Galeria de imagens</p>
+                <div class="row d-flex">
+                    @if (@ViewBag.NFich > 0)
+                    {
+                        @foreach (var file in ViewBag.Ficheiros)
+                        {
+                            <div class="col p-2 m-2" style="border-radius:10px; border:1px dotted #ccc;">
+
+                                <a asp-action="deleteImage" asp-route-id="@Model.Id" asp-route-image="@file">
+                                    <svg bootstrap-icon="XCircleFill" onclick="return confirm('Tem a certeza que deseja apagar esta imagem?')"
+                                         class="text-danger" width="24" height="24"
+                                         aria-label="Trash"></svg>
+                                </a>
+
+                                <img src="@file" class="img-thumbnail" style="max-width:150px; max-height:150px;" />
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="alert text-danger alert-warning"> Ainda não existem imagens associadas a esta Habitação!</p>
+                    }
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+
         </form>
     </div>
 </div>
 <br />
 
 <div>
-	<a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
 </div>
 <br />
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function carregarImagens(input) {
+            var preview = document.getElementById('galeriaImagens');
+            var novaImg = document.getElementById('NovaIMG');
+
+            preview.innerHTML = '';
+            novaImg.src = '';
+
+            var files = input.files;
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'img-thumbnail';
+                    img.style.maxWidth = '150px';
+                    img.style.maxHeight = '150px';
+                    img.style.cursor = 'pointer'; // Adicione um estilo para o cursor
+
+                    img.onclick = function () {
+                        novaImg.src = this.src;
+                    };
+
+                    preview.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 }

@@ -94,7 +94,15 @@
 						@Html.DisplayFor(modelItem => item.Tipo)
 					</td>
 					<td>
-						@Html.DisplayFor(modelItem => item.Categoria.Nome)
+					<ul>
+						@foreach (var categoria in (IEnumerable<SelectListItem>)ViewData["ListaDeCategorias"])
+						{
+							if (categoria.Value == item.CategoriaId.ToString())
+                            {
+								<li>@categoria.Text</li>
+                            }
+						}
+					</ul>
 					</td>
 
 					@if (User.IsInRole("Gestor") || User.IsInRole("Funcionario"))
