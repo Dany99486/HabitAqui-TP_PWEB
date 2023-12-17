@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "H+XNZ644hE/xNDLLJWy9or1Icj8DumtqnRvMK89KkhA=",
+  "Hash": "VZriqxYUzFXi8+qpE83wbT1xFzsChAZ7wzcB9SQTmdA=",
   "Source": "Ficha1_P1_V1",
   "BasePath": "_content/Ficha1_P1_V1",
   "Mode": "Default",
@@ -1402,6 +1402,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\banner06.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\defaultHouse.png",
+      "SourceId": "Ficha1_P1_V1",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\",
+      "BasePath": "_content/Ficha1_P1_V1",
+      "RelativePath": "img/defaultHouse.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\defaultHouse.png"
     },
     {
       "Identity": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\user.png",

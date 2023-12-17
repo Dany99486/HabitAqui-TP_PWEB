@@ -43,21 +43,15 @@
 @functions {
     public string GetHabitationImageUrl(int habitationId)
     {
-        var habitationIds = ViewBag.HabitationIds as List<int>;
-        var habitationFiles = ViewBag.HabitationFiles as List<object>;
+        var habitationFiles = ViewBag.HabitationFiles as List<HabitationInfo>;
 
-        if (habitationIds != null && habitationIds.Contains(habitationId) && habitationFiles != null)
+        if (habitationFiles != null)
         {
-            var habitation = habitationFiles.FirstOrDefault(h => (int)h.GetType().GetProperty("Id").GetValue(h) == habitationId);
+            var habitation = habitationFiles.FirstOrDefault(h => h.Id == habitationId);
 
-            if (habitation != null)
+            if (habitation != null && habitation.Files != null && habitation.Files.Any())
             {
-                var files = habitation.GetType().GetProperty("Files").GetValue(habitation) as List<string>;
-
-                if (files != null && files.Any())
-                {
-                    return $"/Ficheiros/{habitationId}/{files.First()}";
-                }
+                return $"/Ficheiros/{habitationId}/{habitation.Files.First()}";
             }
         }
 

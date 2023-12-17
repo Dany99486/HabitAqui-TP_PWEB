@@ -54,7 +54,7 @@ namespace Ficha1_P1_V1.Controllers
 
                     // Obter os nomes dos arquivos na pasta de cada habitação
                     var habitationFiles = directories
-                        .Select(dir => new
+                        .Select(dir => new HabitationInfo
                         {
                             Id = int.TryParse(Path.GetFileName(dir), out var id) ? id : 0,
                             Files = Directory.GetFiles(dir, "*.*")
@@ -68,11 +68,8 @@ namespace Ficha1_P1_V1.Controllers
                     // Adicionar os dados à ViewBag
                     ViewData["HabitationFiles"] = habitationFiles;
 
-                    // Obter os IDs das habitações
-                    var habitationIds = habitationFiles.Select(h => h.Id).ToList();
-
-                    // Adicionar os IDs à ViewBag
-                    ViewData["HabitationIds"] = habitationIds;
+                    // Adicionar apenas os IDs à ViewBag
+                    ViewData["HabitationIds"] = habitationFiles.Select(h => h.Id).ToList();
                 }
             }
             catch (Exception ex)

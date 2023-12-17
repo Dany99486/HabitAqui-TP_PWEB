@@ -49,6 +49,10 @@
       "PackagePath": "staticwebassets\\img\\banner_05.jpg"
     },
     {
+      "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\defaultHouse.png",
+      "PackagePath": "staticwebassets\\img\\defaultHouse.png"
+    },
+    {
       "Id": "C:\\Users\\ricar\\OneDrive\\Documentos\\GitHub\\HabitAqui-TP_PWEB\\wwwroot\\img\\user.png",
       "PackagePath": "staticwebassets\\img\\user.png"
     },
