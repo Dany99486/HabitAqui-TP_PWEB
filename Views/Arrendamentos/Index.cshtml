@@ -170,7 +170,7 @@
 							}
 							else
 							{
-								<a asp-action="EntregaDoCliente" style="margin-top: 10px" asp-route-id="@item.Id" class="btn btn-primary">Informações adicionais ao receber</a>
+								<a asp-action="EntregaDeCliente" style="margin-top: 10px" asp-route-id="@item.Id" class="btn btn-outline-dark">Informações adicionais ao receber</a>
 							}
 						}
 						@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente") && !item.Aceite)

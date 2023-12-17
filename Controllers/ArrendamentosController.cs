@@ -74,6 +74,10 @@ namespace Ficha1_P1_V1.Controllers
 				.Include(a => a.locador)
                 .AsQueryable();
 
+            var query2 = _context.Avaliacao
+				.Include(a => a.Arrendamento)
+				.AsQueryable();
+
 			// Aplicar filtro para Tipo se estiver preenchido
 			if (Tipo.HasValue)
 			{
@@ -108,12 +112,22 @@ namespace Ficha1_P1_V1.Controllers
 			}
 			else if (OrderBy == "AvaliacaoCrescente")
 			{
-				query = query.OrderBy(c => c.Avaliacao);
+                //query = query.OrderBy(c => c.Avaliacao);
+                query2 = query2.OrderBy(c => c.Classificacao);
 			}
 			else if (OrderBy == "AvaliacaoDecrescente")
 			{
-				query = query.OrderByDescending(c => c.Avaliacao);
+				//query = query.OrderByDescending(c => c.Avaliacao);
+                query2 = query2.OrderByDescending(c => c.Classificacao);
 			}
+
+			var idc = _context.Arrendamento.Select(c => c.Id).ToList();
+
+			var avaliacoesComuns = _context.Avaliacao
+				.Where(c => idc.Contains(c.ArrendamentoId))
+				.ToList();
+
+			ViewData["ListaDeAvaliacoes"] = new SelectList(avaliacoesComuns, "Id", "Classificacao");
 
 			var resultado = await query.Include(a => a.habitacao).ToListAsync();
 			return View(resultado);
@@ -353,8 +367,8 @@ namespace Ficha1_P1_V1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReservarCliente(int id) //lado do cliente
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 if (_context.Arrendamento == null)
                 {
                     return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
@@ -375,7 +389,7 @@ namespace Ficha1_P1_V1.Controllers
 						await _context.SaveChangesAsync();
 					}
                 }
-            }
+            //}
             return RedirectToAction(nameof(Index));
         }
 
@@ -383,8 +397,8 @@ namespace Ficha1_P1_V1.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DesreservarCliente(int id) //lado do cliente
 		{
-			if (ModelState.IsValid)
-			{
+			//if (ModelState.IsValid)
+			//{
 				if (_context.Arrendamento == null)
 				{
 					return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
@@ -405,7 +419,7 @@ namespace Ficha1_P1_V1.Controllers
 						await _context.SaveChangesAsync();
 					}
 				}
-			}
+			//}
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -435,8 +449,8 @@ namespace Ficha1_P1_V1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReservaAceita(int id, [Bind("Id, EstadoEntregue, EquipamentosOpcionais, DanosHabitacao, Observacoes")] Arrendamento arrend) //lado do gestor
 		{
-            if (!ModelState.IsValid)
-            {
+            //if (!ModelState.IsValid)
+            //{
                 if (_context.Arrendamento == null)
                 {
                     return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
@@ -462,8 +476,8 @@ namespace Ficha1_P1_V1.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-            }
-                return RedirectToAction(nameof(Index));
+            //}
+            return RedirectToAction(nameof(Index));
         }
         //Para recusar
 		[HttpPost]
@@ -510,7 +524,7 @@ namespace Ficha1_P1_V1.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Arrendamento' is null.");
             }
-            if (ModelState.IsValid && arrend.EstadoRecebido != null)
+            if (arrend.EstadoRecebido != null)
             {
                 try
                 {
@@ -521,9 +535,17 @@ namespace Ficha1_P1_V1.Controllers
                         arrendamento.EquipamentosOpcionaisC = arrend.EquipamentosOpcionaisC;
                         arrendamento.DanosHabitacaoC = arrend.DanosHabitacaoC;
                         arrendamento.ObservacoesC = arrend.ObservacoesC;
-                        arrendamento.habitacao.Reservado = false;
-                        arrendamento.habitacao.ReservadoCliente = null;
-                        arrendamento.habitacao.QuererReserva = false;
+						var hab = await _context.Habitacao.FindAsync(arrendamento.habitacaoId);
+						if (hab != null)
+						{
+							hab.Reservado = false;
+							hab.ReservadoCliente = null;
+							hab.QuererReserva = false;
+							_context.Habitacao.Update(hab);
+						}
+						//arrendamento.habitacao.Reservado = false;
+                        //arrendamento.habitacao.ReservadoCliente = null;
+                        //arrendamento.habitacao.QuererReserva = false;
                         arrendamento.Aceite = false;
                         _context.Arrendamento.Update(arrendamento);
                     }
@@ -546,9 +568,42 @@ namespace Ficha1_P1_V1.Controllers
             return View(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TerminarRenda(int? id)
+        {
+            if (id == null || _context.Arrendamento == null)
+            {
+				return NotFound();
+			}
+			try
+			{
+				var arrendamento = await _context.Arrendamento.FindAsync(id);
+				if (arrendamento != null)
+				{
+                    var hab = await _context.Habitacao.FindAsync(arrendamento.habitacaoId);
+                    if (hab != null)
+                    {
+						hab.Reservado = false;
+						hab.ReservadoCliente = null;
+						hab.QuererReserva = false;
+						_context.Habitacao.Update(hab);
+					}
+					//arrendamento.habitacao.Reservado = false;
+					//arrendamento.habitacao.QuererReserva = false;
+					arrendamento.Aceite = false;
+					_context.Arrendamento.Update(arrendamento);
+				}
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+			}
+			return RedirectToAction(nameof(MeusArrendamentos));
+		}
 
-        ///Para adicionar o texto
-        public async Task<IActionResult> AceitarReserva(int? id)
+		///Para adicionar o texto
+		public async Task<IActionResult> AceitarReserva(int? id)
         {
 			if (id == null || _context.Arrendamento == null)
 			{

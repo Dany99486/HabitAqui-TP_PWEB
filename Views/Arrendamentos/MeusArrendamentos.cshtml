@@ -7,6 +7,8 @@
 
 <h1>Meus Arrendamentos</h1>
 <hr />
+@if(User.IsInRole("Cliente"))
+{
 <table class="table">
 	<thead>
 		<tr>
@@ -37,6 +39,10 @@
 			<th>
 				@Html.DisplayNameFor(model => model.Aceite)
 			</th>
+			@if (Model.Select(x => x.habitacao.ReservadoCliente.UserName == User.Identity.Name && x.Aceite).Contains(true))
+			{
+				<th>Terminar Renda</th>
+			}
 		</tr>
 	</thead>
 	<tbody>
@@ -70,7 +76,22 @@
 				<td>
 					@Html.DisplayFor(modelItem => item.Aceite)
 				</td>
+				@if (Model.Select(x => x.habitacao.ReservadoCliente.UserName == User.Identity.Name && x.Aceite).Contains(true))
+				{
+					<td>
+						<form asp-action="TerminarRenda" method="post">
+							<input type="hidden" name="id" value="@item.Id" />
+							<button type="submit" class="btn btn-outline-warning">Terminar Renda</button>
+						</form>
+					</td>
+				}
 			</tr>
 		}
 	</tbody>
 </table>
+}
+else
+{
+	<p class="text-warning">Inicie sessão para ver os seus arrendamentos.</p>
+}
+<br />
