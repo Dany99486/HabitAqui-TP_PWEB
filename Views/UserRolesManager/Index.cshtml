@@ -11,6 +11,7 @@
 	<table class="table table-striped table-hover table-bordered mt-4">
 		<thead>
 			<tr>
+				<th>Foto</th>
 				<th>Nome</th>
 				<th>Email</th>
 				<th>Roles</th>
@@ -21,6 +22,20 @@
 			@foreach (var user in Model)
 			{
 				<tr>
+					<td>
+						@if (@user.Fotografia != null && @user.Fotografia.Length > 0)
+						{
+							<img id="MinhaFoto"
+								 src="data:image/*;base64,@(Convert.ToBase64String(@user.Fotografia))"
+								 style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;" />
+						}
+						else
+						{
+							<img id="MinhaFoto"
+								 src="/img/user.png"
+								 style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;" />
+						}
+					</td>
 					<td>@user.PrimeiroNome @user.UltimoNome</td>
 					<td>@user.Email</td>
 					<td>@string.Join(" , ", user.Roles.ToList())</td>

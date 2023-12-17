@@ -10,5 +10,6 @@ namespace Ficha1_P1_V1.ViewModels
         public string UserName { get; set; }
         public string Email { get; set; }
         public IEnumerable<string> Roles { get; set; }
-    }
+		public byte[]? Fotografia { get; set; }
+	}
 }

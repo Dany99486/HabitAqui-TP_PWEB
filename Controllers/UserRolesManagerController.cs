@@ -32,8 +32,9 @@ namespace Ficha1_P1_V1.Controllers
                 utilizadorVM.Email = user.Email;
                 utilizadorVM.PrimeiroNome = user.PrimeiroNome;
                 utilizadorVM.UltimoNome = user.UltimoNome;
+				utilizadorVM.Fotografia = user.Fotografia;
 
-                utilizadorVM.Roles = await GetUserRoles(user);
+				utilizadorVM.Roles = await GetUserRoles(user);
 
                 userRolesViewModel.Add(utilizadorVM);
             }
