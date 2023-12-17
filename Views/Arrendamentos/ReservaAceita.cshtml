@@ -3,6 +3,7 @@
 @{
 	ViewData["Title"] = "ReservaAceita";
 	Layout = "~/Views/Shared/_Layout2.cshtml";
+	var n = 0;
 }
 
 <h1>Reservas</h1>
@@ -107,10 +108,15 @@
 							}
 						</td>
 					</tr>
+					n++;
 				}
 			}
 		</tbody>
 	</table>
+	if (n == 0)
+	{
+		<h3 class="alert text-danger alert-warning">Não existem reservas</h3>
+	}
 }
 else
 {

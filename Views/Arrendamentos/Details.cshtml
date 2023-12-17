@@ -146,9 +146,10 @@
         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
         <text>|</text>
     }
-    <a class="btn btn-outline-secondary" asp-action="Index">Voltar</a> |
+    <a class="btn btn-outline-secondary" asp-action="Index">Voltar</a>
     @if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
     {
+        <text>|</text>
         <a class="btn btn-primary" asp-action="ReservaCliente">Avançar para o Arrendamento</a>
     }
 </div>

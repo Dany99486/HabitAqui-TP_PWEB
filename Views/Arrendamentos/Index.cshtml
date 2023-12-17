@@ -21,174 +21,187 @@
 }
 @if (User.Identity.IsAuthenticated && ((User.IsInRole("Gestor") || User.IsInRole("Funcionario")) || User.IsInRole("AdminEmpresa") || User.IsInRole("Cliente")))
 {
-	<hr/>
-	<h4>Filtros:</h4>
-	<div >
-		<div class="col-30">
-			<form method="post" asp-action="Index">
-				<div class="col-md-7">
+	@if (Model.Count() == 0)
+	{
+		<h3 class="text-warning">Sem arrendamentos</h3>
+	}
+	else
+	{
+		<hr/>
+		<h4>Filtros:</h4>
+		<div>
+			<div class="col-30">
+				<form method="post" asp-action="Index">
+					<div class="col-md-7">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="Categoria" class="control-label">Categoria:</label>
+									<select name="Categoria" asp-items="ViewBag.ListaDeCategorias" class="form-control">
+										<option value="">Selecione a categoria</option>
+									</select>
+									<span class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="Tipo" class="control-label">Tipo:</label>
+									<select name="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
+										<option value="">Selecione o tipo</option>
+									</select>
+									<span class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="Locador" class="control-label">Locador:</label>
+									<select name="Locador" asp-items="@ViewBag.ListaDeLocadores" class="form-control">
+										<option value="">Selecione o locador</option>
+									</select>
+									<span class="text-danger"></span>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="orderBy" class="control-label">Ordenar por:</label>
+									<select name="OrderBy" class="form-control">
+										<option value="">Selecione opção</option>
+										<option value="PrecoCrescente">Preco crescente</option>
+										<option value="PrecoDecrescente">Preco decrescente</option>
+										<option value="AvaliacaoCrescente">Avaliação crescente</option>
+										<option value="AvaliacaoDecrescente">Avaliação decrescente</option>
+									</select>
+									<span class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="Categoria" class="control-label">Categoria:</label>
-								<select name="Categoria" asp-items="ViewBag.ListaDeCategorias" class="form-control">
-									<option value="">Selecione a categoria</option>
-								</select>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="Tipo" class="control-label">Tipo:</label>
-								<select name="Tipo" asp-items="Html.GetEnumSelectList<TipoHabitacao>()" class="form-control">
-									<option value="">Selecione o tipo</option>
-								</select>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="Locador" class="control-label">Locador:</label>
-								<select name="Locador" asp-items="@ViewBag.ListaDeLocadores" class="form-control">
-									<option value="">Selecione o locador</option>
-								</select>
-								<span class="text-danger"></span>
-							</div>
-						</div>
-
-						<div class="col-md-4">
-							<div class="form-group">
-								<label for="orderBy" class="control-label">Ordenar por:</label>
-								<select name="OrderBy" class="form-control">
-									<option value="">Selecione opção</option>
-									<option value="PrecoCrescente">Preco crescente</option>
-									<option value="PrecoDecrescente">Preco decrescente</option>
-									<option value="AvaliacaoCrescente">Avaliação crescente</option>
-									<option value="AvaliacaoDecrescente">Avaliação decrescente</option>
-								</select>
-								<span class="text-danger"></span>
+						<div class="col-md-6">
+							<div class="form-group mt-4">
+								<input type="submit" value="Pesquisar" class="btn btn-primary" />
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group mt-4">
-							<input type="submit" value="Pesquisar" class="btn btn-primary" />
-						</div>
-					</div>
-				</div>
 
-			</form>
+				</form>
 
+			</div>
 		</div>
-	</div>
-	<hr/>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>
-					@Html.DisplayNameFor(model => model.DataInicio)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.DataFim)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.PeriodoMinimo)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.PeriodoMaximo)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Preco)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.habitacao)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.locador)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Avaliacao)
-				</th>
-
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model) {
+		<hr/>
+		<table class="table">
+			<thead>
 				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.DataInicio)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.DataFim)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.PeriodoMinimo)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.PeriodoMaximo)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Preco)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.habitacao.Localizacao)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.locador.Email)
-					</td>
-					<td>
-						<ul>
-							@foreach (var avaliacao in (IEnumerable<SelectListItem>)ViewData["ListaDeAvaliacoes"])
-							{
-								if (avaliacao.Value == item.Avaliacao.ToString())
+					<th>
+						@Html.DisplayNameFor(model => model.DataInicio)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.DataFim)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.PeriodoMinimo)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.PeriodoMaximo)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Preco)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.habitacao)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.locador)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Avaliacao)
+					</th>
+
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.DataInicio)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.DataFim)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.PeriodoMinimo)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.PeriodoMaximo)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Preco)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.habitacao.Localizacao)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.locador.Email)
+						</td>
+						<td>
+							<ul>
+								@foreach (var avaliacao in (IEnumerable<SelectListItem>)ViewData["ListaDeAvaliacoes"])
 								{
-									<li>@avaliacao.Text</li>
+									if (avaliacao.Value.Length > 0)
+									{
+										var ava = item.Avaliacao.Where(c => c.Classificacao.ToString() == avaliacao.Text);
+
+										foreach (var avaliacaoItem in ava)
+										{
+											<li>@avaliacaoItem.Classificacao</li>
+										}
+									}
 								}
+							</ul>
+						</td>
+						<td>
+							@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
+							{
+								<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
+								<text>|</text>
 							}
-						</ul>
-					</td>
-					<td>
-						@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
-						{
-							<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
-							<text>|</text>
-						}
-						<a asp-action="Details" style="@(User.IsInRole("Cliente") ? "margin-bottom: 10px;" : "")" asp-route-id="@item.Id" class="btn btn-primary">Detalhes</a>
-						@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
-						{
-							<text>|</text>
-							<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Apagar</a>
-							@if (item.Aceite)
+							<a asp-action="Details" style="@(User.IsInRole("Cliente") ? "margin-bottom: 10px;" : "")" asp-route-id="@item.Id" class="btn btn-primary">Detalhes</a>
+							@if (User.Identity.IsAuthenticated && User.Identity.Name == item.locador.Email)
 							{
 								<text>|</text>
-								<a asp-action="AceitarReserva" style="margin-top: 10px" asp-route-id="@item.Id" class="btn btn-outline-dark">Informações adicionais ao entregar</a>
+								<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Apagar</a>
+								@if (item.Aceite)
+								{
+									<text>|</text>
+									<a asp-action="AceitarReserva" style="margin-top: 10px" asp-route-id="@item.Id" class="btn btn-outline-dark">Informações adicionais ao entregar</a>
+								}
+								else
+								{
+									<a asp-action="EntregaDeCliente" style="margin-top: 10px" asp-route-id="@item.Id" class="btn btn-outline-dark">Informações adicionais ao receber</a>
+								}
 							}
-							else
+							@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente") && !item.Aceite)
 							{
-								<a asp-action="EntregaDeCliente" style="margin-top: 10px" asp-route-id="@item.Id" class="btn btn-outline-dark">Informações adicionais ao receber</a>
+								<text>|</text><a asp-action="ReservarCliente" asp-route-id="@item.Id" class="btn btn-outline-secondary">Avançar para Arrendamento</a>
 							}
-						}
-						@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente") && !item.Aceite)
-						{
-							<text>|</text><a asp-action="ReservarCliente" asp-route-id="@item.Id" class="btn btn-outline-secondary">Avançar para Arrendamento</a>
-						}
-						@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente") && item.Aceite)
-						{
-							<text>|</text>
-							<form method="post" asp-action="DesReservarCliente" asp-route-id="@item.Id">
-								<button type="submit" class="btn btn-primary">Arrendar</button>
-							</form>
-						}
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+							@if (User.Identity.IsAuthenticated && User.IsInRole("Cliente") && item.Aceite)
+							{
+								<text>|</text>
+								<form method="post" asp-action="DesReservarCliente" asp-route-id="@item.Id">
+									<button type="submit" class="btn btn-primary">Arrendar</button>
+								</form>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
 }
 else
 {

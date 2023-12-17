@@ -3,6 +3,7 @@
 
 @{
 	ViewData["Title"] = "Lista Empresa";
+	var n = 0;
 }
 
 <h1>Detalhes de trabalhadores e gestores da Empresa @Model.Empresa.Nome</h1>
@@ -58,6 +59,7 @@
 	<tbody>
 		@foreach (var item in Model.Funcionarios)
 		{
+			n++;
 			if (item.Arrendamentos != null)
 			{
 			if (item.Arrendamentos.Count > 0)
@@ -146,7 +148,10 @@
 	</tbody>
 </table>
 <hr />
-
+@if (n == 0)
+{
+    <h3 class="text-warning">Não existem trabalhadores para mostrar</h3>
+}
 
 <div>
 	<a class="btn btn-outline-primary" asp-action="AddUserGestor">Adicionar Gestor</a>

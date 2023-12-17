@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Lista Empresa";
+	var n = 0;
 }
 
 <h1>Detalhes de trabalhadores da Empresa @Model.Empresa.Nome</h1>
@@ -54,7 +55,7 @@
 	</thead>
 	<tbody>
 	@foreach (var item in Model.ListaUsers) {
-		
+		n++;
 		<tr>
 			<td>
 				@Html.DisplayFor(modelItem => item.UserName)
@@ -71,12 +72,14 @@
 				<a class="btn btn-danger" asp-action="DeleteWorker" asp-route-id="@item.Id"
 				   onclick="return confirm('Tem a certeza que deseja apagar este funcionário?')">Apagar</a>
 			</td>
-			
-			
 		</tr>
 	}
 	</tbody>
 </table>
+@if (n == 0)
+{
+    <h4 class="text-warning">Não existem trabalhadores para mostrar</h4>
+}
 <hr />
 <br />
 

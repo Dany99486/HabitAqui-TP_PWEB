@@ -10,6 +10,12 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Criar nova categoria</a>
 </p>
+@if (Model.Count() == 0)
+{
+    <p class="text-warning">Não existem categorias para mostrar</p>
+}
+else
+{
 <table class="table table-striped table-hover table-bordered mt-4">
     <thead>
         <tr>
@@ -34,3 +40,4 @@
 }
     </tbody>
 </table>
+}
