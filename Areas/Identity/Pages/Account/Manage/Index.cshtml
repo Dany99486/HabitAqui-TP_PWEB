@@ -14,13 +14,16 @@
 			<div class="form-floating">
 				<div>
 					@if (Model.Input.Fotografia != null && Model.Input.Fotografia.Length > 0)
-                    {
-						<img id="MinhaFoto"
-						src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.Fotografia))" />
-					}else
 					{
 						<img id="MinhaFoto"
-							 src="/img/user.png" style="width:30%" />
+							 src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.Fotografia))"
+							 style="max-width: 200px; max-height: 200px;" />
+					}
+					else
+					{
+						<img id="MinhaFoto"
+							 src="/img/user.png"
+							 style="width: 30%; max-width: 200px; max-height: 200px;" />
 					}
 				</div>
 				<div>

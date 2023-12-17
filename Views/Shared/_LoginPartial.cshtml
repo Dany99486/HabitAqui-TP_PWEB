@@ -6,7 +6,20 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a  class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Olá @User.Identity?.Name!</a>
+            @{
+                ApplicationUser user = await UserManager.GetUserAsync(User);
+            }
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                @if (user != null && user.Fotografia != null && user.Fotografia.Length > 0)
+                {
+                    <img id="MinhaFoto" src="data:image/*;base64,@(Convert.ToBase64String(user.Fotografia))" class="img-thumbnail" style="max-width: 30px; max-height: 30px;" />
+                }
+                else
+                {
+                    <img id="MinhaFoto" src="/img/user.png" class="img-thumbnail" style="max-width: 30px; max-height: 30px;" />
+				}
+				@User.Identity?.Name!
+            </a>
     </li>
     <li class="nav-item">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
